@@ -1,0 +1,9 @@
+[project]
+name = "continuous-auth-schemas"
+version = "0.1.0"
+description = "Shared schemas for the Continuous Authentication platform."
+requires-python = ">=3.13"
+dependencies = ["pydantic"]
+
+[tool.uv]
+package = false

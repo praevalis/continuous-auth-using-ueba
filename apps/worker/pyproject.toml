@@ -1,0 +1,18 @@
+[project]
+name = "continuous-auth-worker"
+version = "0.1.0"
+description = "Async worker for the Continuous Authentication platform."
+requires-python = ">=3.13"
+dependencies = [
+  "continuous-auth-database",
+  "continuous-auth-domain",
+  "continuous-auth-integrations",
+  "continuous-auth-ml",
+  "continuous-auth-policy",
+  "continuous-auth-schemas",
+  "pydantic-settings",
+  "redis",
+]
+
+[tool.uv]
+package = false

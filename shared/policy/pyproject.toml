@@ -1,0 +1,12 @@
+[project]
+name = "continuous-auth-policy"
+version = "0.1.0"
+description = "Shared policy layer for the Continuous Authentication platform."
+requires-python = ">=3.13"
+dependencies = [
+  "continuous-auth-domain",
+  "continuous-auth-schemas",
+]
+
+[tool.uv]
+package = false

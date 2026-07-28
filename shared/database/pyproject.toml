@@ -1,0 +1,14 @@
+[project]
+name = "continuous-auth-database"
+version = "0.1.0"
+description = "Shared persistence layer for the Continuous Authentication platform."
+requires-python = ">=3.13"
+dependencies = [
+  "continuous-auth-domain",
+  "continuous-auth-schemas",
+  "psycopg[binary]",
+  "sqlalchemy",
+]
+
+[tool.uv]
+package = false
