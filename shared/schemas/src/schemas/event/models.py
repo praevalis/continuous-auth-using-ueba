@@ -1,19 +1,11 @@
 from datetime import datetime
-from enum import StrEnum
 from typing import Any
 from uuid import UUID
 
+from domain.event import AuthEventOutcome
 from pydantic import Field
 
 from schemas.base import SchemaModel
-
-
-class AuthEventOutcome(StrEnum):
-	SUCCESS = 'success'
-	FAILURE = 'failure'
-	CHALLENGE = 'challenge'
-	LOGOUT = 'logout'
-	UNKNOWN = 'unknown'
 
 
 class EventLocationSchema(SchemaModel):

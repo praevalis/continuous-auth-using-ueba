@@ -1,25 +1,11 @@
 from datetime import datetime
-from enum import StrEnum
 from uuid import UUID
 
+from domain.policy import ScoreBand
+from domain.scoring import ProcessingJobType, ProcessingRunStatus
 from pydantic import Field
 
 from schemas.base import SchemaModel
-from schemas.policy import ScoreBand
-
-
-class ProcessingJobType(StrEnum):
-	SCORE_EVENT = 'score_event'
-	SEND_ALERT = 'send_alert'
-	ENFORCE_ACTION = 'enforce_action'
-
-
-class ProcessingRunStatus(StrEnum):
-	QUEUED = 'queued'
-	RUNNING = 'running'
-	SUCCEEDED = 'succeeded'
-	FAILED = 'failed'
-	DEAD_LETTERED = 'dead_lettered'
 
 
 class EventProcessingRunSchema(SchemaModel):

@@ -1,44 +1,17 @@
 from datetime import datetime
-from enum import StrEnum
 from uuid import UUID
 
+from domain.tenant import (
+	EventSourceStatus,
+	EventSourceType,
+	IngestionCredentialStatus,
+	IngestionCredentialType,
+	OperatingMode,
+	TenantStatus,
+)
 from pydantic import Field
 
 from schemas.base import SchemaModel
-
-
-class TenantStatus(StrEnum):
-	ACTIVE = 'active'
-	SUSPENDED = 'suspended'
-	ARCHIVED = 'archived'
-
-
-class OperatingMode(StrEnum):
-	SHADOW = 'shadow'
-	ALERT_ONLY = 'alert_only'
-	ENFORCE = 'enforce'
-
-
-class EventSourceType(StrEnum):
-	IDP = 'idp'
-	SIEM = 'siem'
-	AGENT = 'agent'
-	MANUAL_REPLAY = 'manual_replay'
-
-
-class EventSourceStatus(StrEnum):
-	ACTIVE = 'active'
-	DISABLED = 'disabled'
-
-
-class IngestionCredentialType(StrEnum):
-	API_KEY = 'api_key'
-
-
-class IngestionCredentialStatus(StrEnum):
-	ACTIVE = 'active'
-	REVOKED = 'revoked'
-	EXPIRED = 'expired'
 
 
 class TenantSchema(SchemaModel):
@@ -83,7 +56,7 @@ class TenantHashKeyVersionSchema(SchemaModel):
 	tenant_id: UUID
 	key_version: int = Field(ge=1)
 	algorithm: str = Field(min_length=1)
-	secret_ref: str = Field(min_length=1)
+	salt_value: str = Field(min_length=1)
 	is_active: bool
 	effective_from: datetime
 	effective_to: datetime | None = None

@@ -1,13 +1,13 @@
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Any
 from uuid import UUID
 
-from domain.policy import PolicyAction, ScoreBand
-
-from schemas.base import SchemaModel
+from domain.policy.enums import PolicyAction, ScoreBand
 
 
-class PolicyDecisionSchema(SchemaModel):
+@dataclass(slots=True)
+class PolicyDecision:
 	id: UUID
 	tenant_id: UUID
 	auth_event_id: UUID
@@ -16,6 +16,6 @@ class PolicyDecisionSchema(SchemaModel):
 	decision_band: ScoreBand
 	recommended_action: PolicyAction
 	final_action: PolicyAction
-	decision_reason: str | None = None
-	decision_metadata: dict[str, Any] | None = None
+	decision_reason: str | None
+	decision_metadata: dict[str, Any] | None
 	decided_at: datetime

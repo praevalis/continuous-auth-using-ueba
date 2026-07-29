@@ -1,23 +1,11 @@
 from datetime import datetime
-from enum import StrEnum
 from typing import Any
 from uuid import UUID
 
+from domain.alert import AlertSeverity, AlertStatus
 from pydantic import Field
 
 from schemas.base import SchemaModel
-
-
-class AlertSeverity(StrEnum):
-	LOW = 'low'
-	MEDIUM = 'medium'
-	HIGH = 'high'
-
-
-class AlertStatus(StrEnum):
-	OPEN = 'open'
-	ACKNOWLEDGED = 'acknowledged'
-	RESOLVED = 'resolved'
 
 
 class AlertSchema(SchemaModel):

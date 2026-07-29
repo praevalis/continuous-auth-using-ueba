@@ -55,7 +55,7 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Scaffold `shared/integrations`.
 - [done] Scaffold `shared/policy`.
 - [done] Define shared domain-driven Pydantic schemas, including the canonical authentication event schema.
-- [todo] Define base domain models for tenants, events, scores, decisions, and actions.
+- [done] Define base domain models for tenants, scores, decisions, and actions.
 
 ## Phase 4: Infrastructure Foundations
 
