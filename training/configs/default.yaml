@@ -1,0 +1,33 @@
+data:
+  dataset_path: training/artifacts/input/lanl-auth-dataset-1-00.csv
+  row_limit: 100000
+  timestamp_column: timestamp
+  timestamp_unit: s
+  timestamp_origin: 2014-01-01
+  user_column: user
+  host_column: computer
+
+split:
+  test_size: 0.2
+  random_state: 32
+
+autoencoder:
+  epochs: 25
+  learning_rate: 0.001
+  batch_size: 128
+
+isolation_forest:
+  n_estimators: 100
+  contamination: 0.01
+  max_samples: auto
+  random_state: 32
+
+fusion:
+  alpha: 0.5
+  threshold_percentiles:
+    - 95
+    - 99
+
+artifacts:
+  output_dir: training/artifacts/runs
+  run_name: baseline

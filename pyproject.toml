@@ -48,3 +48,12 @@ indent-style = "tab"
 python_version = "3.13"
 warn_unused_configs = true
 pretty = true
+
+[[tool.mypy.overrides]]
+module = [
+  "networkx",
+  "pandas",
+  "sklearn.*",
+  "yaml",
+]
+ignore_missing_imports = true

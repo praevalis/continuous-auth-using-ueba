@@ -33,7 +33,7 @@ This is the ordered implementation tracker for the project. Unlike the other con
 
 - [done] Create `training/` structure with `src`, `configs`, `artifacts`, and `notebooks`.
 - [done] Move `model_training.ipynb` under `training/notebooks`.
-- [todo] Convert notebook logic into script-based training code under `training/src`.
+- [done] Convert notebook logic into script-based training code under `training/src`.
 - [todo] Define reproducible training entrypoints.
 - [todo] Document how model artifacts are produced and versioned.
 

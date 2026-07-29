@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "continuous-auth-training"
 version = "0.1.0"
@@ -5,11 +9,19 @@ description = "Training pipeline project for the Continuous Authentication platf
 requires-python = ">=3.13"
 dependencies = [
   "continuous-auth-ml",
+  "networkx",
   "numpy",
   "pandas",
+  "PyYAML",
   "scikit-learn",
   "torch",
 ]
 
+[project.scripts]
+train-model = "training.train:main"
+
 [tool.uv]
-package = false
+package = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/training"]
