@@ -1,1 +1,0 @@
-"""Shared job schemas package."""

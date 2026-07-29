@@ -1,1 +1,0 @@
-"""Shared internal schemas package."""

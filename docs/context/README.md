@@ -9,7 +9,8 @@ This directory contains working context for implementation. These documents are 
 3. [prd-summary.md](./prd-summary.md)
 4. [repo-structure.md](./repo-structure.md)
 5. [implementation-strategy.md](./implementation-strategy.md)
-6. [execution-plan.md](./execution-plan.md)
+6. [database-schema-draft.md](./database-schema-draft.md)
+7. [execution-plan.md](./execution-plan.md)
 
 ## Role of `docs/reference`
 

@@ -34,8 +34,8 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Create `training/` structure with `src`, `configs`, `artifacts`, and `notebooks`.
 - [done] Move `model_training.ipynb` under `training/notebooks`.
 - [done] Convert notebook logic into script-based training code under `training/src`.
-- [todo] Define reproducible training entrypoints.
-- [todo] Document how model artifacts are produced and versioned.
+- [done] Define reproducible training entrypoints.
+- [done] Document how model artifacts are produced and versioned.
 
 ## Phase 3: Backend and Shared Foundations
 
@@ -54,7 +54,7 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Scaffold `shared/ml`.
 - [done] Scaffold `shared/integrations`.
 - [done] Scaffold `shared/policy`.
-- [todo] Define canonical authentication event schema.
+- [done] Define shared domain-driven Pydantic schemas, including the canonical authentication event schema.
 - [todo] Define base domain models for tenants, events, scores, decisions, and actions.
 
 ## Phase 4: Infrastructure Foundations
@@ -65,6 +65,7 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [todo] Set up Alembic under `infra/migrations` with imports from `shared/database`.
 - [done] Create Docker Compose setup for backend, worker, dashboard, PostgreSQL, and Redis.
 - [todo] Define environment variable strategy for local development.
+- [done] Create initial PostgreSQL schema draft.
 - [todo] Create initial PostgreSQL schema and migrations.
 
 ## Phase 5: Ingestion Pipeline
