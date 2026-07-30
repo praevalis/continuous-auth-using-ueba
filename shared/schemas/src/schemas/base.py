@@ -1,5 +1,3 @@
-"""Shared Pydantic base models for domain-driven schemas."""
-
 from pydantic import BaseModel, ConfigDict
 
 

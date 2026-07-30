@@ -4,6 +4,10 @@ version = "0.1.0"
 description = "Workspace root for the Continuous Authentication using UEBA platform."
 requires-python = ">=3.13"
 dependencies = [
+  "alembic",
+  "continuous-auth-database",
+  "continuous-auth-domain",
+  "continuous-auth-schemas",
   "mypy",
   "pre-commit",
   "ruff",
@@ -36,6 +40,7 @@ continuous-auth-policy = { workspace = true }
 [tool.ruff]
 line-length = 88
 target-version = "py313"
+exclude = ["infra/migrations/alembic/versions/*.py"]
 
 [tool.ruff.lint]
 extend-select = ["I"]

@@ -56,17 +56,19 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Scaffold `shared/policy`.
 - [done] Define shared domain-driven Pydantic schemas, including the canonical authentication event schema.
 - [done] Define base domain models for tenants, scores, decisions, and actions.
+- [done] Implement shared database ORM models from the approved schema draft.
+- [done] Configure shared async database engine, session factory, session manager, and database settings.
 
 ## Phase 4: Infrastructure Foundations
 
 - [done] Scaffold `infra/docker`.
 - [done] Scaffold `infra/migrations`.
 - [done] Scaffold `infra/seed`.
-- [todo] Set up Alembic under `infra/migrations` with imports from `shared/database`.
+- [done] Set up Alembic under `infra/migrations` with imports from `shared/database`.
 - [done] Create Docker Compose setup for backend, worker, dashboard, PostgreSQL, and Redis.
 - [todo] Define environment variable strategy for local development.
 - [done] Create initial PostgreSQL schema draft.
-- [todo] Create initial PostgreSQL schema and migrations.
+- [done] Create initial PostgreSQL schema and migrations.
 
 ## Phase 5: Ingestion Pipeline
 

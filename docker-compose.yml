@@ -4,14 +4,14 @@ services:
     container_name: continuous-auth-postgres
     environment:
       POSTGRES_DB: continuous_auth
-      POSTGRES_USER: continuous_auth
-      POSTGRES_PASSWORD: continuous_auth
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - "5434:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U continuous_auth -d continuous_auth"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d continuous_auth"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -21,7 +21,7 @@ services:
     image: redis:8-alpine
     container_name: continuous-auth-redis
     ports:
-      - "6379:6379"
+      - "6380:6379"
     command: ["redis-server", "--appendonly", "yes"]
     volumes:
       - redis_data:/data

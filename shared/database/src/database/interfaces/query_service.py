@@ -1,1 +1,0 @@
-"""Query service interface placeholder."""
