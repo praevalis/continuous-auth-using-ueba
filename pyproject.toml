@@ -5,6 +5,7 @@ description = "Workspace root for the Continuous Authentication using UEBA platf
 requires-python = ">=3.13"
 dependencies = [
   "alembic",
+  "continuous-auth-cache",
   "continuous-auth-database",
   "continuous-auth-domain",
   "continuous-auth-schemas",
@@ -24,6 +25,7 @@ members = [
   "shared/domain",
   "shared/schemas",
   "shared/database",
+  "shared/cache",
   "shared/ml",
   "shared/integrations",
   "shared/policy",
@@ -33,6 +35,7 @@ members = [
 continuous-auth-domain = { workspace = true }
 continuous-auth-schemas = { workspace = true }
 continuous-auth-database = { workspace = true }
+continuous-auth-cache = { workspace = true }
 continuous-auth-ml = { workspace = true }
 continuous-auth-integrations = { workspace = true }
 continuous-auth-policy = { workspace = true }

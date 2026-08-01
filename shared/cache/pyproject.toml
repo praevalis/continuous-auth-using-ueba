@@ -1,0 +1,19 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "continuous-auth-cache"
+version = "0.1.0"
+description = "Shared cache infrastructure for the Continuous Authentication platform."
+requires-python = ">=3.13"
+dependencies = [
+  "pydantic-settings",
+  "redis",
+]
+
+[tool.uv]
+package = true
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/cache"]
