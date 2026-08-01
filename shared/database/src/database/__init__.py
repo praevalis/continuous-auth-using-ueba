@@ -2,7 +2,8 @@
 
 from database.base import Base, metadata
 from database.config import DatabaseSettings, get_database_settings
-from database.interfaces import ISessionManager
+from database.interfaces import IDatabaseManager, ISessionManager
+from database.manager import DatabaseManager
 from database.models import (
 	AlertModel,
 	AuthEventModel,
@@ -32,12 +33,14 @@ __all__ = [
 	'AsyncDatabaseConfig',
 	'AuthEventModel',
 	'Base',
+	'DatabaseManager',
 	'DatabaseSettings',
 	'EnforcementActionModel',
 	'EventProcessingRunModel',
 	'EventSourceModel',
 	'FeatureSnapshotModel',
 	'HostInteractionSnapshotModel',
+	'IDatabaseManager',
 	'IngestionCredentialModel',
 	'ISessionManager',
 	'PolicyDecisionModel',
