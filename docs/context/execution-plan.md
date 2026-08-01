@@ -58,6 +58,9 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Define base domain models for tenants, scores, decisions, and actions.
 - [done] Implement shared database ORM models from the approved schema draft.
 - [done] Configure shared async database engine, session factory, session manager, and database settings.
+- [done] Add shared cache package with Redis settings, manager, and interfaces.
+- [done] Wire API core runtime concerns: settings composition, logging, middleware, exception handling, infrastructure manager, and lifespan.
+- [done] Wire API dependency providers for infrastructure, database, sessions, and cache access.
 
 ## Phase 4: Infrastructure Foundations
 
@@ -66,7 +69,7 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Scaffold `infra/seed`.
 - [done] Set up Alembic under `infra/migrations` with imports from `shared/database`.
 - [done] Create Docker Compose setup for backend, worker, dashboard, PostgreSQL, and Redis.
-- [todo] Define environment variable strategy for local development.
+- [done] Define environment variable strategy for local development.
 - [done] Create initial PostgreSQL schema draft.
 - [done] Create initial PostgreSQL schema and migrations.
 
@@ -122,16 +125,3 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [todo] Add runbook and operator notes.
 - [todo] Validate shadow-mode workflow.
 - [todo] Validate alert-only or enforce workflow.
-
-## Current Recommended Build Order
-
-1. `AGENTS.md`
-2. repo scaffolding
-3. tooling and `uv` workspace
-4. training pipeline relocation
-5. infrastructure and schema foundations
-6. ingestion pipeline
-7. data preparation and scoring
-8. policy and response
-9. dashboard
-10. validation and packaging
