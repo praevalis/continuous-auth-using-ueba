@@ -16,6 +16,7 @@ resolution-markers = [
 [manifest]
 members = [
     "continuous-auth-api",
+    "continuous-auth-cache",
     "continuous-auth-database",
     "continuous-auth-domain",
     "continuous-auth-integrations",
@@ -188,6 +189,7 @@ name = "continuous-auth-api"
 version = "0.1.0"
 source = { virtual = "apps/api" }
 dependencies = [
+    { name = "continuous-auth-cache" },
     { name = "continuous-auth-database" },
     { name = "continuous-auth-domain" },
     { name = "continuous-auth-integrations" },
@@ -200,6 +202,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "continuous-auth-cache", editable = "shared/cache" },
     { name = "continuous-auth-database", editable = "shared/database" },
     { name = "continuous-auth-domain", editable = "shared/domain" },
     { name = "continuous-auth-integrations", virtual = "shared/integrations" },
@@ -208,6 +211,21 @@ requires-dist = [
     { name = "fastapi" },
     { name = "pydantic-settings" },
     { name = "uvicorn" },
+]
+
+[[package]]
+name = "continuous-auth-cache"
+version = "0.1.0"
+source = { editable = "shared/cache" }
+dependencies = [
+    { name = "pydantic-settings" },
+    { name = "redis" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "pydantic-settings" },
+    { name = "redis" },
 ]
 
 [[package]]
@@ -339,6 +357,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "alembic" },
+    { name = "continuous-auth-cache" },
     { name = "continuous-auth-database" },
     { name = "continuous-auth-domain" },
     { name = "continuous-auth-schemas" },
@@ -350,6 +369,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "alembic" },
+    { name = "continuous-auth-cache", editable = "shared/cache" },
     { name = "continuous-auth-database", editable = "shared/database" },
     { name = "continuous-auth-domain", editable = "shared/domain" },
     { name = "continuous-auth-schemas", editable = "shared/schemas" },
