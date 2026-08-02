@@ -92,3 +92,8 @@ class AuthEventCreateSchema(SchemaModel):
 	payload_schema_version: int = Field(ge=1)
 	raw_payload_redacted: dict[str, Any] | None = None
 	normalization_metadata: dict[str, Any] | None = None
+
+
+class AuthEventScoringJobSchema(SchemaModel):
+	auth_event_id: UUID
+	tenant_id: UUID

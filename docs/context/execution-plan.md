@@ -83,8 +83,8 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Implement normalization pipeline.
 - [done] Implement in-memory anonymization rules.
 - [done] Persist normalized events.
-- [todo] Queue scoring jobs.
-- [todo] Add idempotency handling for repeated event delivery.
+- [done] Queue scoring jobs.
+- [done] Add idempotency handling for repeated event delivery.
 
 ## Phase 6: Data Preparation and Scoring
 

@@ -11,6 +11,7 @@ from worker.services.ingestion.anonymization import AuthEventAnonymizationServic
 from worker.services.ingestion.models import AuthEventNormalizedFields
 from worker.services.ingestion.normalization import AuthEventNormalizationService
 from worker.services.ingestion.persistence import AuthEventPersistenceService
+from worker.services.ingestion.score_dispatch import AuthEventScoringDispatchService
 
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,7 @@ class AuthEventIngestionConsumerService:
 		normalization_service: AuthEventNormalizationService,
 		anonymization_service: AuthEventAnonymizationService,
 		persistence_service: AuthEventPersistenceService,
+		scoring_dispatch_service: AuthEventScoringDispatchService,
 	) -> None:
 		"""Initialize the auth-event ingestion consumer service.
 
@@ -33,37 +35,14 @@ class AuthEventIngestionConsumerService:
 			anonymization_service: The service that hashes and redacts sensitive
 				values.
 			persistence_service: The service that persists canonical auth events.
+			scoring_dispatch_service: The service that publishes scoring work for
+				newly inserted auth events.
 		"""
 		self._uow = uow
 		self._normalization_service = normalization_service
 		self._anonymization_service = anonymization_service
 		self._persistence_service = persistence_service
-
-	async def process_message(
-		self,
-		stream_message_id: str,
-		fields: dict[str, str],
-	) -> None:
-		"""Normalize, enrich, and persist a stream-delivered auth event.
-
-		Args:
-			stream_message_id: The Redis Stream entry identifier being processed.
-			fields: The string-decoded Redis Stream fields for the accepted event.
-		"""
-		message, auth_event = await self._build_auth_event(
-			stream_message_id,
-			fields,
-		)
-		await self._persistence_service.persist(auth_event)
-
-		logger.info(
-			'Persisted canonical auth event from ingestion stream message.',
-			extra={
-				'stream_message_id': stream_message_id,
-				'tenant_id': str(message.tenant_id),
-				'event_source_id': str(message.event_source_id),
-			},
-		)
+		self._scoring_dispatch_service = scoring_dispatch_service
 
 	async def process_messages(
 		self,
@@ -85,13 +64,19 @@ class AuthEventIngestionConsumerService:
 			auth_events.append(auth_event)
 			stream_message_ids.append(stream_message_id)
 
-		created_count = await self._persistence_service.persist_batch(auth_events)
+		persistence_result = await self._persistence_service.persist_batch(auth_events)
+		dispatched_job_count = await self._scoring_dispatch_service.dispatch_jobs(
+			persistence_result.scoring_jobs
+		)
 		logger.info(
 			'Persisted canonical auth-event batch from ingestion stream messages.',
 			extra={
 				'stream_message_ids': stream_message_ids,
 				'batch_size': len(stream_message_ids),
-				'created_count': created_count,
+				'created_count': persistence_result.created_count,
+				'duplicate_count': len(stream_message_ids)
+				- persistence_result.created_count,
+				'scoring_job_count': dispatched_job_count,
 			},
 		)
 
@@ -181,7 +166,8 @@ class AuthEventIngestionConsumerService:
 		return message, auth_event
 
 	def _build_idempotency_key(
-		self, normalized_event: AuthEventNormalizedFields
+		self,
+		normalized_event: AuthEventNormalizedFields,
 	) -> str:
 		"""Build a deterministic idempotency key from canonical normalized fields.
 

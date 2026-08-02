@@ -1,4 +1,7 @@
+from uuid import UUID
+
 from schemas.event import AuthEventCreateSchema
+from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import AuthEventModel
@@ -34,16 +37,24 @@ class AuthEventRepository:
 	async def create_auth_events(
 		self,
 		payloads: list[AuthEventCreateSchema],
-	) -> int:
+	) -> list[tuple[UUID, UUID]]:
 		"""Persist canonical authentication events in a batch.
 
 		Args:
 			payloads: The normalized and anonymized auth-event payloads.
 
 		Returns:
-			The number of persisted auth events.
+			The newly created auth-event identifiers paired with tenant
+			identifiers.
 		"""
-		auth_events = [AuthEventModel(**payload.model_dump()) for payload in payloads]
-		self._session.add_all(auth_events)
-		await self._session.flush()
-		return len(auth_events)
+		if not payloads:
+			return []
+
+		statement = (
+			insert(AuthEventModel)
+			.values([payload.model_dump(mode='python') for payload in payloads])
+			.on_conflict_do_nothing(index_elements=['tenant_id', 'idempotency_key'])
+			.returning(AuthEventModel.id, AuthEventModel.tenant_id)
+		)
+		result = await self._session.execute(statement)
+		return [(row.id, row.tenant_id) for row in result.all()]

@@ -167,11 +167,13 @@ This allows both `api` and `worker` to use the same persistence layer without fo
 5. Worker consumes the accepted payload through a consumer group.
 6. Worker normalizes the raw payload into the canonical auth-event shape.
 7. Worker anonymizes sensitive identifiers in memory and persists the canonical event in PostgreSQL.
-8. Worker computes user-level and global/system features from stored history.
-9. Worker runs the scoring pipeline.
-10. Policy layer classifies the event into safe, caution, or lockout bands.
-11. Depending on operating mode, the system either logs only, alerts only, or enforces an action.
-12. Dashboard surfaces scores, explanations, and operational history.
+8. Worker enforces idempotent persistence at the canonical auth-event boundary.
+9. Worker publishes scoring jobs only for newly inserted auth events.
+10. Worker computes user-level and global/system features from stored history.
+11. Worker runs the scoring pipeline.
+12. Policy layer classifies the event into safe, caution, or lockout bands.
+13. Depending on operating mode, the system either logs only, alerts only, or enforces an action.
+14. Dashboard surfaces scores, explanations, and operational history.
 
 ## Data and Model Strategy
 
@@ -315,6 +317,8 @@ Recommended interpretation:
 - consume through worker-side consumer groups
 - normalize and anonymize in the worker before persistence
 - persist the canonical normalized event in PostgreSQL after worker processing
+- enforce idempotency on `(tenant_id, idempotency_key)` during canonical event persistence
+- publish downstream scoring work only for newly inserted auth events
 
 ### The ingestion worker owns normalization and canonical event persistence
 
@@ -328,6 +332,9 @@ Recommended interpretation:
 - keep anonymization in a dedicated worker service invoked by the ingestion
   consumer
 - persist only the canonical redacted auth event in PostgreSQL during this stage
+- derive idempotency from canonical event content instead of raw stream delivery
+- enqueue scoring as a separate downstream stream publish after successful
+  canonical event persistence
 - treat Redis Streams as the transient handoff, not a system of record
 
 ### "Zero-touch" ingestion still requires a canonical schema

@@ -152,6 +152,7 @@ moving into `shared` prematurely. The current ingestion worker flow is:
 - `services/ingestion/anonymization.py`: hashing and payload redaction
 - `services/ingestion/persistence.py`: persistence orchestration against shared repositories
 - `services/ingestion/consumer.py`: pipeline coordination from stream message to persistence payload
+- `services/ingestion/score_dispatch.py`: downstream scoring-job publish after idempotent auth-event persistence
 
 ### `infra`
 

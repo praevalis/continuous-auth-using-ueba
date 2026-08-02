@@ -9,6 +9,7 @@ from worker.services.ingestion import (
 	AuthEventIngestionConsumerService,
 	AuthEventNormalizationService,
 	AuthEventPersistenceService,
+	AuthEventScoringDispatchService,
 )
 
 logger = logging.getLogger(__name__)
@@ -57,6 +58,10 @@ async def run_auth_event_ingestion_job(
 					AuthEventNormalizationService(),
 					AuthEventAnonymizationService(),
 					AuthEventPersistenceService(uow),
+					AuthEventScoringDispatchService(
+						event_broker_manager,
+						settings.AUTH_EVENT_SCORING_STREAM_NAME,
+					),
 				)
 				await consumer_service.process_messages(messages)
 			except Exception:

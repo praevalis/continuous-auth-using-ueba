@@ -4,6 +4,7 @@ from typing import Any
 from uuid import UUID
 
 from domain.event import AuthEventOutcome
+from schemas.event import AuthEventScoringJobSchema
 
 
 @dataclass(frozen=True, slots=True)
@@ -33,3 +34,11 @@ class AuthEventNormalizedFields:
 	payload_schema_version: int
 	raw_payload: dict[str, Any]
 	normalization_metadata: dict[str, Any] | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class AuthEventPersistenceResult:
+	"""Describe the newly created auth events from idempotent persistence."""
+
+	created_count: int
+	scoring_jobs: list[AuthEventScoringJobSchema]

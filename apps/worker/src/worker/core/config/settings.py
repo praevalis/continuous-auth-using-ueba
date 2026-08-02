@@ -15,6 +15,7 @@ class WorkerSettings(BaseSettings):
 	ENVIRONMENT: Literal['development', 'testing', 'production'] = 'development'
 	WORKER_LOG_LEVEL: Literal['DEBUG', 'INFO', 'WARNING', 'ERROR'] = 'INFO'
 	AUTH_EVENT_INGESTION_STREAM_NAME: str = 'auth_event_ingestion'
+	AUTH_EVENT_SCORING_STREAM_NAME: str = 'auth_event_scoring'
 	AUTH_EVENT_NORMALIZATION_CONSUMER_GROUP: str = 'auth_event_normalizers'
 	AUTH_EVENT_NORMALIZATION_CONSUMER_NAME: str = 'worker_1'
 	AUTH_EVENT_NORMALIZATION_BATCH_SIZE: int = 10

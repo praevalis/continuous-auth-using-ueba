@@ -1,5 +1,11 @@
 from database import IUnitOfWork
-from schemas.event import AuthEventCreateSchema, AuthEventSchema
+from schemas.event import (
+	AuthEventCreateSchema,
+	AuthEventSchema,
+	AuthEventScoringJobSchema,
+)
+
+from worker.services.ingestion.models import AuthEventPersistenceResult
 
 
 class AuthEventPersistenceService:
@@ -28,15 +34,25 @@ class AuthEventPersistenceService:
 	async def persist_batch(
 		self,
 		payloads: list[AuthEventCreateSchema],
-	) -> int:
+	) -> AuthEventPersistenceResult:
 		"""Persist canonical auth events in a batch.
 
 		Args:
 			payloads: The canonical auth-event payloads to persist together.
 
 		Returns:
-			The number of created auth events.
+			The created auth-event count and scoring jobs for newly inserted
+			auth events.
 		"""
-		created_count = await self._uow.auth_events.create_auth_events(payloads)
+		created_rows = await self._uow.auth_events.create_auth_events(payloads)
 		await self._uow.commit()
-		return created_count
+		return AuthEventPersistenceResult(
+			created_count=len(created_rows),
+			scoring_jobs=[
+				AuthEventScoringJobSchema(
+					auth_event_id=auth_event_id,
+					tenant_id=tenant_id,
+				)
+				for auth_event_id, tenant_id in created_rows
+			],
+		)
