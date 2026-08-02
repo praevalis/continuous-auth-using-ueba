@@ -7,8 +7,10 @@ from api.dependencies.database import (
 	get_session_manager,
 	get_unit_of_work,
 )
+from api.dependencies.event_broker import get_event_broker_manager
 from api.dependencies.infrastructure import get_infrastructure_manager
 from api.dependencies.services import (
+	get_auth_event_ingestion_service,
 	get_event_source_service,
 	get_ingestion_credential_service,
 	get_tenant_configuration_service,
@@ -17,9 +19,11 @@ from api.dependencies.services import (
 )
 
 __all__ = [
+	'get_auth_event_ingestion_service',
 	'get_cache_manager',
 	'get_database_manager',
 	'get_db_session',
+	'get_event_broker_manager',
 	'get_event_source_service',
 	'get_infrastructure_manager',
 	'get_ingestion_credential_service',

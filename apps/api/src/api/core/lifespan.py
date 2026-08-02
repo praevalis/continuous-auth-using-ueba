@@ -4,6 +4,7 @@ from contextlib import asynccontextmanager
 
 from cache import CacheManager
 from database import DatabaseManager
+from event_broker import EventBrokerManager
 from fastapi import FastAPI
 
 from api.core.config import get_api_settings
@@ -29,6 +30,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None]:
 	infrastructure_manager = InfrastructureManager(
 		database_manager=DatabaseManager(settings.database_settings),
 		cache_manager=CacheManager(settings.cache_settings),
+		event_broker_manager=EventBrokerManager(settings.event_broker_settings),
 	)
 	await infrastructure_manager.initialize()
 	app.state.infrastructure_manager = infrastructure_manager

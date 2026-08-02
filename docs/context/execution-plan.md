@@ -78,6 +78,7 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Implement tenant onboarding basics.
 - [done] Implement ingestion credential handling.
 - [done] Implement tenant management, tenant configuration lifecycle, and event source workflows for the initial administration slice.
+- [done] Add shared event broker package for Redis Streams-based ingestion dispatch.
 - [todo] Implement event ingestion endpoint.
 - [todo] Implement normalization pipeline.
 - [todo] Implement in-memory anonymization rules.

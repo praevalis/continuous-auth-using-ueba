@@ -6,6 +6,7 @@ requires-python = ">=3.13"
 dependencies = [
   "continuous-auth-database",
   "continuous-auth-domain",
+  "continuous-auth-event-broker",
   "continuous-auth-integrations",
   "continuous-auth-ml",
   "continuous-auth-policy",

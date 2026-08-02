@@ -20,6 +20,7 @@ This document records the intended top-level repository layout before scaffoldin
   /domain
   /schemas
   /database
+  /event_broker
   /ml
   /integrations
   /policy
@@ -138,6 +139,7 @@ Suggested responsibilities:
 - `domain`: core concepts and internal entities
 - `schemas`: Python request, response, and internal payload models
 - `database`: ORM models, repositories, session helpers, and persistence utilities shared by `api` and `worker`
+- `event_broker`: shared Redis Streams settings, clients, and broker utilities used for async event dispatch
 - `ml`: model loading, data preparation for inference, and scoring orchestration
 - `integrations`: external system adapters
 - `policy`: decision logic separated from inference logic

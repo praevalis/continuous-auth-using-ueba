@@ -37,3 +37,18 @@ class AuthEventSchema(SchemaModel):
 	raw_payload_redacted: dict[str, Any] | None = None
 	normalization_metadata: dict[str, Any] | None = None
 	created_at: datetime
+
+
+class AuthEventIngestionRequestSchema(SchemaModel):
+	event_source_id: UUID | None = None
+	source_event_id: str | None = Field(default=None, min_length=1)
+	occurred_at: datetime
+	payload_schema_version: int = Field(default=1, ge=1)
+	raw_payload: dict[str, Any]
+
+
+class AuthEventIngestionAcceptedSchema(SchemaModel):
+	tenant_id: UUID
+	event_source_id: UUID
+	ingestion_credential_id: UUID
+	accepted_at: datetime

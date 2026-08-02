@@ -8,6 +8,7 @@ dependencies = [
   "continuous-auth-cache",
   "continuous-auth-database",
   "continuous-auth-domain",
+  "continuous-auth-event-broker",
   "continuous-auth-schemas",
   "mypy",
   "poethepoet",
@@ -27,6 +28,7 @@ members = [
   "shared/schemas",
   "shared/database",
   "shared/cache",
+  "shared/event_broker",
   "shared/ml",
   "shared/integrations",
   "shared/policy",
@@ -37,6 +39,7 @@ continuous-auth-domain = { workspace = true }
 continuous-auth-schemas = { workspace = true }
 continuous-auth-database = { workspace = true }
 continuous-auth-cache = { workspace = true }
+continuous-auth-event-broker = { workspace = true }
 continuous-auth-ml = { workspace = true }
 continuous-auth-integrations = { workspace = true }
 continuous-auth-policy = { workspace = true }

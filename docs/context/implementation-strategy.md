@@ -76,6 +76,7 @@ The agreed top-level structure is:
   /domain
   /schemas
   /database
+  /event_broker
   /ml
   /integrations
   /policy
@@ -163,7 +164,7 @@ This allows both `api` and `worker` to use the same persistence layer without fo
 2. Enterprise source sends authentication events.
 3. Backend validates and normalizes the payload.
 4. Sensitive identifiers are anonymized in memory.
-5. Event is persisted and queued.
+5. Event is queued through the event broker for asynchronous normalization and downstream processing.
 6. Worker computes user-level and global/system features from stored history.
 7. Worker runs the scoring pipeline.
 8. Policy layer classifies the event into safe, caution, or lockout bands.
@@ -207,6 +208,7 @@ ONNX Runtime is not the default recommendation at this stage because it adds exp
 Python services should share `shared/domain` and `shared/schemas` directly.
 
 Persistence code should be shared through `shared/database`.
+Redis Streams broker access should be shared through `shared/event_broker`.
 
 For the dashboard:
 
@@ -299,6 +301,17 @@ Use a simple queue + worker model instead of relying on FastAPI `BackgroundTasks
 ### PostgreSQL is the system of record, not the whole workflow engine
 
 Persist everything important in PostgreSQL, but use Redis or another lightweight broker for transient asynchronous work dispatch.
+
+### Redis Streams is the preferred ingestion handoff
+
+Use Redis Streams as the asynchronous handoff between the API ingestion boundary and the worker.
+
+Recommended interpretation:
+
+- validate ingress requests in the API
+- publish accepted payloads to Redis Streams
+- consume through worker-side consumer groups
+- persist the canonical normalized event in PostgreSQL after worker processing
 
 ### "Zero-touch" ingestion still requires a canonical schema
 

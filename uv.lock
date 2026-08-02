@@ -19,6 +19,7 @@ members = [
     "continuous-auth-cache",
     "continuous-auth-database",
     "continuous-auth-domain",
+    "continuous-auth-event-broker",
     "continuous-auth-integrations",
     "continuous-auth-ml",
     "continuous-auth-policy",
@@ -192,6 +193,7 @@ dependencies = [
     { name = "continuous-auth-cache" },
     { name = "continuous-auth-database" },
     { name = "continuous-auth-domain" },
+    { name = "continuous-auth-event-broker" },
     { name = "continuous-auth-integrations" },
     { name = "continuous-auth-policy" },
     { name = "continuous-auth-schemas" },
@@ -205,6 +207,7 @@ requires-dist = [
     { name = "continuous-auth-cache", editable = "shared/cache" },
     { name = "continuous-auth-database", editable = "shared/database" },
     { name = "continuous-auth-domain", editable = "shared/domain" },
+    { name = "continuous-auth-event-broker", editable = "shared/event_broker" },
     { name = "continuous-auth-integrations", virtual = "shared/integrations" },
     { name = "continuous-auth-policy", virtual = "shared/policy" },
     { name = "continuous-auth-schemas", editable = "shared/schemas" },
@@ -253,6 +256,21 @@ requires-dist = [
 name = "continuous-auth-domain"
 version = "0.1.0"
 source = { editable = "shared/domain" }
+
+[[package]]
+name = "continuous-auth-event-broker"
+version = "0.1.0"
+source = { editable = "shared/event_broker" }
+dependencies = [
+    { name = "pydantic-settings" },
+    { name = "redis" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "pydantic-settings" },
+    { name = "redis" },
+]
 
 [[package]]
 name = "continuous-auth-integrations"
@@ -360,6 +378,7 @@ dependencies = [
     { name = "continuous-auth-cache" },
     { name = "continuous-auth-database" },
     { name = "continuous-auth-domain" },
+    { name = "continuous-auth-event-broker" },
     { name = "continuous-auth-schemas" },
     { name = "mypy" },
     { name = "poethepoet" },
@@ -373,6 +392,7 @@ requires-dist = [
     { name = "continuous-auth-cache", editable = "shared/cache" },
     { name = "continuous-auth-database", editable = "shared/database" },
     { name = "continuous-auth-domain", editable = "shared/domain" },
+    { name = "continuous-auth-event-broker", editable = "shared/event_broker" },
     { name = "continuous-auth-schemas", editable = "shared/schemas" },
     { name = "mypy" },
     { name = "poethepoet" },
@@ -387,6 +407,7 @@ source = { virtual = "apps/worker" }
 dependencies = [
     { name = "continuous-auth-database" },
     { name = "continuous-auth-domain" },
+    { name = "continuous-auth-event-broker" },
     { name = "continuous-auth-integrations" },
     { name = "continuous-auth-ml" },
     { name = "continuous-auth-policy" },
@@ -399,6 +420,7 @@ dependencies = [
 requires-dist = [
     { name = "continuous-auth-database", editable = "shared/database" },
     { name = "continuous-auth-domain", editable = "shared/domain" },
+    { name = "continuous-auth-event-broker", editable = "shared/event_broker" },
     { name = "continuous-auth-integrations", virtual = "shared/integrations" },
     { name = "continuous-auth-ml", virtual = "shared/ml" },
     { name = "continuous-auth-policy", virtual = "shared/policy" },

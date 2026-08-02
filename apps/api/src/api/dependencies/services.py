@@ -1,10 +1,14 @@
 from typing import Annotated
 
 from database import IUnitOfWork
+from event_broker import IEventBrokerManager
 from fastapi import Depends
 
+from api.core.config import ApiSettings, get_api_settings
 from api.dependencies.database import get_unit_of_work
+from api.dependencies.event_broker import get_event_broker_manager
 from api.services.ingestion import (
+	AuthEventIngestionService,
 	EventSourceService,
 	IngestionCredentialService,
 )
@@ -69,6 +73,30 @@ def get_event_source_service(
 		The event source service bound to the current unit of work.
 	"""
 	return EventSourceService(uow)
+
+
+def get_auth_event_ingestion_service(
+	uow: Annotated[IUnitOfWork, Depends(get_unit_of_work)],
+	event_broker_manager: Annotated[
+		IEventBrokerManager, Depends(get_event_broker_manager)
+	],
+	settings: Annotated[ApiSettings, Depends(get_api_settings)],
+) -> AuthEventIngestionService:
+	"""Return the auth-event ingestion application service.
+
+	Args:
+		uow: The request-scoped database unit of work.
+		event_broker_manager: The shared event broker manager.
+		settings: The API settings for the current runtime.
+
+	Returns:
+		The auth-event ingestion service bound to the current unit of work.
+	"""
+	return AuthEventIngestionService(
+		uow,
+		event_broker_manager,
+		settings.AUTH_EVENT_INGESTION_STREAM_NAME,
+	)
 
 
 def get_ingestion_credential_service(

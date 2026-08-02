@@ -3,6 +3,7 @@ from typing import Literal
 
 from cache import CacheSettings
 from database import DatabaseSettings
+from event_broker import EventBrokerSettings
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -21,6 +22,7 @@ class ApiSettings(BaseSettings):
 	API_CORS_ALLOW_CREDENTIALS: bool = True
 	API_CORS_ALLOW_METHODS: list[str] = ['*']
 	API_CORS_ALLOW_HEADERS: list[str] = ['*']
+	AUTH_EVENT_INGESTION_STREAM_NAME: str = 'auth_event_ingestion'
 
 	@field_validator(
 		'API_CORS_ALLOW_ORIGINS',
@@ -61,6 +63,15 @@ class ApiSettings(BaseSettings):
 			The cache settings composed for the current API environment.
 		"""
 		return CacheSettings(ENVIRONMENT=self.ENVIRONMENT)
+
+	@property
+	def event_broker_settings(self) -> EventBrokerSettings:
+		"""Return the shared event broker settings for the API runtime.
+
+		Returns:
+			The event broker settings composed for the current API environment.
+		"""
+		return EventBrokerSettings(ENVIRONMENT=self.ENVIRONMENT)
 
 
 @lru_cache

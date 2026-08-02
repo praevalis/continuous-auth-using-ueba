@@ -1,7 +1,11 @@
 from typing import Annotated
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, Query, Response, status
+from fastapi import APIRouter, Depends, Header, Query, Response, status
+from schemas.event import (
+	AuthEventIngestionAcceptedSchema,
+	AuthEventIngestionRequestSchema,
+)
 from schemas.tenant import (
 	EventSourceCreateSchema,
 	EventSourceFilterParams,
@@ -15,15 +19,55 @@ from schemas.tenant import (
 )
 
 from api.dependencies import (
+	get_auth_event_ingestion_service,
 	get_event_source_service,
 	get_ingestion_credential_service,
 )
 from api.services.ingestion import (
+	AuthEventIngestionService,
 	EventSourceService,
 	IngestionCredentialService,
 )
 
 router = APIRouter(prefix='/ingestion', tags=['ingestion'])
+
+
+@router.post(
+	'/events',
+	response_model=AuthEventIngestionAcceptedSchema,
+	status_code=status.HTTP_202_ACCEPTED,
+)
+async def ingest_auth_event(
+	payload: AuthEventIngestionRequestSchema,
+	key_id: Annotated[
+		str,
+		Header(alias='X-Ingestion-Key-Id', min_length=1),
+	],
+	key_secret: Annotated[
+		str,
+		Header(alias='X-Ingestion-Key-Secret', min_length=1),
+	],
+	service: Annotated[
+		AuthEventIngestionService,
+		Depends(get_auth_event_ingestion_service),
+	],
+) -> AuthEventIngestionAcceptedSchema:
+	"""Validate and accept an auth-event ingestion request.
+
+	Args:
+		payload: The raw auth-event ingestion payload.
+		key_id: The public ingestion credential key identifier.
+		key_secret: The plaintext ingestion credential secret.
+		service: The auth-event ingestion service.
+
+	Returns:
+		The accepted-ingestion acknowledgement payload.
+	"""
+	return await service.ingest_event(
+		payload,
+		key_id=key_id,
+		key_secret=key_secret,
+	)
 
 
 @router.post(

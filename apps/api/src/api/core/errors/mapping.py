@@ -3,6 +3,8 @@ from dataclasses import dataclass
 from domain.exceptions import (
 	DomainError,
 	EventSourceNotFoundError,
+	IngestionAccessDeniedError,
+	IngestionAuthenticationError,
 	IngestionCredentialAlreadyExistsError,
 	IngestionCredentialNotFoundError,
 	InvalidOperatingModeTransitionError,
@@ -48,6 +50,18 @@ def get_domain_error_mapping(error: DomainError) -> DomainErrorMapping:
 		return DomainErrorMapping(
 			status_code=409,
 			error_code='ingestion_credential_already_exists',
+		)
+
+	if isinstance(error, IngestionAuthenticationError):
+		return DomainErrorMapping(
+			status_code=401,
+			error_code='invalid_ingestion_credentials',
+		)
+
+	if isinstance(error, IngestionAccessDeniedError):
+		return DomainErrorMapping(
+			status_code=403,
+			error_code='ingestion_access_denied',
 		)
 
 	if isinstance(

@@ -182,6 +182,25 @@ class IngestionCredentialRepository:
 		)
 		return result.scalar_one_or_none()
 
+	async def get_ingestion_credential_by_key_id(
+		self,
+		key_id: str,
+	) -> IngestionCredentialModel | None:
+		"""Return an ingestion credential by public key identifier, if present.
+
+		Args:
+			key_id: The public ingestion key identifier to resolve.
+
+		Returns:
+			The matching ingestion credential model when found, otherwise ``None``.
+		"""
+		result = await self._session.execute(
+			select(IngestionCredentialModel).where(
+				IngestionCredentialModel.key_id == key_id
+			)
+		)
+		return result.scalar_one_or_none()
+
 	async def get_ingestion_credential_by_id_or_raise(
 		self,
 		credential_id: UUID,

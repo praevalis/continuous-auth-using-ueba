@@ -60,3 +60,11 @@ class InvalidIngestionCredentialStateError(DomainError):
 
 class IngestionCredentialNotFoundError(DomainError):
 	"""Raised when the requested ingestion credential does not exist."""
+
+
+class IngestionAuthenticationError(DomainError):
+	"""Raised when ingestion credential authentication fails."""
+
+
+class IngestionAccessDeniedError(DomainError):
+	"""Raised when an authenticated ingestion request is not allowed."""
