@@ -144,6 +144,15 @@ Suggested responsibilities:
 - `integrations`: external system adapters
 - `policy`: decision logic separated from inference logic
 
+Worker-specific orchestration should stay under `apps/worker/services` rather than
+moving into `shared` prematurely. The current ingestion worker flow is:
+
+- `jobs/`: long-running consumer loop and batch acknowledgement flow
+- `services/ingestion/normalization.py`: raw payload to canonical auth-event field derivation
+- `services/ingestion/anonymization.py`: hashing and payload redaction
+- `services/ingestion/persistence.py`: persistence orchestration against shared repositories
+- `services/ingestion/consumer.py`: pipeline coordination from stream message to persistence payload
+
 ### `infra`
 
 This directory contains environment and infrastructure support files for local reproducibility:

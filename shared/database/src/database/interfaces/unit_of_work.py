@@ -1,6 +1,7 @@
 from typing import Protocol
 
 from database.repositories import (
+	AuthEventRepository,
 	EventSourceRepository,
 	IngestionCredentialRepository,
 	TenantHashKeyVersionRepository,
@@ -11,6 +12,11 @@ from database.repositories import (
 
 
 class IUnitOfWork(Protocol):
+	@property
+	def auth_events(self) -> AuthEventRepository:
+		"""Return the auth-event repository."""
+		...
+
 	@property
 	def tenants(self) -> TenantRepository:
 		"""Return the tenant repository."""

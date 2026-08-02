@@ -1,6 +1,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.repositories import (
+	AuthEventRepository,
 	EventSourceRepository,
 	IngestionCredentialRepository,
 	TenantHashKeyVersionRepository,
@@ -18,12 +19,18 @@ class SqlAlchemyUnitOfWork:
 			session: The async session backing the unit of work.
 		"""
 		self._session = session
+		self._auth_events = AuthEventRepository(session)
 		self._tenants = TenantRepository(session)
 		self._tenant_operating_modes = TenantOperatingModeRepository(session)
 		self._tenant_threshold_profiles = TenantThresholdProfileRepository(session)
 		self._tenant_hash_key_versions = TenantHashKeyVersionRepository(session)
 		self._event_sources = EventSourceRepository(session)
 		self._ingestion_credentials = IngestionCredentialRepository(session)
+
+	@property
+	def auth_events(self) -> AuthEventRepository:
+		"""Return the auth-event repository."""
+		return self._auth_events
 
 	@property
 	def tenants(self) -> TenantRepository:

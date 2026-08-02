@@ -162,14 +162,16 @@ This allows both `api` and `worker` to use the same persistence layer without fo
 
 1. Tenant admin receives ingestion credentials.
 2. Enterprise source sends authentication events.
-3. Backend validates and normalizes the payload.
-4. Sensitive identifiers are anonymized in memory.
-5. Event is queued through the event broker for asynchronous normalization and downstream processing.
-6. Worker computes user-level and global/system features from stored history.
-7. Worker runs the scoring pipeline.
-8. Policy layer classifies the event into safe, caution, or lockout bands.
-9. Depending on operating mode, the system either logs only, alerts only, or enforces an action.
-10. Dashboard surfaces scores, explanations, and operational history.
+3. Backend validates tenant, credential, and event-source access.
+4. Backend publishes the accepted raw payload to Redis Streams.
+5. Worker consumes the accepted payload through a consumer group.
+6. Worker normalizes the raw payload into the canonical auth-event shape.
+7. Worker anonymizes sensitive identifiers in memory and persists the canonical event in PostgreSQL.
+8. Worker computes user-level and global/system features from stored history.
+9. Worker runs the scoring pipeline.
+10. Policy layer classifies the event into safe, caution, or lockout bands.
+11. Depending on operating mode, the system either logs only, alerts only, or enforces an action.
+12. Dashboard surfaces scores, explanations, and operational history.
 
 ## Data and Model Strategy
 
@@ -311,7 +313,22 @@ Recommended interpretation:
 - validate ingress requests in the API
 - publish accepted payloads to Redis Streams
 - consume through worker-side consumer groups
+- normalize and anonymize in the worker before persistence
 - persist the canonical normalized event in PostgreSQL after worker processing
+
+### The ingestion worker owns normalization and canonical event persistence
+
+The worker is the boundary that turns accepted ingress payloads into durable auth
+events.
+
+Recommended interpretation:
+
+- keep API ingestion focused on authentication, authorization, and stream publish
+- keep normalization logic in the worker ingestion services
+- keep anonymization in a dedicated worker service invoked by the ingestion
+  consumer
+- persist only the canonical redacted auth event in PostgreSQL during this stage
+- treat Redis Streams as the transient handoff, not a system of record
 
 ### "Zero-touch" ingestion still requires a canonical schema
 

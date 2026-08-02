@@ -145,3 +145,47 @@ class TenantHashKeyVersionRepository:
 			)
 
 		return hash_key_version
+
+	async def get_active_hash_key_version_for_tenant(
+		self,
+		tenant_id: UUID,
+	) -> TenantHashKeyVersionModel | None:
+		"""Return the active hash key version for a tenant, if present.
+
+		Args:
+			tenant_id: The tenant identifier to resolve.
+
+		Returns:
+			The active hash key version model when found, otherwise ``None``.
+		"""
+		result = await self._session.execute(
+			select(TenantHashKeyVersionModel).where(
+				TenantHashKeyVersionModel.tenant_id == tenant_id,
+				TenantHashKeyVersionModel.is_active.is_(True),
+			)
+		)
+		return result.scalar_one_or_none()
+
+	async def get_active_hash_key_version_for_tenant_or_raise(
+		self,
+		tenant_id: UUID,
+	) -> TenantHashKeyVersionModel:
+		"""Return the active hash key version for a tenant or raise if missing.
+
+		Args:
+			tenant_id: The tenant identifier to resolve.
+
+		Returns:
+			The active tenant hash key version model.
+
+		Raises:
+			TenantHashKeyVersionNotFoundError: If no active hash key version exists
+				for the tenant.
+		"""
+		hash_key_version = await self.get_active_hash_key_version_for_tenant(tenant_id)
+		if hash_key_version is None:
+			raise TenantHashKeyVersionNotFoundError(
+				f'Active tenant hash key version for tenant "{tenant_id}" does not exist.'
+			)
+
+		return hash_key_version
