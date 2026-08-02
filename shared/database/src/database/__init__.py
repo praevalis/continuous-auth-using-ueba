@@ -2,7 +2,7 @@
 
 from database.base import Base, metadata
 from database.config import DatabaseSettings, get_database_settings
-from database.interfaces import IDatabaseManager, ISessionManager
+from database.interfaces import IDatabaseManager, ISessionManager, IUnitOfWork
 from database.manager import DatabaseManager
 from database.models import (
 	AlertModel,
@@ -27,6 +27,7 @@ from database.session import (
 	create_session_factory,
 	normalize_async_database_url,
 )
+from database.uow import SqlAlchemyUnitOfWork
 
 __all__ = [
 	'AlertModel',
@@ -42,10 +43,12 @@ __all__ = [
 	'HostInteractionSnapshotModel',
 	'IDatabaseManager',
 	'ISessionManager',
+	'IUnitOfWork',
 	'IngestionCredentialModel',
 	'PolicyDecisionModel',
 	'RiskScoreModel',
 	'SessionManager',
+	'SqlAlchemyUnitOfWork',
 	'TenantHashKeyVersionModel',
 	'TenantModel',
 	'TenantOperatingModeModel',

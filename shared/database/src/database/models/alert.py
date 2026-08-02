@@ -1,5 +1,5 @@
 from datetime import datetime
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from domain.alert import AlertSeverity, AlertStatus
 from sqlalchemy import ForeignKey, String
@@ -9,13 +9,17 @@ from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 
 from database.base import Base
-from database.utils import enum_type
+from database.utils import JsonObject, enum_type
 
 
 class AlertModel(Base):
 	__tablename__ = 'alerts'
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
 		ForeignKey('tenants.id'), nullable=False, index=True
 	)
@@ -36,7 +40,7 @@ class AlertModel(Base):
 	)
 	title: Mapped[str] = mapped_column(String(255), nullable=False)
 	summary: Mapped[str] = mapped_column(String(500), nullable=False)
-	alert_metadata: Mapped[dict[str, object] | None] = mapped_column(JSONB)
+	alert_metadata: Mapped[JsonObject | None] = mapped_column(JSONB)
 	created_at: Mapped[datetime] = mapped_column(
 		TIMESTAMP(timezone=True), server_default=func.now(), nullable=False
 	)

@@ -1,7 +1,12 @@
 from collections.abc import AsyncGenerator
 from typing import Annotated
 
-from database import IDatabaseManager, ISessionManager
+from database import (
+	IDatabaseManager,
+	ISessionManager,
+	IUnitOfWork,
+	SqlAlchemyUnitOfWork,
+)
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -52,3 +57,25 @@ async def get_db_session(
 	"""
 	async with session_manager.session_scope() as session:
 		yield session
+
+
+async def get_unit_of_work(
+	session_manager: Annotated[ISessionManager, Depends(get_session_manager)],
+) -> AsyncGenerator[IUnitOfWork]:
+	"""Yield a request-scoped database unit of work.
+
+	Args:
+		session_manager: The shared session manager dependency.
+
+	Yields:
+		The unit of work scoped to the request lifetime.
+	"""
+	session = session_manager.create_session()
+	uow = SqlAlchemyUnitOfWork(session)
+	try:
+		yield uow
+	except Exception:
+		await uow.rollback()
+		raise
+	finally:
+		await uow.close()

@@ -1,5 +1,5 @@
 from datetime import datetime
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from domain.policy import PolicyAction, ScoreBand
 from sqlalchemy import ForeignKey, String
@@ -8,13 +8,17 @@ from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column
 
 from database.base import Base
-from database.utils import enum_type
+from database.utils import JsonObject, enum_type
 
 
 class PolicyDecisionModel(Base):
 	__tablename__ = 'policy_decisions'
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
 		ForeignKey('tenants.id'), nullable=False, index=True
 	)
@@ -40,7 +44,7 @@ class PolicyDecisionModel(Base):
 		nullable=False,
 	)
 	decision_reason: Mapped[str | None] = mapped_column(String(500))
-	decision_metadata: Mapped[dict[str, object] | None] = mapped_column(JSONB)
+	decision_metadata: Mapped[JsonObject | None] = mapped_column(JSONB)
 	decided_at: Mapped[datetime] = mapped_column(
 		TIMESTAMP(timezone=True), nullable=False, index=True
 	)

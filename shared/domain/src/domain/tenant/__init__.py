@@ -21,15 +21,15 @@ from domain.tenant.rules import (
 
 __all__ = [
 	'DefaultTenantConfigurationValidator',
+	'EventSourceStatus',
+	'EventSourceType',
+	'ITenantConfigurationValidator',
+	'IngestionCredentialStatus',
+	'IngestionCredentialType',
 	'OperatingMode',
 	'Tenant',
 	'TenantHashKeyVersion',
 	'TenantOperatingModeRecord',
 	'TenantStatus',
 	'TenantThresholdProfile',
-	'ITenantConfigurationValidator',
-	'EventSourceStatus',
-	'EventSourceType',
-	'IngestionCredentialStatus',
-	'IngestionCredentialType',
 ]

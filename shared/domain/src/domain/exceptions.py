@@ -10,9 +10,53 @@ class InvalidOperatingModeTransitionError(DomainError):
 	"""Raised when an operating mode transition is invalid."""
 
 
+class InvalidConfigurationLifecycleError(DomainError):
+	"""Raised when a historical configuration lifecycle transition is invalid."""
+
+
 class MultipleActiveConfigurationsError(DomainError):
 	"""Raised when more than one active configuration exists where only one is allowed."""
 
 
 class UnsupportedPolicyActionError(DomainError):
 	"""Raised when a policy action is incompatible with the current operating mode."""
+
+
+class TenantAlreadyExistsError(DomainError):
+	"""Raised when attempting to create a tenant with a duplicate slug."""
+
+
+class TenantNotFoundError(DomainError):
+	"""Raised when the requested tenant does not exist."""
+
+
+class EventSourceNotFoundError(DomainError):
+	"""Raised when the requested event source does not exist for the tenant."""
+
+
+class InvalidEventSourceStateError(DomainError):
+	"""Raised when an event source state transition is invalid."""
+
+
+class TenantOperatingModeNotFoundError(DomainError):
+	"""Raised when the requested tenant operating mode does not exist."""
+
+
+class TenantThresholdProfileNotFoundError(DomainError):
+	"""Raised when the requested tenant threshold profile does not exist."""
+
+
+class TenantHashKeyVersionNotFoundError(DomainError):
+	"""Raised when the requested tenant hash key version does not exist."""
+
+
+class IngestionCredentialAlreadyExistsError(DomainError):
+	"""Raised when attempting to create a duplicate ingestion credential."""
+
+
+class InvalidIngestionCredentialStateError(DomainError):
+	"""Raised when an ingestion credential state transition is invalid."""
+
+
+class IngestionCredentialNotFoundError(DomainError):
+	"""Raised when the requested ingestion credential does not exist."""

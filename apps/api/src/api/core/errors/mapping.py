@@ -1,10 +1,18 @@
 from dataclasses import dataclass
 
-from domain import (
+from domain.exceptions import (
 	DomainError,
+	EventSourceNotFoundError,
+	IngestionCredentialAlreadyExistsError,
+	IngestionCredentialNotFoundError,
 	InvalidOperatingModeTransitionError,
 	InvalidThresholdConfigurationError,
 	MultipleActiveConfigurationsError,
+	TenantAlreadyExistsError,
+	TenantHashKeyVersionNotFoundError,
+	TenantNotFoundError,
+	TenantOperatingModeNotFoundError,
+	TenantThresholdProfileNotFoundError,
 	UnsupportedPolicyActionError,
 )
 
@@ -28,6 +36,34 @@ def get_domain_error_mapping(error: DomainError) -> DomainErrorMapping:
 		return DomainErrorMapping(
 			status_code=409,
 			error_code='multiple_active_configurations',
+		)
+
+	if isinstance(error, TenantAlreadyExistsError):
+		return DomainErrorMapping(
+			status_code=409,
+			error_code='tenant_already_exists',
+		)
+
+	if isinstance(error, IngestionCredentialAlreadyExistsError):
+		return DomainErrorMapping(
+			status_code=409,
+			error_code='ingestion_credential_already_exists',
+		)
+
+	if isinstance(
+		error,
+		(
+			EventSourceNotFoundError,
+			IngestionCredentialNotFoundError,
+			TenantHashKeyVersionNotFoundError,
+			TenantNotFoundError,
+			TenantOperatingModeNotFoundError,
+			TenantThresholdProfileNotFoundError,
+		),
+	):
+		return DomainErrorMapping(
+			status_code=404,
+			error_code='resource_not_found',
 		)
 
 	if isinstance(

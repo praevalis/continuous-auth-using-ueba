@@ -1,5 +1,5 @@
 from datetime import datetime
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from domain.event import AuthEventOutcome
 from sqlalchemy import ForeignKey, Integer, String, UniqueConstraint
@@ -9,14 +9,18 @@ from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 
 from database.base import Base
-from database.utils import enum_type
+from database.utils import JsonObject, enum_type
 
 
 class AuthEventModel(Base):
 	__tablename__ = 'auth_events'
 	__table_args__ = (UniqueConstraint('tenant_id', 'idempotency_key'),)
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
 		ForeignKey('tenants.id'), nullable=False, index=True
 	)
@@ -54,8 +58,8 @@ class AuthEventModel(Base):
 	occurred_day_of_week: Mapped[int] = mapped_column(Integer, nullable=False)
 	hash_key_version: Mapped[int] = mapped_column(Integer, nullable=False)
 	payload_schema_version: Mapped[int] = mapped_column(Integer, nullable=False)
-	raw_payload_redacted: Mapped[dict[str, object] | None] = mapped_column(JSONB)
-	normalization_metadata: Mapped[dict[str, object] | None] = mapped_column(JSONB)
+	raw_payload_redacted: Mapped[JsonObject | None] = mapped_column(JSONB)
+	normalization_metadata: Mapped[JsonObject | None] = mapped_column(JSONB)
 	created_at: Mapped[datetime] = mapped_column(
 		TIMESTAMP(timezone=True), server_default=func.now(), nullable=False
 	)

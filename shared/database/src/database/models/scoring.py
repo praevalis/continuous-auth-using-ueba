@@ -1,5 +1,5 @@
 from datetime import datetime
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from domain.policy import ScoreBand
 from domain.scoring import ProcessingJobType, ProcessingRunStatus
@@ -16,7 +16,11 @@ from database.utils import enum_type
 class EventProcessingRunModel(Base):
 	__tablename__ = 'event_processing_runs'
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
 		ForeignKey('tenants.id'), nullable=False, index=True
 	)
@@ -49,7 +53,11 @@ class EventProcessingRunModel(Base):
 class FeatureSnapshotModel(Base):
 	__tablename__ = 'feature_snapshots'
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
 		ForeignKey('tenants.id'), nullable=False, index=True
 	)
@@ -88,7 +96,11 @@ class HostInteractionSnapshotModel(Base):
 		),
 	)
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
 		ForeignKey('tenants.id'), nullable=False, index=True
 	)
@@ -119,7 +131,11 @@ class HostInteractionSnapshotModel(Base):
 class RiskScoreModel(Base):
 	__tablename__ = 'risk_scores'
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
 		ForeignKey('tenants.id'), nullable=False, index=True
 	)

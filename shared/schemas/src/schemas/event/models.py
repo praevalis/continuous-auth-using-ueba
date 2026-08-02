@@ -8,12 +8,8 @@ from pydantic import Field
 from schemas.base import SchemaModel
 
 
-class EventLocationSchema(SchemaModel):
-	country: str | None = None
-	region: str | None = None
-
-
-class NormalizedAuthEventSchema(SchemaModel):
+class AuthEventSchema(SchemaModel):
+	id: UUID
 	tenant_id: UUID
 	event_source_id: UUID
 	ingestion_credential_id: UUID | None = None
@@ -32,15 +28,12 @@ class NormalizedAuthEventSchema(SchemaModel):
 	host_hash: str | None = None
 	auth_method: str | None = None
 	failure_reason: str | None = None
-	location: EventLocationSchema | None = None
+	location_country: str | None = None
+	location_region: str | None = None
 	occurred_hour: int = Field(ge=0, le=23)
 	occurred_day_of_week: int = Field(ge=0, le=6)
 	hash_key_version: int = Field(ge=1)
 	payload_schema_version: int = Field(ge=1)
 	raw_payload_redacted: dict[str, Any] | None = None
 	normalization_metadata: dict[str, Any] | None = None
-
-
-class PersistedAuthEventSchema(NormalizedAuthEventSchema):
-	id: UUID
 	created_at: datetime

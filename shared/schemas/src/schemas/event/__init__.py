@@ -2,14 +2,10 @@
 
 from schemas.event.models import (
 	AuthEventOutcome,
-	EventLocationSchema,
-	NormalizedAuthEventSchema,
-	PersistedAuthEventSchema,
+	AuthEventSchema,
 )
 
 __all__ = [
 	'AuthEventOutcome',
-	'EventLocationSchema',
-	'NormalizedAuthEventSchema',
-	'PersistedAuthEventSchema',
+	'AuthEventSchema',
 ]

@@ -1,12 +1,16 @@
-from dataclasses import dataclass
 from datetime import datetime
 from uuid import UUID
+
+from pydantic import BaseModel, ConfigDict
 
 from domain.tenant.enums import OperatingMode, TenantStatus
 
 
-@dataclass(slots=True)
-class Tenant:
+class DomainEntityModel(BaseModel):
+	model_config = ConfigDict(frozen=True, from_attributes=True)
+
+
+class Tenant(DomainEntityModel):
 	id: UUID
 	slug: str
 	display_name: str
@@ -16,8 +20,7 @@ class Tenant:
 	updated_at: datetime
 
 
-@dataclass(slots=True)
-class TenantOperatingModeRecord:
+class TenantOperatingModeRecord(DomainEntityModel):
 	id: UUID
 	tenant_id: UUID
 	mode: OperatingMode
@@ -29,8 +32,7 @@ class TenantOperatingModeRecord:
 	created_at: datetime
 
 
-@dataclass(slots=True)
-class TenantThresholdProfile:
+class TenantThresholdProfile(DomainEntityModel):
 	id: UUID
 	tenant_id: UUID
 	name: str
@@ -45,8 +47,7 @@ class TenantThresholdProfile:
 	updated_at: datetime
 
 
-@dataclass(slots=True)
-class TenantHashKeyVersion:
+class TenantHashKeyVersion(DomainEntityModel):
 	id: UUID
 	tenant_id: UUID
 	key_version: int

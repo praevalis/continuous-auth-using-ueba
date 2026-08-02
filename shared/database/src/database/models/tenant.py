@@ -1,5 +1,5 @@
 from datetime import datetime
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from domain.tenant import (
 	EventSourceStatus,
@@ -9,7 +9,14 @@ from domain.tenant import (
 	OperatingMode,
 	TenantStatus,
 )
-from sqlalchemy import Boolean, Float, ForeignKey, Integer, String, UniqueConstraint
+from sqlalchemy import (
+	Boolean,
+	Float,
+	ForeignKey,
+	Integer,
+	String,
+	UniqueConstraint,
+)
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -22,7 +29,11 @@ from database.utils import enum_type
 class TenantModel(Base):
 	__tablename__ = 'tenants'
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	slug: Mapped[str] = mapped_column(String(255), unique=True, nullable=False)
 	display_name: Mapped[str] = mapped_column(String(255), nullable=False)
 	status: Mapped[TenantStatus] = mapped_column(
@@ -30,6 +41,7 @@ class TenantModel(Base):
 		nullable=False,
 	)
 	default_timezone: Mapped[str] = mapped_column(String(100), nullable=False)
+	deleted_at: Mapped[datetime | None] = mapped_column(TIMESTAMP(timezone=True))
 	created_at: Mapped[datetime] = mapped_column(
 		TIMESTAMP(timezone=True), server_default=func.now(), nullable=False
 	)
@@ -41,28 +53,42 @@ class TenantModel(Base):
 	)
 
 	operating_modes: Mapped[list['TenantOperatingModeModel']] = relationship(
-		back_populates='tenant'
+		back_populates='tenant',
+		cascade='all, delete-orphan',
+		passive_deletes=True,
 	)
 	threshold_profiles: Mapped[list['TenantThresholdProfileModel']] = relationship(
-		back_populates='tenant'
+		back_populates='tenant',
+		cascade='all, delete-orphan',
+		passive_deletes=True,
 	)
 	hash_key_versions: Mapped[list['TenantHashKeyVersionModel']] = relationship(
-		back_populates='tenant'
+		back_populates='tenant',
+		cascade='all, delete-orphan',
+		passive_deletes=True,
 	)
 	event_sources: Mapped[list['EventSourceModel']] = relationship(
-		back_populates='tenant'
+		back_populates='tenant',
+		cascade='all, delete-orphan',
+		passive_deletes=True,
 	)
 	ingestion_credentials: Mapped[list['IngestionCredentialModel']] = relationship(
-		back_populates='tenant'
+		back_populates='tenant',
+		cascade='all, delete-orphan',
+		passive_deletes=True,
 	)
 
 
 class TenantOperatingModeModel(Base):
 	__tablename__ = 'tenant_operating_modes'
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
-		ForeignKey('tenants.id'), nullable=False, index=True
+		ForeignKey('tenants.id', ondelete='CASCADE'), nullable=False, index=True
 	)
 	mode: Mapped[OperatingMode] = mapped_column(
 		enum_type(OperatingMode, name='operating_mode'),
@@ -85,9 +111,13 @@ class TenantOperatingModeModel(Base):
 class TenantThresholdProfileModel(Base):
 	__tablename__ = 'tenant_threshold_profiles'
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
-		ForeignKey('tenants.id'), nullable=False, index=True
+		ForeignKey('tenants.id', ondelete='CASCADE'), nullable=False, index=True
 	)
 	name: Mapped[str] = mapped_column(String(255), nullable=False)
 	description: Mapped[str | None] = mapped_column(String(500))
@@ -116,9 +146,13 @@ class TenantHashKeyVersionModel(Base):
 	__tablename__ = 'tenant_hash_key_versions'
 	__table_args__ = (UniqueConstraint('tenant_id', 'key_version'),)
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
-		ForeignKey('tenants.id'), nullable=False, index=True
+		ForeignKey('tenants.id', ondelete='CASCADE'), nullable=False, index=True
 	)
 	key_version: Mapped[int] = mapped_column(Integer, nullable=False)
 	algorithm: Mapped[str] = mapped_column(String(100), nullable=False)
@@ -138,9 +172,13 @@ class TenantHashKeyVersionModel(Base):
 class EventSourceModel(Base):
 	__tablename__ = 'event_sources'
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
-		ForeignKey('tenants.id'), nullable=False, index=True
+		ForeignKey('tenants.id', ondelete='CASCADE'), nullable=False, index=True
 	)
 	source_name: Mapped[str] = mapped_column(String(255), nullable=False)
 	source_type: Mapped[EventSourceType] = mapped_column(
@@ -165,18 +203,26 @@ class EventSourceModel(Base):
 
 	tenant: Mapped[TenantModel] = relationship(back_populates='event_sources')
 	ingestion_credentials: Mapped[list['IngestionCredentialModel']] = relationship(
-		back_populates='event_source'
+		back_populates='event_source',
+		cascade='all, delete-orphan',
+		passive_deletes=True,
 	)
 
 
 class IngestionCredentialModel(Base):
 	__tablename__ = 'ingestion_credentials'
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
-	tenant_id: Mapped[UUID] = mapped_column(
-		ForeignKey('tenants.id'), nullable=False, index=True
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
 	)
-	event_source_id: Mapped[UUID | None] = mapped_column(ForeignKey('event_sources.id'))
+	tenant_id: Mapped[UUID] = mapped_column(
+		ForeignKey('tenants.id', ondelete='CASCADE'), nullable=False, index=True
+	)
+	event_source_id: Mapped[UUID | None] = mapped_column(
+		ForeignKey('event_sources.id', ondelete='CASCADE')
+	)
 	credential_name: Mapped[str] = mapped_column(String(255), nullable=False)
 	credential_type: Mapped[IngestionCredentialType] = mapped_column(
 		enum_type(IngestionCredentialType, name='ingestion_credential_type'),

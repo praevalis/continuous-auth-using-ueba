@@ -75,8 +75,9 @@ This is the ordered implementation tracker for the project. Unlike the other con
 
 ## Phase 5: Ingestion Pipeline
 
-- [todo] Implement tenant onboarding basics.
-- [todo] Implement ingestion credential handling.
+- [done] Implement tenant onboarding basics.
+- [done] Implement ingestion credential handling.
+- [done] Implement tenant management, tenant configuration lifecycle, and event source workflows for the initial administration slice.
 - [todo] Implement event ingestion endpoint.
 - [todo] Implement normalization pipeline.
 - [todo] Implement in-memory anonymization rules.

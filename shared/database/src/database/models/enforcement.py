@@ -1,5 +1,5 @@
 from datetime import datetime
-from uuid import UUID
+from uuid import UUID, uuid4
 
 from domain.enforcement import EnforcementActionStatus, EnforcementActionType
 from sqlalchemy import ForeignKey, Integer, String
@@ -9,13 +9,17 @@ from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 
 from database.base import Base
-from database.utils import enum_type
+from database.utils import JsonObject, enum_type
 
 
 class EnforcementActionModel(Base):
 	__tablename__ = 'enforcement_actions'
 
-	id: Mapped[UUID] = mapped_column(PGUUID(as_uuid=True), primary_key=True)
+	id: Mapped[UUID] = mapped_column(
+		PGUUID(as_uuid=True),
+		primary_key=True,
+		default=uuid4,
+	)
 	tenant_id: Mapped[UUID] = mapped_column(
 		ForeignKey('tenants.id'), nullable=False, index=True
 	)
@@ -29,7 +33,7 @@ class EnforcementActionModel(Base):
 	)
 	target_user_hash: Mapped[str] = mapped_column(String(255), nullable=False)
 	integration_name: Mapped[str] = mapped_column(String(255), nullable=False)
-	request_payload_redacted: Mapped[dict[str, object] | None] = mapped_column(JSONB)
+	request_payload_redacted: Mapped[JsonObject | None] = mapped_column(JSONB)
 	status: Mapped[EnforcementActionStatus] = mapped_column(
 		enum_type(EnforcementActionStatus, name='enforcement_action_status'),
 		nullable=False,
