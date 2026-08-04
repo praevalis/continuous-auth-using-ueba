@@ -105,14 +105,24 @@ This is the ordered implementation tracker for the project. Unlike the other con
 
 ## Phase 7: Policy and Response
 
-- [todo] Implement policy bands: safe, caution, lockout.
-- [todo] Implement operating modes: `shadow`, `alert_only`, `enforce`.
-- [todo] Persist policy decisions.
-- [todo] Implement outbound alert workflow.
-- [todo] Implement one representative enforcement path.
-- [todo] Record enforcement action history.
+- [done] Implement policy bands: safe, caution, lockout.
+- [done] Implement operating modes: `shadow`, `alert_only`, `enforce`.
+- [done] Persist policy decisions.
+- [done] Implement outbound alert workflow.
+- [done] Implement one representative enforcement path.
+- [done] Record enforcement action history.
 
-## Phase 8: Dashboard
+## Phase 8: End-to-End Provider Integration
+
+- [todo] Select at least one provider that is practical to test locally or with a free tier.
+- [todo] Complete inbound ingestion integration for the selected provider.
+- [todo] Complete outbound enforcement integration for the selected provider.
+- [todo] Wire provider-specific payload translation into the existing canonical ingestion pipeline.
+- [todo] Wire provider-specific enforcement execution into the policy and response pipeline.
+- [todo] Persist and validate real provider request and response metadata for enforcement history.
+- [todo] Validate the selected provider end to end from ingestion through scoring, policy, alerting, and enforcement.
+
+## Phase 9: Dashboard
 
 - [todo] Scaffold dashboard routes and application shell.
 - [todo] Integrate dashboard with backend APIs.
@@ -123,7 +133,7 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [todo] Build enforcement history view.
 - [todo] Generate TypeScript API types or client from OpenAPI.
 
-## Phase 9: Validation and Packaging
+## Phase 10: Validation and Packaging
 
 - [todo] Add backend tests.
 - [todo] Add worker/scoring tests.

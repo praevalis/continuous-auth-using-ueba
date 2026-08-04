@@ -1,12 +1,15 @@
 from typing import Protocol
 
 from database.repositories import (
+	AlertRepository,
 	AuthEventRepository,
+	EnforcementActionRepository,
 	EventProcessingRunRepository,
 	EventSourceRepository,
 	FeatureSnapshotRepository,
 	HostInteractionSnapshotRepository,
 	IngestionCredentialRepository,
+	PolicyDecisionRepository,
 	RiskScoreRepository,
 	TenantHashKeyVersionRepository,
 	TenantOperatingModeRepository,
@@ -44,6 +47,21 @@ class IUnitOfWork(Protocol):
 	@property
 	def event_sources(self) -> EventSourceRepository:
 		"""Return the event source repository."""
+		...
+
+	@property
+	def policy_decisions(self) -> PolicyDecisionRepository:
+		"""Return the policy decision repository."""
+		...
+
+	@property
+	def alerts(self) -> AlertRepository:
+		"""Return the alert repository."""
+		...
+
+	@property
+	def enforcement_actions(self) -> EnforcementActionRepository:
+		"""Return the enforcement action repository."""
 		...
 
 	@property

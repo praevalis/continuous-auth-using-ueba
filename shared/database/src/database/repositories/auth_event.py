@@ -1,6 +1,8 @@
 from uuid import UUID
 
+from domain.exceptions import AuthEventNotFoundError
 from schemas.event import AuthEventCreateSchema
+from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -58,3 +60,43 @@ class AuthEventRepository:
 		)
 		result = await self._session.execute(statement)
 		return [(row.id, row.tenant_id) for row in result.all()]
+
+	async def get_auth_event_by_id(
+		self,
+		auth_event_id: UUID,
+	) -> AuthEventModel | None:
+		"""Return an auth event by identifier, if present.
+
+		Args:
+			auth_event_id: The auth event identifier to resolve.
+
+		Returns:
+			The matching auth event model when found, otherwise ``None``.
+		"""
+		result = await self._session.execute(
+			select(AuthEventModel).where(AuthEventModel.id == auth_event_id)
+		)
+		return result.scalar_one_or_none()
+
+	async def get_auth_event_by_id_or_raise(
+		self,
+		auth_event_id: UUID,
+	) -> AuthEventModel:
+		"""Return an auth event by identifier or raise if it is missing.
+
+		Args:
+			auth_event_id: The auth event identifier to resolve.
+
+		Returns:
+			The matching auth event model.
+
+		Raises:
+			AuthEventNotFoundError: If the auth event does not exist.
+		"""
+		auth_event = await self.get_auth_event_by_id(auth_event_id)
+		if auth_event is None:
+			raise AuthEventNotFoundError(
+				f'Auth event "{auth_event_id}" does not exist.'
+			)
+
+		return auth_event

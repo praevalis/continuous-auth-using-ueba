@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import UUID
 
 from domain.exceptions import TenantOperatingModeNotFoundError
@@ -6,7 +7,7 @@ from schemas.tenant import (
 	TenantOperatingModeFilterParams,
 	TenantOperatingModeUpdateSchema,
 )
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import TenantOperatingModeModel
@@ -141,3 +142,33 @@ class TenantOperatingModeRepository:
 			)
 
 		return operating_mode
+
+	async def get_active_operating_mode_for_tenant(
+		self,
+		tenant_id: UUID,
+		as_of: datetime,
+	) -> TenantOperatingModeModel | None:
+		"""Return the active operating mode for a tenant at a point in time.
+
+		Args:
+			tenant_id: The owning tenant identifier.
+			as_of: The point in time the operating mode should be active for.
+
+		Returns:
+			The active operating mode when found, otherwise ``None``.
+		"""
+		statement = (
+			select(TenantOperatingModeModel)
+			.where(
+				TenantOperatingModeModel.tenant_id == tenant_id,
+				TenantOperatingModeModel.is_active.is_(True),
+				TenantOperatingModeModel.effective_from <= as_of,
+				or_(
+					TenantOperatingModeModel.effective_to.is_(None),
+					TenantOperatingModeModel.effective_to >= as_of,
+				),
+			)
+			.order_by(TenantOperatingModeModel.effective_from.desc())
+		)
+		result = await self._session.execute(statement)
+		return result.scalars().first()

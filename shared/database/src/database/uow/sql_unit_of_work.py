@@ -1,12 +1,15 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.repositories import (
+	AlertRepository,
 	AuthEventRepository,
+	EnforcementActionRepository,
 	EventProcessingRunRepository,
 	EventSourceRepository,
 	FeatureSnapshotRepository,
 	HostInteractionSnapshotRepository,
 	IngestionCredentialRepository,
+	PolicyDecisionRepository,
 	RiskScoreRepository,
 	TenantHashKeyVersionRepository,
 	TenantOperatingModeRepository,
@@ -29,6 +32,9 @@ class SqlAlchemyUnitOfWork:
 		self._tenant_threshold_profiles = TenantThresholdProfileRepository(session)
 		self._tenant_hash_key_versions = TenantHashKeyVersionRepository(session)
 		self._event_sources = EventSourceRepository(session)
+		self._policy_decisions = PolicyDecisionRepository(session)
+		self._alerts = AlertRepository(session)
+		self._enforcement_actions = EnforcementActionRepository(session)
 		self._event_processing_runs = EventProcessingRunRepository(session)
 		self._feature_snapshots = FeatureSnapshotRepository(session)
 		self._host_interaction_snapshots = HostInteractionSnapshotRepository(session)
@@ -64,6 +70,21 @@ class SqlAlchemyUnitOfWork:
 	def event_sources(self) -> EventSourceRepository:
 		"""Return the event source repository."""
 		return self._event_sources
+
+	@property
+	def policy_decisions(self) -> PolicyDecisionRepository:
+		"""Return the policy decision repository."""
+		return self._policy_decisions
+
+	@property
+	def alerts(self) -> AlertRepository:
+		"""Return the alert repository."""
+		return self._alerts
+
+	@property
+	def enforcement_actions(self) -> EnforcementActionRepository:
+		"""Return the enforcement action repository."""
+		return self._enforcement_actions
 
 	@property
 	def event_processing_runs(self) -> EventProcessingRunRepository:

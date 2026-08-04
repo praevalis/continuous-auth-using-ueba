@@ -70,6 +70,18 @@ class RiskScoreNotFoundError(DomainError):
 	"""Raised when the requested risk score does not exist."""
 
 
+class PolicyDecisionNotFoundError(DomainError):
+	"""Raised when the requested policy decision does not exist."""
+
+
+class AlertNotFoundError(DomainError):
+	"""Raised when the requested alert does not exist."""
+
+
+class EnforcementActionNotFoundError(DomainError):
+	"""Raised when the requested enforcement action does not exist."""
+
+
 class TenantHashKeyVersionNotFoundError(DomainError):
 	"""Raised when the requested tenant hash key version does not exist."""
 

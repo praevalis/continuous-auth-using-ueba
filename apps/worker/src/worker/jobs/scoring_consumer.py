@@ -1,11 +1,13 @@
 import logging
 from pathlib import Path
+from uuid import UUID
 
 from database import DatabaseManager, SqlAlchemyUnitOfWork
 from database.queries import ScoringQueryService
 from event_broker import IEventBrokerManager
 
 from worker.core.config import WorkerSettings
+from worker.services.policy import AuthEventPolicyService
 from worker.services.scoring import AuthEventScoringService
 
 logger = logging.getLogger(__name__)
@@ -55,8 +57,12 @@ async def run_auth_event_scoring_job(
 					model_run_directory=model_run_directory,
 					history_window_days=settings.SCORING_HISTORY_WINDOW_DAYS,
 				)
+				policy_service = AuthEventPolicyService(uow)
 				for _, fields in messages:
-					await scoring_service.process_message(fields)
+					scoring_result = await scoring_service.process_message(fields)
+					await policy_service.process_risk_score(
+						UUID(scoring_result.risk_score_id)
+					)
 			except Exception:
 				await uow.rollback()
 				logger.exception(
