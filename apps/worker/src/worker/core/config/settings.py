@@ -20,6 +20,12 @@ class WorkerSettings(BaseSettings):
 	AUTH_EVENT_NORMALIZATION_CONSUMER_NAME: str = 'worker_1'
 	AUTH_EVENT_NORMALIZATION_BATCH_SIZE: int = 10
 	AUTH_EVENT_NORMALIZATION_BLOCK_MS: int = 5000
+	AUTH_EVENT_SCORING_CONSUMER_GROUP: str = 'auth_event_scorers'
+	AUTH_EVENT_SCORING_CONSUMER_NAME: str = 'worker_1'
+	AUTH_EVENT_SCORING_BATCH_SIZE: int = 10
+	AUTH_EVENT_SCORING_BLOCK_MS: int = 5000
+	SCORING_HISTORY_WINDOW_DAYS: int = 30
+	SCORING_MODEL_RUN_DIRECTORY: str = 'training/artifacts/runs/baseline'
 
 	@property
 	def database_settings(self) -> DatabaseSettings:

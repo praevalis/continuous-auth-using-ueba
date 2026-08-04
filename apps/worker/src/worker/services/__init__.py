@@ -6,10 +6,12 @@ from worker.services.ingestion import (
 	AuthEventNormalizationService,
 	AuthEventPersistenceService,
 )
+from worker.services.scoring import AuthEventScoringService
 
 __all__ = [
 	'AuthEventAnonymizationService',
 	'AuthEventIngestionConsumerService',
 	'AuthEventNormalizationService',
 	'AuthEventPersistenceService',
+	'AuthEventScoringService',
 ]

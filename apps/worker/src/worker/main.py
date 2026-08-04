@@ -6,7 +6,7 @@ from event_broker import EventBrokerManager
 
 from worker.core.config import get_worker_settings
 from worker.core.logging import configure_logging
-from worker.jobs import run_auth_event_ingestion_job
+from worker.jobs import run_auth_event_ingestion_job, run_auth_event_scoring_job
 
 logger = logging.getLogger(__name__)
 
@@ -27,10 +27,17 @@ async def run() -> None:
 	logger.info('Worker infrastructure initialized.')
 
 	try:
-		await run_auth_event_ingestion_job(
-			settings,
-			database_manager,
-			event_broker_manager,
+		await asyncio.gather(
+			run_auth_event_ingestion_job(
+				settings,
+				database_manager,
+				event_broker_manager,
+			),
+			run_auth_event_scoring_job(
+				settings,
+				database_manager,
+				event_broker_manager,
+			),
 		)
 	finally:
 		await event_broker_manager.dispose()

@@ -192,6 +192,14 @@ The platform must therefore support:
 - model versioning
 - threshold profiles
 
+For the phase 6 MVP runtime:
+
+- score one auth event at a time from persisted history
+- use a bounded historical window for online feature preparation
+- approximate `degree_centrality` from the bounded user-host graph in that window
+- persist feature snapshots and host-interaction snapshots for auditability
+- load trained artifacts from an explicit `artifact_metadata.json` contract rather than inferring runtime metadata from directory names
+
 ### Training pipeline
 
 The notebook is not enough as long-term source.

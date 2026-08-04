@@ -88,14 +88,20 @@ This is the ordered implementation tracker for the project. Unlike the other con
 
 ## Phase 6: Data Preparation and Scoring
 
-- [todo] Implement historical event queries for model input preparation.
-- [todo] Implement global/system data preparation for scoring.
-- [todo] Decide MVP approach for `degree_centrality`.
-- [todo] Implement scorer package based on paper architecture.
-- [todo] Load model artifacts and scalers from the new pipeline layout.
-- [todo] Return component scores and fused score.
-- [todo] Add threshold profile support.
-- [todo] Persist scores and feature snapshots.
+- [done] Implement historical event queries for model input preparation.
+- [done] Implement global/system data preparation for scoring.
+- [done] Decide MVP approach for `degree_centrality`.
+- [done] Use a bounded-window approximation for historical scoring context.
+- [done] Implement scorer package based on paper architecture.
+- [done] Load model artifacts and scalers from the new pipeline layout.
+- [done] Persist explicit training artifact metadata for scoring-time defaults.
+- [done] Return component scores and fused score.
+- [done] Add threshold profile support.
+- [done] Persist scores and feature snapshots.
+- [done] Add persistence support for processing runs, feature snapshots, host interaction snapshots, and risk scores.
+- [done] Align scoring repositories with shared schema contracts, repository conventions, and domain exception mapping.
+- [done] Replace generic scoring service filenames with meaningful module names in `apps/worker` and `shared/ml`.
+- [done] Package `shared/ml`, `shared/policy`, `shared/integrations`, and `apps/worker` correctly for `uv` workspace imports and type checking.
 
 ## Phase 7: Policy and Response
 

@@ -34,6 +34,10 @@ class EventSourceNotFoundError(DomainError):
 	"""Raised when the requested event source does not exist for the tenant."""
 
 
+class AuthEventNotFoundError(DomainError):
+	"""Raised when the requested auth event does not exist."""
+
+
 class InvalidEventSourceStateError(DomainError):
 	"""Raised when an event source state transition is invalid."""
 
@@ -44,6 +48,26 @@ class TenantOperatingModeNotFoundError(DomainError):
 
 class TenantThresholdProfileNotFoundError(DomainError):
 	"""Raised when the requested tenant threshold profile does not exist."""
+
+
+class EventProcessingRunNotFoundError(DomainError):
+	"""Raised when the requested event processing run does not exist."""
+
+
+class FeatureSnapshotNotFoundError(DomainError):
+	"""Raised when the requested feature snapshot does not exist."""
+
+
+class HostInteractionSnapshotNotFoundError(DomainError):
+	"""Raised when the requested host interaction snapshot does not exist."""
+
+
+class HostInteractionSnapshotAlreadyExistsError(DomainError):
+	"""Raised when a duplicate host interaction snapshot is created."""
+
+
+class RiskScoreNotFoundError(DomainError):
+	"""Raised when the requested risk score does not exist."""
 
 
 class TenantHashKeyVersionNotFoundError(DomainError):

@@ -2,8 +2,12 @@ from typing import Protocol
 
 from database.repositories import (
 	AuthEventRepository,
+	EventProcessingRunRepository,
 	EventSourceRepository,
+	FeatureSnapshotRepository,
+	HostInteractionSnapshotRepository,
 	IngestionCredentialRepository,
+	RiskScoreRepository,
 	TenantHashKeyVersionRepository,
 	TenantOperatingModeRepository,
 	TenantRepository,
@@ -43,8 +47,28 @@ class IUnitOfWork(Protocol):
 		...
 
 	@property
+	def event_processing_runs(self) -> EventProcessingRunRepository:
+		"""Return the event processing run repository."""
+		...
+
+	@property
+	def feature_snapshots(self) -> FeatureSnapshotRepository:
+		"""Return the feature snapshot repository."""
+		...
+
+	@property
+	def host_interaction_snapshots(self) -> HostInteractionSnapshotRepository:
+		"""Return the host interaction snapshot repository."""
+		...
+
+	@property
 	def ingestion_credentials(self) -> IngestionCredentialRepository:
 		"""Return the ingestion credential repository."""
+		...
+
+	@property
+	def risk_scores(self) -> RiskScoreRepository:
+		"""Return the risk score repository."""
 		...
 
 	async def commit(self) -> None:

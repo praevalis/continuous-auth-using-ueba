@@ -208,8 +208,8 @@ requires-dist = [
     { name = "continuous-auth-database", editable = "shared/database" },
     { name = "continuous-auth-domain", editable = "shared/domain" },
     { name = "continuous-auth-event-broker", editable = "shared/event_broker" },
-    { name = "continuous-auth-integrations", virtual = "shared/integrations" },
-    { name = "continuous-auth-policy", virtual = "shared/policy" },
+    { name = "continuous-auth-integrations", editable = "shared/integrations" },
+    { name = "continuous-auth-policy", editable = "shared/policy" },
     { name = "continuous-auth-schemas", editable = "shared/schemas" },
     { name = "fastapi" },
     { name = "pydantic-settings" },
@@ -275,7 +275,7 @@ requires-dist = [
 [[package]]
 name = "continuous-auth-integrations"
 version = "0.1.0"
-source = { virtual = "shared/integrations" }
+source = { editable = "shared/integrations" }
 dependencies = [
     { name = "continuous-auth-domain" },
     { name = "continuous-auth-schemas" },
@@ -292,11 +292,12 @@ requires-dist = [
 [[package]]
 name = "continuous-auth-ml"
 version = "0.1.0"
-source = { virtual = "shared/ml" }
+source = { editable = "shared/ml" }
 dependencies = [
     { name = "continuous-auth-database" },
     { name = "continuous-auth-domain" },
     { name = "continuous-auth-schemas" },
+    { name = "networkx" },
     { name = "numpy" },
     { name = "pandas" },
     { name = "scikit-learn" },
@@ -308,6 +309,7 @@ requires-dist = [
     { name = "continuous-auth-database", editable = "shared/database" },
     { name = "continuous-auth-domain", editable = "shared/domain" },
     { name = "continuous-auth-schemas", editable = "shared/schemas" },
+    { name = "networkx" },
     { name = "numpy" },
     { name = "pandas" },
     { name = "scikit-learn" },
@@ -317,7 +319,7 @@ requires-dist = [
 [[package]]
 name = "continuous-auth-policy"
 version = "0.1.0"
-source = { virtual = "shared/policy" }
+source = { editable = "shared/policy" }
 dependencies = [
     { name = "continuous-auth-domain" },
     { name = "continuous-auth-schemas" },
@@ -360,7 +362,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
-    { name = "continuous-auth-ml", virtual = "shared/ml" },
+    { name = "continuous-auth-ml", editable = "shared/ml" },
     { name = "networkx" },
     { name = "numpy" },
     { name = "pandas" },
@@ -379,6 +381,9 @@ dependencies = [
     { name = "continuous-auth-database" },
     { name = "continuous-auth-domain" },
     { name = "continuous-auth-event-broker" },
+    { name = "continuous-auth-integrations" },
+    { name = "continuous-auth-ml" },
+    { name = "continuous-auth-policy" },
     { name = "continuous-auth-schemas" },
     { name = "mypy" },
     { name = "poethepoet" },
@@ -393,6 +398,9 @@ requires-dist = [
     { name = "continuous-auth-database", editable = "shared/database" },
     { name = "continuous-auth-domain", editable = "shared/domain" },
     { name = "continuous-auth-event-broker", editable = "shared/event_broker" },
+    { name = "continuous-auth-integrations", editable = "shared/integrations" },
+    { name = "continuous-auth-ml", editable = "shared/ml" },
+    { name = "continuous-auth-policy", editable = "shared/policy" },
     { name = "continuous-auth-schemas", editable = "shared/schemas" },
     { name = "mypy" },
     { name = "poethepoet" },
@@ -403,7 +411,7 @@ requires-dist = [
 [[package]]
 name = "continuous-auth-worker"
 version = "0.1.0"
-source = { virtual = "apps/worker" }
+source = { editable = "apps/worker" }
 dependencies = [
     { name = "continuous-auth-database" },
     { name = "continuous-auth-domain" },
@@ -421,9 +429,9 @@ requires-dist = [
     { name = "continuous-auth-database", editable = "shared/database" },
     { name = "continuous-auth-domain", editable = "shared/domain" },
     { name = "continuous-auth-event-broker", editable = "shared/event_broker" },
-    { name = "continuous-auth-integrations", virtual = "shared/integrations" },
-    { name = "continuous-auth-ml", virtual = "shared/ml" },
-    { name = "continuous-auth-policy", virtual = "shared/policy" },
+    { name = "continuous-auth-integrations", editable = "shared/integrations" },
+    { name = "continuous-auth-ml", editable = "shared/ml" },
+    { name = "continuous-auth-policy", editable = "shared/policy" },
     { name = "continuous-auth-schemas", editable = "shared/schemas" },
     { name = "pydantic-settings" },
     { name = "redis" },

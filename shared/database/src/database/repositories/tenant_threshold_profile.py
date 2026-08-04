@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import UUID
 
 from domain.exceptions import TenantThresholdProfileNotFoundError
@@ -6,7 +7,7 @@ from schemas.tenant import (
 	TenantThresholdProfileFilterParams,
 	TenantThresholdProfileUpdateSchema,
 )
-from sqlalchemy import select
+from sqlalchemy import or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import TenantThresholdProfileModel
@@ -145,3 +146,33 @@ class TenantThresholdProfileRepository:
 			)
 
 		return threshold_profile
+
+	async def get_active_threshold_profile_for_tenant(
+		self,
+		tenant_id: UUID,
+		as_of: datetime,
+	) -> TenantThresholdProfileModel | None:
+		"""Return the active threshold profile for a tenant at a point in time.
+
+		Args:
+			tenant_id: The owning tenant identifier.
+			as_of: The point in time the profile should be active for.
+
+		Returns:
+			The active threshold profile when found, otherwise ``None``.
+		"""
+		statement = (
+			select(TenantThresholdProfileModel)
+			.where(
+				TenantThresholdProfileModel.tenant_id == tenant_id,
+				TenantThresholdProfileModel.is_active.is_(True),
+				TenantThresholdProfileModel.effective_from <= as_of,
+				or_(
+					TenantThresholdProfileModel.effective_to.is_(None),
+					TenantThresholdProfileModel.effective_to >= as_of,
+				),
+			)
+			.order_by(TenantThresholdProfileModel.effective_from.desc())
+		)
+		result = await self._session.execute(statement)
+		return result.scalars().first()

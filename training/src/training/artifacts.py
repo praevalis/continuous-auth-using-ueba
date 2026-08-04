@@ -36,10 +36,12 @@ def save_training_artifacts(
 	user_scaler: Any,
 	isolation_forest_model: Any,
 	metrics: dict[str, Any],
+	metadata: dict[str, Any],
 ) -> None:
 	torch.save(autoencoder_state, run_directory / 'autoencoder.pth')
 	save_pickle(run_directory / 'global_scaler.pkl', global_scaler)
 	save_pickle(run_directory / 'user_scaler.pkl', user_scaler)
 	save_pickle(run_directory / 'isolation_forest.pkl', isolation_forest_model)
 	save_json(run_directory / 'metrics.json', metrics)
+	save_json(run_directory / 'artifact_metadata.json', metadata)
 	save_yaml(run_directory / 'config.snapshot.yaml', config_to_dict(config))

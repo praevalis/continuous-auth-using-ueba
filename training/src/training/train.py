@@ -1,5 +1,6 @@
 import argparse
 import random
+from datetime import UTC, datetime
 from pathlib import Path
 
 import numpy as np
@@ -116,6 +117,37 @@ def train_pipeline(config: TrainingConfig, use_gpu: bool = True) -> Path:
 			'anomaly_score_max': float(np.max(fusion_result.anomaly_scores)),
 		},
 	}
+	metadata = {
+		'model_version': config.artifacts.run_name,
+		'training_run_name': config.artifacts.run_name,
+		'created_at': datetime.now(UTC).isoformat(),
+		'autoencoder_features': AUTOENCODER_FEATURES,
+		'isolation_forest_features': ISOLATION_FOREST_FEATURES,
+		'fusion_alpha': config.fusion.alpha,
+		'thresholds': fusion_result.thresholds,
+		'feature_engineering_version': 1,
+		'reconstruction_error_min': float(
+			np.min(autoencoder_result.val_reconstruction_errors)
+		),
+		'reconstruction_error_max': float(
+			np.max(autoencoder_result.val_reconstruction_errors)
+		),
+		'user_score_min': float(np.min(isolation_forest_result.validation_scores)),
+		'user_score_max': float(np.max(isolation_forest_result.validation_scores)),
+		'artifact_files': {
+			'autoencoder': 'autoencoder.pth',
+			'global_scaler': 'global_scaler.pkl',
+			'user_scaler': 'user_scaler.pkl',
+			'isolation_forest': 'isolation_forest.pkl',
+			'metrics': 'metrics.json',
+			'metadata': 'artifact_metadata.json',
+			'config_snapshot': 'config.snapshot.yaml',
+		},
+		'metadata': {
+			'threshold_percentiles': config.fusion.threshold_percentiles,
+			'random_state': config.split.random_state,
+		},
+	}
 	save_training_artifacts(
 		run_directory=run_directory,
 		config=config,
@@ -124,6 +156,7 @@ def train_pipeline(config: TrainingConfig, use_gpu: bool = True) -> Path:
 		user_scaler=user_scaler,
 		isolation_forest_model=isolation_forest_result.model,
 		metrics=metrics,
+		metadata=metadata,
 	)
 	return run_directory
 
