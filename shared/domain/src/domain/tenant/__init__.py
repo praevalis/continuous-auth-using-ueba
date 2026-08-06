@@ -7,6 +7,7 @@ from domain.tenant.entities import (
 	TenantThresholdProfile,
 )
 from domain.tenant.enums import (
+	EventPayloadFormat,
 	EventSourceStatus,
 	EventSourceType,
 	IngestionCredentialStatus,
@@ -21,6 +22,7 @@ from domain.tenant.rules import (
 
 __all__ = [
 	'DefaultTenantConfigurationValidator',
+	'EventPayloadFormat',
 	'EventSourceStatus',
 	'EventSourceType',
 	'ITenantConfigurationValidator',

@@ -25,6 +25,11 @@ class EventSourceStatus(StrEnum):
 	DISABLED = 'disabled'
 
 
+class EventPayloadFormat(StrEnum):
+	JSON = 'json'
+	SYSLOG = 'syslog'
+
+
 class IngestionCredentialType(StrEnum):
 	API_KEY = 'api_key'
 

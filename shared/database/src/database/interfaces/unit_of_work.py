@@ -10,9 +10,11 @@ from database.repositories import (
 	HostInteractionSnapshotRepository,
 	IngestionCredentialRepository,
 	PolicyDecisionRepository,
+	ProviderRegistryRepository,
 	RiskScoreRepository,
 	TenantHashKeyVersionRepository,
 	TenantOperatingModeRepository,
+	TenantProviderConnectionRepository,
 	TenantRepository,
 	TenantThresholdProfileRepository,
 )
@@ -47,6 +49,16 @@ class IUnitOfWork(Protocol):
 	@property
 	def event_sources(self) -> EventSourceRepository:
 		"""Return the event source repository."""
+		...
+
+	@property
+	def provider_registry(self) -> ProviderRegistryRepository:
+		"""Return the provider registry repository."""
+		...
+
+	@property
+	def tenant_provider_connections(self) -> TenantProviderConnectionRepository:
+		"""Return the tenant provider connection repository."""
 		...
 
 	@property

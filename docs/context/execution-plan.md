@@ -114,12 +114,12 @@ This is the ordered implementation tracker for the project. Unlike the other con
 
 ## Phase 8: End-to-End Provider Integration
 
-- [todo] Select at least one provider that is practical to test locally or with a free tier.
-- [todo] Complete inbound ingestion integration for the selected provider.
-- [todo] Complete outbound enforcement integration for the selected provider.
-- [todo] Wire provider-specific payload translation into the existing canonical ingestion pipeline.
-- [todo] Wire provider-specific enforcement execution into the policy and response pipeline.
-- [todo] Persist and validate real provider request and response metadata for enforcement history.
+- [done] Select at least one provider that is practical to test locally or with a free tier.
+- [done] Keep inbound ingestion provider-agnostic and continue accepting any source through the canonical ingestion endpoint with credentials.
+- [done] Complete outbound enforcement integration for the first selected provider (`Keycloak`).
+- [done] Add outbound adapter dispatch and provider-specific action translation in `shared/integrations`.
+- [done] Wire provider-specific enforcement execution into the policy and response pipeline.
+- [done] Add provider registry and tenant connection application services for lifecycle, validation, activation, and connection testing.
 - [todo] Validate the selected provider end to end from ingestion through scoring, policy, alerting, and enforcement.
 
 ## Phase 9: Dashboard

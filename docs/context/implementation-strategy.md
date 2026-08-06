@@ -275,6 +275,26 @@ The runtime should stay small, but the code should still preserve clear boundari
 - policy
 - integrations
 
+### Integration strategy
+
+Inbound authentication events remain provider-agnostic at the API boundary.
+Any source with valid ingestion credentials can submit to the canonical ingestion
+endpoint as long as the payload can be normalized into the internal auth-event
+shape.
+
+Outbound enforcement is provider-specific and should use an adapter-style
+integration boundary under `shared/integrations`.
+
+For the first end-to-end provider integration:
+
+- use Keycloak as the initial outbound IdP provider
+- persist supported outbound actions in `provider_registry`
+- persist tenant-specific connection metadata in `tenant_provider_connections`
+- keep provider lifecycle and tenant connection lifecycle in application
+  services, not repositories
+- resolve adapter dispatch from `provider_registry.provider_key`
+- keep repositories limited to persistence and constraint/error mapping
+
 ### Build local-first, not fake-cloud-first
 
 This project should be fully demonstrable locally via Docker Compose. Cloud-readiness should come from clean boundaries and configuration, not from adding platform complexity early.
@@ -371,7 +391,7 @@ The strongest MVP for this project is:
 - reusable scoring service/package
 - dashboard threat feed and explanation panel
 - shadow mode and alert-only mode
-- one real or mocked enforcement path
+- one real outbound enforcement provider
 
 ## Immediate Strategic Priorities
 

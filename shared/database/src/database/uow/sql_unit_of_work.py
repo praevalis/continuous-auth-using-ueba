@@ -10,9 +10,11 @@ from database.repositories import (
 	HostInteractionSnapshotRepository,
 	IngestionCredentialRepository,
 	PolicyDecisionRepository,
+	ProviderRegistryRepository,
 	RiskScoreRepository,
 	TenantHashKeyVersionRepository,
 	TenantOperatingModeRepository,
+	TenantProviderConnectionRepository,
 	TenantRepository,
 	TenantThresholdProfileRepository,
 )
@@ -32,6 +34,8 @@ class SqlAlchemyUnitOfWork:
 		self._tenant_threshold_profiles = TenantThresholdProfileRepository(session)
 		self._tenant_hash_key_versions = TenantHashKeyVersionRepository(session)
 		self._event_sources = EventSourceRepository(session)
+		self._provider_registry = ProviderRegistryRepository(session)
+		self._tenant_provider_connections = TenantProviderConnectionRepository(session)
 		self._policy_decisions = PolicyDecisionRepository(session)
 		self._alerts = AlertRepository(session)
 		self._enforcement_actions = EnforcementActionRepository(session)
@@ -70,6 +74,16 @@ class SqlAlchemyUnitOfWork:
 	def event_sources(self) -> EventSourceRepository:
 		"""Return the event source repository."""
 		return self._event_sources
+
+	@property
+	def provider_registry(self) -> ProviderRegistryRepository:
+		"""Return the provider registry repository."""
+		return self._provider_registry
+
+	@property
+	def tenant_provider_connections(self) -> TenantProviderConnectionRepository:
+		"""Return the tenant provider connection repository."""
+		return self._tenant_provider_connections
 
 	@property
 	def policy_decisions(self) -> PolicyDecisionRepository:

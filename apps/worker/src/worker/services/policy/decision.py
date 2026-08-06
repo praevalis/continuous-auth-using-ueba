@@ -4,15 +4,13 @@ from uuid import UUID
 
 from database import IUnitOfWork
 from domain.alert import AlertSeverity, AlertStatus
-from domain.enforcement import EnforcementActionStatus, EnforcementActionType
+from domain.enforcement import EnforcementActionType
 from domain.exceptions import TenantOperatingModeNotFoundError
 from domain.policy import DefaultPolicyEvaluator, PolicyAction, ScoreBand
 from schemas.alert import AlertCreateSchema
-from schemas.enforcement import (
-	EnforcementActionCreateSchema,
-	EnforcementActionUpdateSchema,
-)
 from schemas.policy import PolicyDecisionCreateSchema
+
+from worker.services.policy.enforcement import AuthEventEnforcementService
 
 
 @dataclass(slots=True)
@@ -42,6 +40,7 @@ class AuthEventPolicyService:
 		"""
 		self._uow = uow
 		self._policy_evaluator = DefaultPolicyEvaluator()
+		self._enforcement_service = AuthEventEnforcementService(uow)
 
 	async def process_risk_score(self, risk_score_id: UUID) -> PolicyProcessingResult:
 		"""Evaluate policy for a persisted risk score and store its outputs.
@@ -136,43 +135,14 @@ class AuthEventPolicyService:
 		enforcement_action_id: str | None = None
 		enforcement_action_type = self._resolve_enforcement_action_type(final_action)
 		if enforcement_action_type is not None:
-			# TODO (Akshat): Replace this temporary mock enforcement path with a real
-			# provider adapter from `shared/integrations` once the first end-to-end
-			# integration target is selected.
-			enforcement_action = (
-				await self._uow.enforcement_actions.create_enforcement_action(
-					EnforcementActionCreateSchema(
-						tenant_id=risk_score.tenant_id,
-						policy_decision_id=policy_decision.id,
-						event_source_id=auth_event.event_source_id,
-						action_type=enforcement_action_type,
-						target_user_hash=auth_event.user_hash,
-						integration_name='mock_idp',
-						request_payload_redacted={
-							'action': enforcement_action_type.value,
-							'target_user_hash': auth_event.user_hash,
-						},
-						status=EnforcementActionStatus.PENDING,
-						attempt_count=1,
-						requested_at=datetime.now(UTC),
-					)
+			enforcement_action_id = (
+				await self._enforcement_service.execute_policy_action(
+					policy_decision_id=policy_decision.id,
+					risk_score=risk_score,
+					auth_event=auth_event,
+					enforcement_action_type=enforcement_action_type,
 				)
 			)
-
-			# TODO (Akshat): Replace the synthetic completion result below with the actual
-			# provider response payload, external action identifier, and failure
-			# handling returned by the outbound enforcement integration.
-			enforcement_action = await self._uow.enforcement_actions.update_enforcement_action(
-				enforcement_action.id,
-				EnforcementActionUpdateSchema(
-					status=EnforcementActionStatus.SUCCEEDED,
-					external_action_id=(
-						f'mock-{enforcement_action_type.value}-{enforcement_action.id}'
-					),
-					completed_at=datetime.now(UTC),
-				),
-			)
-			enforcement_action_id = str(enforcement_action.id)
 
 		await self._uow.commit()
 		return PolicyProcessingResult(

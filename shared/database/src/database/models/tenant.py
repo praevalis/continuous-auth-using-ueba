@@ -2,6 +2,7 @@ from datetime import datetime
 from uuid import UUID, uuid4
 
 from domain.tenant import (
+	EventPayloadFormat,
 	EventSourceStatus,
 	EventSourceType,
 	IngestionCredentialStatus,
@@ -184,6 +185,9 @@ class EventSourceModel(Base):
 	source_type: Mapped[EventSourceType] = mapped_column(
 		enum_type(EventSourceType, name='event_source_type'),
 		nullable=False,
+	)
+	payload_format: Mapped[EventPayloadFormat | None] = mapped_column(
+		enum_type(EventPayloadFormat, name='event_payload_format')
 	)
 	vendor: Mapped[str | None] = mapped_column(String(255))
 	external_reference: Mapped[str | None] = mapped_column(String(255))

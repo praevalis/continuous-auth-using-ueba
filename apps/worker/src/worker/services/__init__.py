@@ -6,14 +6,18 @@ from worker.services.ingestion import (
 	AuthEventNormalizationService,
 	AuthEventPersistenceService,
 )
-from worker.services.policy import AuthEventPolicyService
+from worker.services.policy import (
+	AuthEventEnforcementService,
+	AuthEventPolicyService,
+)
 from worker.services.scoring import AuthEventScoringService
 
 __all__ = [
 	'AuthEventAnonymizationService',
+	'AuthEventEnforcementService',
 	'AuthEventIngestionConsumerService',
 	'AuthEventNormalizationService',
-	'AuthEventPolicyService',
 	'AuthEventPersistenceService',
+	'AuthEventPolicyService',
 	'AuthEventScoringService',
 ]

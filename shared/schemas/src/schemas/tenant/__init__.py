@@ -1,6 +1,7 @@
 """Tenant-related shared schemas."""
 
 from schemas.tenant.models import (
+	EventPayloadFormat,
 	EventSourceCreateSchema,
 	EventSourceFilterParams,
 	EventSourceMetadataUpdateSchema,
@@ -40,6 +41,7 @@ from schemas.tenant.models import (
 )
 
 __all__ = [
+	'EventPayloadFormat',
 	'EventSourceCreateSchema',
 	'EventSourceFilterParams',
 	'EventSourceMetadataUpdateSchema',

@@ -12,6 +12,10 @@ from api.services.ingestion import (
 	EventSourceService,
 	IngestionCredentialService,
 )
+from api.services.integrations import (
+	ProviderRegistryService,
+	TenantProviderConnectionService,
+)
 from api.services.tenants import (
 	TenantConfigurationService,
 	TenantManagementService,
@@ -111,3 +115,31 @@ def get_ingestion_credential_service(
 		The ingestion credential service bound to the current unit of work.
 	"""
 	return IngestionCredentialService(uow)
+
+
+def get_provider_registry_service(
+	uow: Annotated[IUnitOfWork, Depends(get_unit_of_work)],
+) -> ProviderRegistryService:
+	"""Return the provider registry application service.
+
+	Args:
+		uow: The request-scoped database unit of work.
+
+	Returns:
+		The provider registry service bound to the current unit of work.
+	"""
+	return ProviderRegistryService(uow)
+
+
+def get_tenant_provider_connection_service(
+	uow: Annotated[IUnitOfWork, Depends(get_unit_of_work)],
+) -> TenantProviderConnectionService:
+	"""Return the tenant provider connection application service.
+
+	Args:
+		uow: The request-scoped database unit of work.
+
+	Returns:
+		The tenant provider connection service bound to the current unit of work.
+	"""
+	return TenantProviderConnectionService(uow)

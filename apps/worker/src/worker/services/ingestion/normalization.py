@@ -125,6 +125,11 @@ class AuthEventNormalizationService:
 			raw_payload=raw_payload,
 			normalization_metadata={
 				'stream_message_id': stream_message_id,
+				# TO-DO: Move reversible provider-target identifiers into a dedicated
+				# encrypted store instead of persisting them in normalization metadata.
+				'provider_targets': {
+					'user_identifier': user_identifier,
+				},
 				'field_sources': {
 					'user_identifier': user_source_key,
 					'account_identifier': account_source_key,

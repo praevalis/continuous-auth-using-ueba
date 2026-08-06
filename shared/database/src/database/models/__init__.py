@@ -3,6 +3,10 @@
 from database.models.alert import AlertModel
 from database.models.enforcement import EnforcementActionModel
 from database.models.event import AuthEventModel
+from database.models.integration import (
+	ProviderRegistryModel,
+	TenantProviderConnectionModel,
+)
 from database.models.policy import PolicyDecisionModel
 from database.models.scoring import (
 	EventProcessingRunModel,
@@ -29,9 +33,11 @@ __all__ = [
 	'HostInteractionSnapshotModel',
 	'IngestionCredentialModel',
 	'PolicyDecisionModel',
+	'ProviderRegistryModel',
 	'RiskScoreModel',
 	'TenantHashKeyVersionModel',
 	'TenantModel',
 	'TenantOperatingModeModel',
+	'TenantProviderConnectionModel',
 	'TenantThresholdProfileModel',
 ]

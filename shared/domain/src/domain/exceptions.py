@@ -82,6 +82,42 @@ class EnforcementActionNotFoundError(DomainError):
 	"""Raised when the requested enforcement action does not exist."""
 
 
+class ProviderRegistryNotFoundError(DomainError):
+	"""Raised when the requested provider registry entry does not exist."""
+
+
+class ProviderRegistryAlreadyExistsError(DomainError):
+	"""Raised when attempting to create a duplicate provider registry entry."""
+
+
+class ActiveProviderRegistryError(DomainError):
+	"""Raised when a provider registry entry is already active."""
+
+
+class InactiveProviderRegistryError(DomainError):
+	"""Raised when a provider registry entry is inactive."""
+
+
+class InvalidProviderConnectionConfigurationError(DomainError):
+	"""Raised when provider connection configuration is incomplete or invalid."""
+
+
+class TenantProviderConnectionNotFoundError(DomainError):
+	"""Raised when the requested tenant provider connection does not exist."""
+
+
+class TenantProviderConnectionAlreadyExistsError(DomainError):
+	"""Raised when attempting to create a duplicate tenant provider connection."""
+
+
+class NoAvailableTenantProviderConnectionError(DomainError):
+	"""Raised when no active provider connection can execute the requested action."""
+
+
+class DisabledTenantProviderConnectionError(DomainError):
+	"""Raised when a tenant provider connection is disabled."""
+
+
 class TenantHashKeyVersionNotFoundError(DomainError):
 	"""Raised when the requested tenant hash key version does not exist."""
 

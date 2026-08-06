@@ -1,19 +1,27 @@
 from dataclasses import dataclass
 
 from domain.exceptions import (
+	ActiveProviderRegistryError,
+	DisabledTenantProviderConnectionError,
 	DomainError,
 	EventSourceNotFoundError,
+	InactiveProviderRegistryError,
 	IngestionAccessDeniedError,
 	IngestionAuthenticationError,
 	IngestionCredentialAlreadyExistsError,
 	IngestionCredentialNotFoundError,
 	InvalidOperatingModeTransitionError,
+	InvalidProviderConnectionConfigurationError,
 	InvalidThresholdConfigurationError,
 	MultipleActiveConfigurationsError,
+	NoAvailableTenantProviderConnectionError,
+	ProviderRegistryAlreadyExistsError,
+	ProviderRegistryNotFoundError,
 	TenantAlreadyExistsError,
 	TenantHashKeyVersionNotFoundError,
 	TenantNotFoundError,
 	TenantOperatingModeNotFoundError,
+	TenantProviderConnectionNotFoundError,
 	TenantThresholdProfileNotFoundError,
 	UnsupportedPolicyActionError,
 )
@@ -52,6 +60,12 @@ def get_domain_error_mapping(error: DomainError) -> DomainErrorMapping:
 			error_code='ingestion_credential_already_exists',
 		)
 
+	if isinstance(error, ProviderRegistryAlreadyExistsError):
+		return DomainErrorMapping(
+			status_code=409,
+			error_code='provider_registry_already_exists',
+		)
+
 	if isinstance(error, IngestionAuthenticationError):
 		return DomainErrorMapping(
 			status_code=401,
@@ -69,9 +83,11 @@ def get_domain_error_mapping(error: DomainError) -> DomainErrorMapping:
 		(
 			EventSourceNotFoundError,
 			IngestionCredentialNotFoundError,
+			ProviderRegistryNotFoundError,
 			TenantHashKeyVersionNotFoundError,
 			TenantNotFoundError,
 			TenantOperatingModeNotFoundError,
+			TenantProviderConnectionNotFoundError,
 			TenantThresholdProfileNotFoundError,
 		),
 	):
@@ -84,8 +100,13 @@ def get_domain_error_mapping(error: DomainError) -> DomainErrorMapping:
 		error,
 		(
 			InvalidOperatingModeTransitionError,
+			InvalidProviderConnectionConfigurationError,
 			InvalidThresholdConfigurationError,
+			ActiveProviderRegistryError,
+			InactiveProviderRegistryError,
+			NoAvailableTenantProviderConnectionError,
 			UnsupportedPolicyActionError,
+			DisabledTenantProviderConnectionError,
 		),
 	):
 		return DomainErrorMapping(

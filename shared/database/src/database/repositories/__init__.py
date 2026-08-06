@@ -11,6 +11,7 @@ from database.repositories.host_interaction_snapshot import (
 )
 from database.repositories.ingestion_credential import IngestionCredentialRepository
 from database.repositories.policy_decision import PolicyDecisionRepository
+from database.repositories.provider_registry import ProviderRegistryRepository
 from database.repositories.risk_score import RiskScoreRepository
 from database.repositories.tenant import TenantRepository
 from database.repositories.tenant_hash_key_version import (
@@ -18,6 +19,9 @@ from database.repositories.tenant_hash_key_version import (
 )
 from database.repositories.tenant_operating_mode import (
 	TenantOperatingModeRepository,
+)
+from database.repositories.tenant_provider_connection import (
+	TenantProviderConnectionRepository,
 )
 from database.repositories.tenant_threshold_profile import (
 	TenantThresholdProfileRepository,
@@ -33,9 +37,11 @@ __all__ = [
 	'HostInteractionSnapshotRepository',
 	'IngestionCredentialRepository',
 	'PolicyDecisionRepository',
+	'ProviderRegistryRepository',
 	'RiskScoreRepository',
 	'TenantHashKeyVersionRepository',
 	'TenantOperatingModeRepository',
+	'TenantProviderConnectionRepository',
 	'TenantRepository',
 	'TenantThresholdProfileRepository',
 ]

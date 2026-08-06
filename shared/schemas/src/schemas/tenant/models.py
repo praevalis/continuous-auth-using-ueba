@@ -3,6 +3,7 @@ from uuid import UUID
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 from domain.tenant import (
+	EventPayloadFormat,
 	EventSourceStatus,
 	EventSourceType,
 	IngestionCredentialStatus,
@@ -216,6 +217,7 @@ class EventSourceSchema(SchemaModel):
 	tenant_id: UUID
 	source_name: str = Field(min_length=1)
 	source_type: EventSourceType
+	payload_format: EventPayloadFormat | None = None
 	vendor: str | None = None
 	external_reference: str | None = None
 	status: EventSourceStatus
@@ -226,6 +228,7 @@ class EventSourceSchema(SchemaModel):
 class EventSourceCreateSchema(SchemaModel):
 	source_name: str = Field(min_length=1)
 	source_type: EventSourceType
+	payload_format: EventPayloadFormat | None = None
 	vendor: str | None = None
 	external_reference: str | None = None
 	status: EventSourceStatus = EventSourceStatus.ACTIVE
@@ -234,6 +237,7 @@ class EventSourceCreateSchema(SchemaModel):
 class EventSourceUpdateSchema(SchemaModel):
 	source_name: str | None = Field(default=None, min_length=1)
 	source_type: EventSourceType | None = None
+	payload_format: EventPayloadFormat | None = None
 	vendor: str | None = None
 	external_reference: str | None = None
 	status: EventSourceStatus | None = None
@@ -242,12 +246,14 @@ class EventSourceUpdateSchema(SchemaModel):
 class EventSourceMetadataUpdateSchema(SchemaModel):
 	source_name: str | None = Field(default=None, min_length=1)
 	source_type: EventSourceType | None = None
+	payload_format: EventPayloadFormat | None = None
 	vendor: str | None = None
 	external_reference: str | None = None
 
 
 class EventSourceFilterParams(SchemaModel):
 	source_type: EventSourceType | None = None
+	payload_format: EventPayloadFormat | None = None
 	status: EventSourceStatus | None = None
 	vendor: str | None = None
 
