@@ -3,6 +3,7 @@ from typing import Any
 from uuid import UUID
 
 from domain.policy import PolicyAction, ScoreBand
+from pydantic import Field
 
 from schemas.base import SchemaModel
 
@@ -36,7 +37,10 @@ class PolicyDecisionCreateSchema(SchemaModel):
 
 class PolicyDecisionFilterParams(SchemaModel):
 	auth_event_id: UUID | None = None
-	risk_score_id: UUID | None = None
-	operating_mode_id: UUID | None = None
 	decision_band: ScoreBand | None = None
 	final_action: PolicyAction | None = None
+	decided_after: datetime | None = None
+	decided_before: datetime | None = None
+	sort: str = '-decided_at'
+	limit: int = Field(default=50, ge=1, le=200)
+	offset: int = Field(default=0, ge=0)

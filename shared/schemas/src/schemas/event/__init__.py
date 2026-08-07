@@ -5,7 +5,7 @@ from schemas.event.models import (
 	AuthEventIngestionAcceptedSchema,
 	AuthEventIngestionMessageSchema,
 	AuthEventIngestionRequestSchema,
-	AuthEventOutcome,
+	AuthEventListFilterParams,
 	AuthEventSchema,
 	AuthEventScoringJobSchema,
 )
@@ -15,7 +15,7 @@ __all__ = [
 	'AuthEventIngestionAcceptedSchema',
 	'AuthEventIngestionMessageSchema',
 	'AuthEventIngestionRequestSchema',
-	'AuthEventOutcome',
+	'AuthEventListFilterParams',
 	'AuthEventSchema',
 	'AuthEventScoringJobSchema',
 ]

@@ -3,10 +3,14 @@ from typing import Annotated
 from database import IUnitOfWork
 from event_broker import IEventBrokerManager
 from fastapi import Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from api.core.config import ApiSettings, get_api_settings
-from api.dependencies.database import get_unit_of_work
+from api.dependencies.database import get_db_session, get_unit_of_work
 from api.dependencies.event_broker import get_event_broker_manager
+from api.services.alerts import AlertReadService
+from api.services.enforcement import EnforcementReadService
+from api.services.events import AuthEventReadService
 from api.services.ingestion import (
 	AuthEventIngestionService,
 	EventSourceService,
@@ -16,6 +20,7 @@ from api.services.integrations import (
 	ProviderRegistryService,
 	TenantProviderConnectionService,
 )
+from api.services.policy_decisions import PolicyDecisionReadService
 from api.services.tenants import (
 	TenantConfigurationService,
 	TenantManagementService,
@@ -143,3 +148,59 @@ def get_tenant_provider_connection_service(
 		The tenant provider connection service bound to the current unit of work.
 	"""
 	return TenantProviderConnectionService(uow)
+
+
+def get_auth_event_read_service(
+	session: Annotated[AsyncSession, Depends(get_db_session)],
+) -> AuthEventReadService:
+	"""Return the auth-event read service.
+
+	Args:
+		session: The request-scoped async database session.
+
+	Returns:
+		The auth-event read service bound to the current session.
+	"""
+	return AuthEventReadService(session)
+
+
+def get_alert_read_service(
+	session: Annotated[AsyncSession, Depends(get_db_session)],
+) -> AlertReadService:
+	"""Return the alert read service.
+
+	Args:
+		session: The request-scoped async database session.
+
+	Returns:
+		The alert read service bound to the current session.
+	"""
+	return AlertReadService(session)
+
+
+def get_enforcement_read_service(
+	session: Annotated[AsyncSession, Depends(get_db_session)],
+) -> EnforcementReadService:
+	"""Return the enforcement read service.
+
+	Args:
+		session: The request-scoped async database session.
+
+	Returns:
+		The enforcement read service bound to the current session.
+	"""
+	return EnforcementReadService(session)
+
+
+def get_policy_decision_read_service(
+	session: Annotated[AsyncSession, Depends(get_db_session)],
+) -> PolicyDecisionReadService:
+	"""Return the policy-decision read service.
+
+	Args:
+		session: The request-scoped async database session.
+
+	Returns:
+		The policy-decision read service bound to the current session.
+	"""
+	return PolicyDecisionReadService(session)

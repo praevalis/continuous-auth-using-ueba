@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+from typing import Any
 from uuid import UUID
 
 from domain.exceptions import (
@@ -7,11 +9,17 @@ from domain.exceptions import (
 	TenantNotFoundError,
 )
 from schemas.alert import AlertCreateSchema, AlertFilterParams, AlertUpdateSchema
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import AlertModel
+
+
+@dataclass(slots=True)
+class AlertListResult:
+	items: list[AlertModel]
+	total_count: int
 
 
 class AlertRepository:
@@ -122,36 +130,74 @@ class AlertRepository:
 		self,
 		tenant_id: UUID,
 		filters: AlertFilterParams,
-	) -> list[AlertModel]:
-		"""Return alerts for a tenant.
+	) -> AlertListResult:
+		"""Return a paginated alert list for a tenant."""
+		statement: Any = select(AlertModel).where(AlertModel.tenant_id == tenant_id)
+		count_statement: Any = (
+			select(func.count())
+			.select_from(AlertModel)
+			.where(AlertModel.tenant_id == tenant_id)
+		)
 
-		Args:
-			tenant_id: The owning tenant identifier.
-			filters: Alert filter parameters.
+		statement = self._apply_alert_filters(
+			statement,
+			filters=filters,
+		)
+		count_statement = self._apply_alert_filters(
+			count_statement,
+			filters=filters,
+		)
 
-		Returns:
-			The alert models associated with the tenant.
-		"""
-		statement = select(AlertModel).where(AlertModel.tenant_id == tenant_id)
+		order_by = AlertModel.created_at.desc()
+		if filters.sort == 'created_at':
+			order_by = AlertModel.created_at.asc()
 
+		rows = await self._session.execute(
+			statement.order_by(order_by, AlertModel.id.desc())
+			.limit(filters.limit)
+			.offset(filters.offset)
+		)
+		total_count = (await self._session.execute(count_statement)).scalar_one()
+		return AlertListResult(
+			items=list(rows.scalars().all()), total_count=total_count
+		)
+
+	async def get_alert_for_tenant_by_id_or_raise(
+		self,
+		tenant_id: UUID,
+		alert_id: UUID,
+	) -> AlertModel:
+		"""Return a tenant alert by identifier or raise if it is missing."""
+		result = await self._session.execute(
+			select(AlertModel).where(
+				AlertModel.tenant_id == tenant_id,
+				AlertModel.id == alert_id,
+			)
+		)
+		alert = result.scalar_one_or_none()
+		if alert is None:
+			raise AlertNotFoundError(f'Alert "{alert_id}" does not exist.')
+		return alert
+
+	@staticmethod
+	def _apply_alert_filters(
+		statement: Any,
+		*,
+		filters: AlertFilterParams,
+	) -> Any:
 		if filters.policy_decision_id is not None:
 			statement = statement.where(
 				AlertModel.policy_decision_id == filters.policy_decision_id
 			)
-
-		if filters.risk_score_id is not None:
-			statement = statement.where(
-				AlertModel.risk_score_id == filters.risk_score_id
-			)
-
 		if filters.severity is not None:
 			statement = statement.where(AlertModel.severity == filters.severity)
-
 		if filters.status is not None:
 			statement = statement.where(AlertModel.status == filters.status)
-
-		result = await self._session.execute(statement)
-		return list(result.scalars().all())
+		if filters.created_after is not None:
+			statement = statement.where(AlertModel.created_at >= filters.created_after)
+		if filters.created_before is not None:
+			statement = statement.where(AlertModel.created_at <= filters.created_before)
+		return statement
 
 	@staticmethod
 	def _matches_constraint(error: IntegrityError, *constraint_names: str) -> bool:

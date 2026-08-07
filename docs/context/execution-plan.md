@@ -124,14 +124,18 @@ This is the ordered implementation tracker for the project. Unlike the other con
 
 ## Phase 9: Dashboard
 
-- [todo] Scaffold dashboard routes and application shell.
-- [todo] Integrate dashboard with backend APIs.
-- [todo] Build threat feed view.
-- [todo] Build event detail view.
-- [todo] Build explanation panel.
-- [todo] Build threshold/profile management UI.
-- [todo] Build enforcement history view.
-- [todo] Generate TypeScript API types or client from OpenAPI.
+- [done] Add dashboard read schemas in `shared/schemas` for feed, detail, explanation, and history responses.
+- [done] Add read-model query classes in `shared/database`.
+- [done] Add backend query/application services for event and enforcement dashboard read use cases.
+- [done] Add API routes for tenant-scoped event and enforcement read endpoints.
+- [done] Register event and enforcement read routes in the API route tree.
+- [todo] Export OpenAPI and generate TypeScript types or client for the dashboard.
+- [todo] Add routing and application shell in `apps/dashboard/src`.
+- [todo] Implement threat feed page.
+- [todo] Implement event detail page.
+- [todo] Implement explanation panel components.
+- [todo] Implement threshold/profile management page.
+- [todo] Implement enforcement history page.
 
 ## Phase 10: Validation and Packaging
 

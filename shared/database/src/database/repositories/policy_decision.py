@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+from typing import Any
 from uuid import UUID
 
 from domain.exceptions import (
@@ -8,11 +10,17 @@ from domain.exceptions import (
 	TenantOperatingModeNotFoundError,
 )
 from schemas.policy import PolicyDecisionCreateSchema, PolicyDecisionFilterParams
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import PolicyDecisionModel
+
+
+@dataclass(slots=True)
+class PolicyDecisionListResult:
+	items: list[PolicyDecisionModel]
+	total_count: int
 
 
 class PolicyDecisionRepository:
@@ -120,47 +128,87 @@ class PolicyDecisionRepository:
 		self,
 		tenant_id: UUID,
 		filters: PolicyDecisionFilterParams,
-	) -> list[PolicyDecisionModel]:
-		"""Return policy decisions for a tenant.
-
-		Args:
-			tenant_id: The owning tenant identifier.
-			filters: Policy decision filter parameters.
-
-		Returns:
-			The policy decision models associated with the tenant.
-		"""
-		statement = select(PolicyDecisionModel).where(
+	) -> PolicyDecisionListResult:
+		"""Return a paginated policy-decision list for a tenant."""
+		statement: Any = select(PolicyDecisionModel).where(
 			PolicyDecisionModel.tenant_id == tenant_id
 		)
+		count_statement: Any = (
+			select(func.count())
+			.select_from(PolicyDecisionModel)
+			.where(PolicyDecisionModel.tenant_id == tenant_id)
+		)
 
+		statement = self._apply_policy_decision_filters(
+			statement,
+			filters=filters,
+		)
+		count_statement = self._apply_policy_decision_filters(
+			count_statement,
+			filters=filters,
+		)
+
+		order_by = PolicyDecisionModel.decided_at.desc()
+		if filters.sort == 'decided_at':
+			order_by = PolicyDecisionModel.decided_at.asc()
+
+		rows = await self._session.execute(
+			statement.order_by(order_by, PolicyDecisionModel.id.desc())
+			.limit(filters.limit)
+			.offset(filters.offset)
+		)
+		total_count = (await self._session.execute(count_statement)).scalar_one()
+		return PolicyDecisionListResult(
+			items=list(rows.scalars().all()),
+			total_count=total_count,
+		)
+
+	async def get_policy_decision_for_tenant_by_id_or_raise(
+		self,
+		tenant_id: UUID,
+		policy_decision_id: UUID,
+	) -> PolicyDecisionModel:
+		"""Return a tenant policy decision by identifier or raise if missing."""
+		result = await self._session.execute(
+			select(PolicyDecisionModel).where(
+				PolicyDecisionModel.tenant_id == tenant_id,
+				PolicyDecisionModel.id == policy_decision_id,
+			)
+		)
+		policy_decision = result.scalar_one_or_none()
+		if policy_decision is None:
+			raise PolicyDecisionNotFoundError(
+				f'Policy decision "{policy_decision_id}" does not exist.'
+			)
+		return policy_decision
+
+	@staticmethod
+	def _apply_policy_decision_filters(
+		statement: Any,
+		*,
+		filters: PolicyDecisionFilterParams,
+	) -> Any:
 		if filters.auth_event_id is not None:
 			statement = statement.where(
 				PolicyDecisionModel.auth_event_id == filters.auth_event_id
 			)
-
-		if filters.risk_score_id is not None:
-			statement = statement.where(
-				PolicyDecisionModel.risk_score_id == filters.risk_score_id
-			)
-
-		if filters.operating_mode_id is not None:
-			statement = statement.where(
-				PolicyDecisionModel.operating_mode_id == filters.operating_mode_id
-			)
-
 		if filters.decision_band is not None:
 			statement = statement.where(
 				PolicyDecisionModel.decision_band == filters.decision_band
 			)
-
 		if filters.final_action is not None:
 			statement = statement.where(
 				PolicyDecisionModel.final_action == filters.final_action
 			)
-
-		result = await self._session.execute(statement)
-		return list(result.scalars().all())
+		if filters.decided_after is not None:
+			statement = statement.where(
+				PolicyDecisionModel.decided_at >= filters.decided_after
+			)
+		if filters.decided_before is not None:
+			statement = statement.where(
+				PolicyDecisionModel.decided_at <= filters.decided_before
+			)
+		return statement
 
 	@staticmethod
 	def _matches_constraint(error: IntegrityError, *constraint_names: str) -> bool:

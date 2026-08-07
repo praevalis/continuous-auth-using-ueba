@@ -59,4 +59,12 @@ class EnforcementActionFilterParams(SchemaModel):
 	policy_decision_id: UUID | None = None
 	event_source_id: UUID | None = None
 	action_type: EnforcementActionType | None = None
+	integration_name: str | None = Field(default=None, min_length=1)
 	status: EnforcementActionStatus | None = None
+	requested_after: datetime | None = None
+	requested_before: datetime | None = None
+	completed_after: datetime | None = None
+	completed_before: datetime | None = None
+	sort: str = '-requested_at'
+	limit: int = Field(default=50, ge=1, le=200)
+	offset: int = Field(default=0, ge=0)

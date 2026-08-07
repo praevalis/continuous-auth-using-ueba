@@ -48,6 +48,10 @@ class AlertUpdateSchema(SchemaModel):
 
 class AlertFilterParams(SchemaModel):
 	policy_decision_id: UUID | None = None
-	risk_score_id: UUID | None = None
 	severity: AlertSeverity | None = None
 	status: AlertStatus | None = None
+	created_after: datetime | None = None
+	created_before: datetime | None = None
+	sort: str = '-created_at'
+	limit: int = Field(default=50, ge=1, le=200)
+	offset: int = Field(default=0, ge=0)

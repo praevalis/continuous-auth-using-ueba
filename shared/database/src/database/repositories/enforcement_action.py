@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+from typing import Any
 from uuid import UUID
 
 from domain.exceptions import (
@@ -11,11 +13,17 @@ from schemas.enforcement import (
 	EnforcementActionFilterParams,
 	EnforcementActionUpdateSchema,
 )
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import EnforcementActionModel
+
+
+@dataclass(slots=True)
+class EnforcementActionListResult:
+	items: list[EnforcementActionModel]
+	total_count: int
 
 
 class EnforcementActionRepository:
@@ -162,40 +170,101 @@ class EnforcementActionRepository:
 		self,
 		tenant_id: UUID,
 		filters: EnforcementActionFilterParams,
-	) -> list[EnforcementActionModel]:
-		"""Return enforcement actions for a tenant.
-
-		Args:
-			tenant_id: The owning tenant identifier.
-			filters: Enforcement action filter parameters.
-
-		Returns:
-			The enforcement action models associated with the tenant.
-		"""
-		statement = select(EnforcementActionModel).where(
+	) -> EnforcementActionListResult:
+		"""Return a paginated enforcement-action list for a tenant."""
+		statement: Any = select(EnforcementActionModel).where(
 			EnforcementActionModel.tenant_id == tenant_id
 		)
+		count_statement: Any = (
+			select(func.count())
+			.select_from(EnforcementActionModel)
+			.where(EnforcementActionModel.tenant_id == tenant_id)
+		)
 
+		statement = self._apply_enforcement_action_filters(
+			statement,
+			filters=filters,
+		)
+		count_statement = self._apply_enforcement_action_filters(
+			count_statement,
+			filters=filters,
+		)
+
+		order_by = EnforcementActionModel.requested_at.desc()
+		if filters.sort == 'requested_at':
+			order_by = EnforcementActionModel.requested_at.asc()
+
+		rows = await self._session.execute(
+			statement.order_by(order_by, EnforcementActionModel.created_at.desc())
+			.limit(filters.limit)
+			.offset(filters.offset)
+		)
+		total_count = (await self._session.execute(count_statement)).scalar_one()
+		return EnforcementActionListResult(
+			items=list(rows.scalars().all()),
+			total_count=total_count,
+		)
+
+	async def get_enforcement_action_for_tenant_by_id_or_raise(
+		self,
+		tenant_id: UUID,
+		enforcement_action_id: UUID,
+	) -> EnforcementActionModel:
+		"""Return a tenant enforcement action by identifier or raise if missing."""
+		result = await self._session.execute(
+			select(EnforcementActionModel).where(
+				EnforcementActionModel.tenant_id == tenant_id,
+				EnforcementActionModel.id == enforcement_action_id,
+			)
+		)
+		enforcement_action = result.scalar_one_or_none()
+		if enforcement_action is None:
+			raise EnforcementActionNotFoundError(
+				f'Enforcement action "{enforcement_action_id}" does not exist.'
+			)
+		return enforcement_action
+
+	@staticmethod
+	def _apply_enforcement_action_filters(
+		statement: Any,
+		*,
+		filters: EnforcementActionFilterParams,
+	) -> Any:
 		if filters.policy_decision_id is not None:
 			statement = statement.where(
 				EnforcementActionModel.policy_decision_id == filters.policy_decision_id
 			)
-
 		if filters.event_source_id is not None:
 			statement = statement.where(
 				EnforcementActionModel.event_source_id == filters.event_source_id
 			)
-
 		if filters.action_type is not None:
 			statement = statement.where(
 				EnforcementActionModel.action_type == filters.action_type
 			)
-
+		if filters.integration_name is not None:
+			statement = statement.where(
+				EnforcementActionModel.integration_name == filters.integration_name
+			)
 		if filters.status is not None:
 			statement = statement.where(EnforcementActionModel.status == filters.status)
-
-		result = await self._session.execute(statement)
-		return list(result.scalars().all())
+		if filters.requested_after is not None:
+			statement = statement.where(
+				EnforcementActionModel.requested_at >= filters.requested_after
+			)
+		if filters.requested_before is not None:
+			statement = statement.where(
+				EnforcementActionModel.requested_at <= filters.requested_before
+			)
+		if filters.completed_after is not None:
+			statement = statement.where(
+				EnforcementActionModel.completed_at >= filters.completed_after
+			)
+		if filters.completed_before is not None:
+			statement = statement.where(
+				EnforcementActionModel.completed_at <= filters.completed_before
+			)
+		return statement
 
 	@staticmethod
 	def _matches_constraint(error: IntegrityError, *constraint_names: str) -> bool:

@@ -10,9 +10,13 @@ from api.dependencies.database import (
 from api.dependencies.event_broker import get_event_broker_manager
 from api.dependencies.infrastructure import get_infrastructure_manager
 from api.dependencies.services import (
+	get_alert_read_service,
 	get_auth_event_ingestion_service,
+	get_auth_event_read_service,
+	get_enforcement_read_service,
 	get_event_source_service,
 	get_ingestion_credential_service,
+	get_policy_decision_read_service,
 	get_provider_registry_service,
 	get_tenant_configuration_service,
 	get_tenant_management_service,
@@ -21,14 +25,18 @@ from api.dependencies.services import (
 )
 
 __all__ = [
+	'get_alert_read_service',
 	'get_auth_event_ingestion_service',
+	'get_auth_event_read_service',
 	'get_cache_manager',
 	'get_database_manager',
 	'get_db_session',
+	'get_enforcement_read_service',
 	'get_event_broker_manager',
 	'get_event_source_service',
 	'get_infrastructure_manager',
 	'get_ingestion_credential_service',
+	'get_policy_decision_read_service',
 	'get_provider_registry_service',
 	'get_redis_client',
 	'get_session_manager',

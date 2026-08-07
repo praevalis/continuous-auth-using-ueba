@@ -1,12 +1,20 @@
+from dataclasses import dataclass
+from typing import Any
 from uuid import UUID
 
 from domain.exceptions import AuthEventNotFoundError
-from schemas.event import AuthEventCreateSchema
-from sqlalchemy import select
+from schemas.event import AuthEventCreateSchema, AuthEventListFilterParams
+from sqlalchemy import func, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import AuthEventModel
+
+
+@dataclass(slots=True)
+class AuthEventListResult:
+	items: list[AuthEventModel]
+	total_count: int
 
 
 class AuthEventRepository:
@@ -100,3 +108,89 @@ class AuthEventRepository:
 			)
 
 		return auth_event
+
+	async def get_auth_event_for_tenant_by_id_or_raise(
+		self,
+		tenant_id: UUID,
+		auth_event_id: UUID,
+	) -> AuthEventModel:
+		"""Return a tenant auth event by identifier or raise if it is missing."""
+		result = await self._session.execute(
+			select(AuthEventModel).where(
+				AuthEventModel.tenant_id == tenant_id,
+				AuthEventModel.id == auth_event_id,
+			)
+		)
+		auth_event = result.scalar_one_or_none()
+		if auth_event is None:
+			raise AuthEventNotFoundError(
+				f'Auth event "{auth_event_id}" does not exist.'
+			)
+		return auth_event
+
+	async def list_auth_events_for_tenant(
+		self,
+		tenant_id: UUID,
+		filters: AuthEventListFilterParams,
+	) -> AuthEventListResult:
+		"""Return a paginated event list for a tenant."""
+		statement: Any = select(AuthEventModel).where(
+			AuthEventModel.tenant_id == tenant_id
+		)
+		count_statement: Any = (
+			select(func.count())
+			.select_from(AuthEventModel)
+			.where(AuthEventModel.tenant_id == tenant_id)
+		)
+
+		statement = self._apply_event_filters(
+			statement,
+			filters=filters,
+		)
+		count_statement = self._apply_event_filters(
+			count_statement,
+			filters=filters,
+		)
+
+		order_by = AuthEventModel.occurred_at.desc()
+		if filters.sort == 'occurred_at':
+			order_by = AuthEventModel.occurred_at.asc()
+
+		rows = await self._session.execute(
+			statement.order_by(order_by, AuthEventModel.created_at.desc())
+			.limit(filters.limit)
+			.offset(filters.offset)
+		)
+		total_count = (await self._session.execute(count_statement)).scalar_one()
+		return AuthEventListResult(
+			items=list(rows.scalars().all()),
+			total_count=total_count,
+		)
+
+	@staticmethod
+	def _apply_event_filters(
+		statement: Any,
+		*,
+		filters: AuthEventListFilterParams,
+	) -> Any:
+		if filters.occurred_after is not None:
+			statement = statement.where(
+				AuthEventModel.occurred_at >= filters.occurred_after
+			)
+		if filters.occurred_before is not None:
+			statement = statement.where(
+				AuthEventModel.occurred_at <= filters.occurred_before
+			)
+		if filters.event_source_id is not None:
+			statement = statement.where(
+				AuthEventModel.event_source_id == filters.event_source_id
+			)
+		if filters.event_type is not None:
+			statement = statement.where(AuthEventModel.event_type == filters.event_type)
+		if filters.outcome is not None:
+			statement = statement.where(AuthEventModel.outcome == filters.outcome)
+		if filters.location_country is not None:
+			statement = statement.where(
+				AuthEventModel.location_country == filters.location_country
+			)
+		return statement

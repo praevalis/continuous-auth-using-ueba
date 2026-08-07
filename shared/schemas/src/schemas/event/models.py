@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from typing import Any
 from uuid import UUID
@@ -97,3 +99,15 @@ class AuthEventCreateSchema(SchemaModel):
 class AuthEventScoringJobSchema(SchemaModel):
 	auth_event_id: UUID
 	tenant_id: UUID
+
+
+class AuthEventListFilterParams(SchemaModel):
+	occurred_after: datetime | None = None
+	occurred_before: datetime | None = None
+	event_source_id: UUID | None = None
+	event_type: str | None = Field(default=None, min_length=1)
+	outcome: AuthEventOutcome | None = None
+	location_country: str | None = Field(default=None, min_length=1)
+	sort: str = '-occurred_at'
+	limit: int = Field(default=50, ge=1, le=200)
+	offset: int = Field(default=0, ge=0)
