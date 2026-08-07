@@ -188,7 +188,7 @@ wheels = [
 [[package]]
 name = "continuous-auth-api"
 version = "0.1.0"
-source = { virtual = "apps/api" }
+source = { editable = "apps/api" }
 dependencies = [
     { name = "continuous-auth-cache" },
     { name = "continuous-auth-database" },
@@ -377,6 +377,7 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "alembic" },
+    { name = "continuous-auth-api" },
     { name = "continuous-auth-cache" },
     { name = "continuous-auth-database" },
     { name = "continuous-auth-domain" },
@@ -394,6 +395,7 @@ dependencies = [
 [package.metadata]
 requires-dist = [
     { name = "alembic" },
+    { name = "continuous-auth-api", editable = "apps/api" },
     { name = "continuous-auth-cache", editable = "shared/cache" },
     { name = "continuous-auth-database", editable = "shared/database" },
     { name = "continuous-auth-domain", editable = "shared/domain" },
