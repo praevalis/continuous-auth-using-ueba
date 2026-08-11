@@ -10,6 +10,7 @@ This directory contains working context for implementation. These documents are 
 4. [repo-structure.md](./repo-structure.md)
 5. [implementation-strategy.md](./implementation-strategy.md)
 6. [execution-plan.md](./execution-plan.md)
+7. [dashboard-design-system.md](./dashboard-design-system.md)
 
 ## Role of `docs/reference`
 

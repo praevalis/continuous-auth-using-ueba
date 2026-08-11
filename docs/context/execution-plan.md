@@ -68,7 +68,7 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Scaffold `infra/migrations`.
 - [done] Scaffold `infra/seed`.
 - [done] Set up Alembic under `infra/migrations` with imports from `shared/database`.
-- [done] Create Docker Compose setup for backend, worker, dashboard, PostgreSQL, and Redis.
+- [done] Create Docker Compose setup for API, worker, dashboard, PostgreSQL, and Redis, including application Dockerfiles and service health checks.
 - [done] Define environment variable strategy for local development.
 - [done] Create initial PostgreSQL schema draft.
 - [done] Create initial PostgreSQL schema and migrations.
