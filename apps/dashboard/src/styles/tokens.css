@@ -1,0 +1,101 @@
+@import 'tailwindcss';
+
+@theme {
+	--color-carbon-700: #303837;
+	--color-carbon-500: #3b4140;
+	--color-carbon-300: #687371;
+	--color-paper-100: #f7f8f7;
+	--color-paper-50: #ffffff;
+	--color-stone-100: #f0f2f1;
+	--color-stone-300: #e1e6e4;
+	--color-primary: #3b4140;
+	--color-primary-soft: #edf0ef;
+	--color-safe: #667a68;
+	--color-safe-soft: #e7ede8;
+	--color-caution: #a87528;
+	--color-caution-soft: #f5edde;
+	--color-lockout: #984a43;
+	--color-lockout-soft: #f4e5e3;
+	--color-info: #667477;
+	--color-info-soft: #e9eeee;
+	--color-neutral: #687371;
+	--color-neutral-soft: #eef1f0;
+
+	--font-sans: 'DM Sans', 'Segoe UI', sans-serif;
+	--font-display: var(--font-sans);
+	--font-mono: 'IBM Plex Mono', 'Cascadia Code', Consolas, monospace;
+	--text-page-title: 1.875rem;
+	--text-page-title--line-height: 2.25rem;
+	--text-page-title--font-weight: 600;
+	--text-section-title: 1.0625rem;
+	--text-section-title--line-height: 1.4375rem;
+	--text-section-title--font-weight: 600;
+	--text-body: 0.875rem;
+	--text-body--line-height: 1.3125rem;
+	--text-compact: 0.8125rem;
+	--text-compact--line-height: 1.125rem;
+	--text-label: 0.6875rem;
+	--text-label--line-height: 1rem;
+	--text-label--font-weight: 600;
+	--text-metric: 1.5rem;
+	--text-metric--line-height: 1.75rem;
+	--text-metric--font-weight: 600;
+
+	--spacing-18: 4.5rem;
+	--spacing-60: 15rem;
+	--spacing-360: 90rem;
+	--radius-control: 0.5rem;
+	--radius-panel: 0.75rem;
+	--radius-status: 999px;
+	--shadow-floating: 0 12px 32px rgb(34 40 39 / 0.12);
+	--breakpoint-xl: 90rem;
+}
+
+@layer base {
+	:root {
+		font-family: var(--font-sans);
+		color: var(--color-carbon-700);
+		background: var(--color-paper-100);
+		font-synthesis: none;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	* {
+		box-sizing: border-box;
+	}
+
+	body {
+		margin: 0;
+		min-width: 320px;
+		min-height: 100svh;
+	}
+
+	button,
+	input,
+	select {
+		font: inherit;
+	}
+
+	button,
+	a {
+		-webkit-tap-highlight-color: transparent;
+	}
+
+	:focus-visible {
+		outline: 2px solid var(--color-primary);
+		outline-offset: 2px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+}

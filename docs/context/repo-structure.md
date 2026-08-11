@@ -72,15 +72,17 @@ Recommended internal scaffold shape:
   /dashboard
     /public
     /src
-      /assets
       /components
-      /pages
-      /layouts
-      /routes
-      /services
       /hooks
-      /lib
+      /utils
       /styles
+      /api
+      /features
+        /overview
+        /threat-feed
+        /policies
+        /activity
+      /assets
       main.jsx|tsx
       App.jsx|tsx
     index.html

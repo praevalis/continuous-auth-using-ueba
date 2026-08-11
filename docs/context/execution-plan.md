@@ -129,11 +129,14 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Add backend query/application services for event and enforcement dashboard read use cases.
 - [done] Add API routes for tenant-scoped event and enforcement read endpoints.
 - [done] Register event and enforcement read routes in the API route tree.
-- [todo] Export OpenAPI and generate TypeScript types or client for the dashboard.
-- [todo] Add routing and application shell in `apps/dashboard/src`.
-- [todo] Implement threat feed page.
-- [todo] Implement event detail page.
-- [todo] Implement explanation panel components.
+- [done] Export OpenAPI and generate TypeScript types or client for the dashboard under `apps/dashboard/src/api/generated`.
+- [todo] Add Tailwind v4 styling foundation using the dashboard design-system tokens.
+- [todo] Add routing and the responsive application shell in `apps/dashboard/src`.
+- [todo] Add tenant context, tenant selector, and a centralized tenant-scoped API service boundary.
+- [todo] Implement tenant administration page for tenant details, event sources, operating mode, and provider connections.
+- [todo] Implement threat feed page with filters, pagination, freshness, risk bands, and score display.
+- [todo] Implement event detail page and navigation from the threat feed.
+- [todo] Implement explanation panel components for fused scores, component scores, evidence, and policy outcomes.
 - [todo] Implement threshold/profile management page.
 - [todo] Implement enforcement history page.
 
