@@ -18,7 +18,11 @@ export default function Timeline({ items }: TimelineProps) {
 		<div className="flex flex-col md:flex-row">
 			{items.map((item, index) => (
 				<div
-					className={cn('relative flex flex-1 items-start gap-3 py-4 first:pt-0 last:pb-0 md:px-4 md:py-0', index > 0 && 'border-t border-stone-300 md:border-l md:border-t-0 md:pl-6')}
+					className={cn(
+						'relative flex flex-1 items-start gap-3 py-4 first:pt-0 last:pb-0 md:px-4 md:py-0',
+						index > 0 &&
+							'border-t border-stone-300 md:border-l md:border-t-0 md:pl-6',
+					)}
 					key={item.id}
 				>
 					<div className="grid size-12 shrink-0 place-items-center rounded-full border border-primary text-primary">
