@@ -72,6 +72,12 @@
 		min-height: 100svh;
 	}
 
+	.threat-feed-scrollbar::-webkit-scrollbar-button {
+		display: none;
+		width: 0;
+		height: 0;
+	}
+
 	button,
 	input,
 	select {

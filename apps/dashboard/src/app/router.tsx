@@ -11,7 +11,11 @@ export const router = createBrowserRouter([
 		Component: AppLayout,
 		children: [
 			{ index: true, Component: Overview, handle: { title: 'Overview' } },
-			{ path: 'threat-feed', Component: ThreatFeed, handle: { title: 'Threat feed' } },
+			{
+				path: 'threat-feed',
+				Component: ThreatFeed,
+				handle: { title: 'Threat feed' },
+			},
 			{ path: 'policies', Component: Policies, handle: { title: 'Policies' } },
 			{ path: 'activity', Component: Activity, handle: { title: 'Activity' } },
 		],

@@ -10,7 +10,7 @@ type SegmentedBarProps = {
 
 export default function SegmentedBar({ items }: SegmentedBarProps) {
 	return (
-		<div className="flex gap-2">
+		<div className="flex gap-1">
 			{items.map((item) => (
 				<div
 					key={item.label}
