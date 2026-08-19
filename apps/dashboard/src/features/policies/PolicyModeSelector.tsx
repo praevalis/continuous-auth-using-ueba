@@ -3,9 +3,9 @@ import SegmentedControl from '@/components/ui/SegmentedControl';
 import type { PolicyMode } from './types';
 
 const modeOptions: Array<{ value: PolicyMode; label: string }> = [
-	{ value: 'shadow', label: 'Shadow' },
-	{ value: 'alert_only', label: 'Alert only' },
-	{ value: 'enforce', label: 'Enforce' },
+	{ value: 'shadow', label: 'Simulation' },
+	{ value: 'alert_only', label: 'Notify only' },
+	{ value: 'enforce', label: 'Active response' },
 ];
 
 type PolicyModeSelectorProps = {

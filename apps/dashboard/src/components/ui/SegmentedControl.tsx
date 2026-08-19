@@ -37,7 +37,7 @@ export default function SegmentedControl<T extends string>({
 						key={option.value}
 						type="button"
 						className={cn(
-							'min-h-10 border-r border-stone-300 px-2 text-sm last:border-r-0',
+							'min-h-10 whitespace-nowrap border-r border-stone-300 px-2 text-xs last:border-r-0 sm:text-sm',
 							isSelected
 								? 'border-b-2 border-b-primary bg-primary-soft font-semibold text-primary'
 								: 'text-carbon-700 hover:bg-stone-100',
