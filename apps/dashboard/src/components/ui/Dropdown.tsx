@@ -9,6 +9,7 @@ type DropdownProps = {
 	value?: string;
 	onChange?: (..._args: [string]) => void;
 	fullWidth?: boolean;
+	id?: string;
 };
 
 function Dropdown({
@@ -17,6 +18,7 @@ function Dropdown({
 	value,
 	onChange,
 	fullWidth = false,
+	id,
 }: DropdownProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -39,6 +41,7 @@ function Dropdown({
 			className={`relative ${fullWidth ? 'h-full w-full' : ''}`}
 		>
 			<button
+				id={id}
 				type="button"
 				className={`inline-flex items-center gap-2 ${fullWidth ? 'h-full w-full justify-between px-3' : ''}`}
 				aria-haspopup="listbox"

@@ -26,7 +26,7 @@ function FilterControl({
 	onChange: (_value: string) => void;
 }) {
 	return (
-		<div className="order-3 flex h-10 w-full items-center rounded-control border border-stone-300 bg-transparent text-xs lg:order-none">
+		<div className="order-3 flex h-10 w-full items-center rounded-control border border-stone-300 bg-transparent text-xs lg:order-2">
 			<Dropdown
 				label={label}
 				options={options}

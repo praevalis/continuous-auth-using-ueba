@@ -83,7 +83,7 @@ export default function EventDetail({
 							]}
 						/>
 						<span
-							className="absolute top-[-10px] -translate-x-1/2 text-xs"
+							className="absolute -top-2.5 -translate-x-1/2 text-xs"
 							style={{ left: `${event.score * 100}%` }}
 						>
 							▼

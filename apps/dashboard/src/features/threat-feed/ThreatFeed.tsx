@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import PageLayout from '@/components/layout/PageLayout';
 import ThreatFeedIntro from './ThreatFeedIntro';
 import ThreatFeedSignals from './ThreatFeedSignals';
@@ -32,15 +32,12 @@ export default function ThreatFeed() {
 		mockThreatEvents.find((event) => event.id === selectedId) ??
 		mockThreatEvents[0];
 
-	useEffect(() => {
-		setVisibleCount(INITIAL_PAGE_SIZE);
-	}, [filters]);
-
 	function updateFilter<Key extends keyof ThreatFeedFilters>(
 		key: Key,
 		value: ThreatFeedFilters[Key],
 	) {
 		setFilters((current) => ({ ...current, [key]: value }));
+		setVisibleCount(INITIAL_PAGE_SIZE);
 	}
 
 	return (
