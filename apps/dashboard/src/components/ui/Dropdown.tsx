@@ -63,7 +63,7 @@ function Dropdown({
 			</button>
 			{isOpen && (
 				<ul
-					className={`absolute top-full z-50 mt-2 max-w-[calc(100vw-2rem)] rounded-panel border border-stone-300 bg-paper-50 p-1 shadow-floating ${align === 'end' ? 'right-0' : 'left-0'} ${fullWidth ? 'w-full bg-paper-100' : links.length > 0 ? 'w-56' : 'min-w-40'} ${scrollable ? 'max-h-[190px] overflow-y-auto [scrollbar-color:theme(colors.primary.soft)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary-soft [&::-webkit-scrollbar-track]:bg-transparent' : ''}`}
+					className={`absolute top-full z-50 mt-2 max-w-[calc(100vw-2rem)] rounded-panel border border-stone-300 bg-paper-50 p-1 shadow-floating ${align === 'end' ? 'right-0' : 'left-0'} ${fullWidth ? 'w-full bg-paper-100' : links.length > 0 ? 'w-56' : 'min-w-40'} ${scrollable ? 'max-h-47.5 overflow-y-auto [scrollbar-color:theme(colors.primary.soft)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary-soft [&::-webkit-scrollbar-track]:bg-transparent' : ''}`}
 					role="listbox"
 					aria-label={label}
 				>
