@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { LuChevronDown } from 'react-icons/lu';
+import { NavLink } from 'react-router-dom';
 
 export type DropdownOption = { label: string; value: string };
+export type DropdownLink = { label: string; to: string };
 
 type DropdownProps = {
 	label: string;
@@ -10,6 +12,10 @@ type DropdownProps = {
 	onChange?: (..._args: [string]) => void;
 	fullWidth?: boolean;
 	id?: string;
+	links?: DropdownLink[];
+	align?: 'start' | 'end';
+	buttonClassName?: string;
+	scrollable?: boolean;
 };
 
 function Dropdown({
@@ -19,6 +25,10 @@ function Dropdown({
 	onChange,
 	fullWidth = false,
 	id,
+	links = [],
+	align = 'start',
+	buttonClassName = '',
+	scrollable = false,
 }: DropdownProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -43,7 +53,7 @@ function Dropdown({
 			<button
 				id={id}
 				type="button"
-				className={`inline-flex items-center gap-2 ${fullWidth ? 'h-full w-full justify-between px-3' : ''}`}
+				className={`inline-flex items-center gap-2 ${fullWidth ? 'h-full w-full justify-between px-3' : ''} ${buttonClassName}`}
 				aria-haspopup="listbox"
 				aria-expanded={isOpen}
 				onClick={() => setIsOpen((open) => !open)}
@@ -53,7 +63,7 @@ function Dropdown({
 			</button>
 			{isOpen && (
 				<ul
-					className={`absolute left-0 top-full z-50 mt-2 rounded-panel border border-stone-300 p-1 shadow-floating ${fullWidth ? 'w-full bg-paper-100' : 'min-w-40 bg-paper-50'}`}
+					className={`absolute top-full z-50 mt-2 max-w-[calc(100vw-2rem)] rounded-panel border border-stone-300 bg-paper-50 p-1 shadow-floating ${align === 'end' ? 'right-0' : 'left-0'} ${fullWidth ? 'w-full bg-paper-100' : links.length > 0 ? 'w-56' : 'min-w-40'} ${scrollable ? 'max-h-[190px] overflow-y-auto [scrollbar-color:theme(colors.primary.soft)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary-soft [&::-webkit-scrollbar-track]:bg-transparent' : ''}`}
 					role="listbox"
 					aria-label={label}
 				>
@@ -61,7 +71,7 @@ function Dropdown({
 						<li key={option.value}>
 							<button
 								type="button"
-								className="block w-full rounded-control px-3 py-2 text-left text-xs hover:bg-primary-soft lg:text-sm"
+								className={`block w-full rounded-control px-3 py-2 text-left text-xs hover:bg-primary-soft lg:text-sm ${scrollable ? 'h-9' : ''}`}
 								role="option"
 								aria-selected={option.value === selectedOption?.value}
 								onClick={() => {
@@ -73,6 +83,25 @@ function Dropdown({
 							</button>
 						</li>
 					))}
+					{links.length > 0 && (
+						<>
+							<li
+								className="my-1 border-t border-stone-300"
+								aria-hidden="true"
+							/>
+							{links.map((link) => (
+								<li key={link.to}>
+									<NavLink
+										to={link.to}
+										className="block rounded-control px-3 py-2 text-left text-xs hover:bg-primary-soft lg:text-sm"
+										onClick={() => setIsOpen(false)}
+									>
+										{link.label}
+									</NavLink>
+								</li>
+							))}
+						</>
+					)}
 				</ul>
 			)}
 		</div>

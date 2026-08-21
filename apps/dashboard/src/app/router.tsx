@@ -3,6 +3,9 @@ import AppLayout from '@/components/layout/AppLayout';
 import Activity from '@/features/activity/Activity';
 import Overview from '@/features/overview/Overview';
 import Policies from '@/features/policies/Policies';
+import EventSources from '@/features/settings/event-sources/EventSources';
+import ProviderConnections from '@/features/settings/provider-connections/ProviderConnections';
+import TenantSettings from '@/features/settings/tenant-settings/TenantSettings';
 import ThreatFeed from '@/features/threat-feed/ThreatFeed';
 
 export const router = createBrowserRouter([
@@ -18,6 +21,21 @@ export const router = createBrowserRouter([
 			},
 			{ path: 'policies', Component: Policies, handle: { title: 'Policies' } },
 			{ path: 'activity', Component: Activity, handle: { title: 'Activity' } },
+			{
+				path: 'settings/tenant',
+				Component: TenantSettings,
+				handle: { title: 'Tenant settings' },
+			},
+			{
+				path: 'settings/event-sources',
+				Component: EventSources,
+				handle: { title: 'Event sources and credentials' },
+			},
+			{
+				path: 'settings/providers',
+				Component: ProviderConnections,
+				handle: { title: 'Provider connections' },
+			},
 		],
 	},
 ]);

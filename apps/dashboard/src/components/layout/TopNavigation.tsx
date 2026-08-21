@@ -1,12 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import {
-	LuChevronDown,
-	LuClock3,
-	LuMenu,
-	LuUserRound,
-	LuX,
-} from 'react-icons/lu';
+import { LuClock3, LuMenu, LuX } from 'react-icons/lu';
 import logo from '@/assets/logo.svg';
 import Dropdown from '@/components/ui/Dropdown';
 
@@ -18,6 +12,11 @@ const navigationItems = [
 ];
 
 const tenantOptions = [{ label: 'Demo tenant', value: 'demo' }];
+const tenantSettingsLinks = [
+	{ label: 'Tenant settings', to: '/settings/tenant' },
+	{ label: 'Event sources & credentials', to: '/settings/event-sources' },
+	{ label: 'Provider connections', to: '/settings/providers' },
+];
 const responseModeOptions = [
 	{ label: 'Simulation', value: 'simulation' },
 	{ label: 'Notify only', value: 'notify-only' },
@@ -71,13 +70,14 @@ function MobileNavigation({ onClose }: { onClose: () => void }) {
 						Context
 					</p>
 					<div className="mt-4 space-y-4">
-						<Dropdown label="Tenant" options={tenantOptions} />
+						<Dropdown
+							label="Tenant"
+							options={tenantOptions}
+							links={tenantSettingsLinks}
+						/>
 						<Dropdown label="Response mode" options={responseModeOptions} />
 						<div className="flex items-center gap-2 text-carbon-300">
 							<LuClock3 size={15} /> Updated 12s ago
-						</div>
-						<div className="flex items-center gap-2">
-							<LuUserRound size={20} /> Analyst
 						</div>
 					</div>
 				</div>
@@ -102,16 +102,19 @@ export default function TopNavigation() {
 				</NavLink>
 				<div className="hidden h-7 w-px bg-stone-300 md:block" />
 				<div className="hidden items-center gap-6 text-sm md:flex">
-					<Dropdown label="Tenant" options={tenantOptions} />
-					<span className="h-6 w-px bg-stone-300" />
 					<Dropdown label="Response mode" options={responseModeOptions} />
 					<span className="h-6 w-px bg-stone-300" />
 					<span className="flex items-center gap-2 text-carbon-300">
 						<LuClock3 size={15} /> Updated 12s ago
 					</span>
 				</div>
-				<div className="ml-auto hidden items-center gap-3 text-sm md:flex">
-					<LuUserRound size={22} /> Analyst <LuChevronDown size={14} />
+				<div className="ml-auto hidden items-center text-sm md:flex">
+					<Dropdown
+						label="Tenant"
+						options={tenantOptions}
+						links={tenantSettingsLinks}
+						align="end"
+					/>
 				</div>
 				<button
 					className="ml-auto grid size-10 place-items-center text-primary md:hidden"
