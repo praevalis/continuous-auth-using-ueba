@@ -5,9 +5,17 @@ export default function ThreatFeedIntro() {
 			aria-labelledby="threat-feed-heading"
 		>
 			<div>
-				<p className="text-label uppercase tracking-[0.12em] text-carbon-300">
-					Monitor
-				</p>
+				<div className="flex items-center gap-3 text-label uppercase tracking-[0.12em] text-carbon-300">
+					<span
+						className="h-1 w-5 rounded-full bg-caution"
+						aria-hidden="true"
+					/>
+					<span>Monitor</span>
+					<span
+						className="h-1 w-5 rounded-full bg-caution"
+						aria-hidden="true"
+					/>
+				</div>
 				<h1
 					id="threat-feed-heading"
 					className="mt-2 max-w-4xl text-3xl font-semibold leading-tight tracking-[-0.035em] text-primary sm:text-4xl"

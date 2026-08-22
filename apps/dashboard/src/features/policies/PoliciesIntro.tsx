@@ -5,9 +5,11 @@ type PoliciesIntroProps = {
 export default function PoliciesIntro({ onCreatePolicy }: PoliciesIntroProps) {
 	return (
 		<section aria-labelledby="policies-heading">
-			<p className="text-label uppercase tracking-[0.12em] text-carbon-300">
-				Control
-			</p>
+			<div className="flex items-center gap-3 text-label uppercase tracking-[0.12em] text-carbon-300">
+				<span className="h-1 w-5 rounded-full bg-info" aria-hidden="true" />
+				<span>Control</span>
+				<span className="h-1 w-5 rounded-full bg-info" aria-hidden="true" />
+			</div>
 			<div className="mt-2 flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
 				<div>
 					<h1

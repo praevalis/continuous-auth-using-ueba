@@ -1,9 +1,11 @@
 export default function EventSourcesIntro({ onAdd }: { onAdd: () => void }) {
 	return (
 		<section aria-labelledby="event-sources-heading">
-			<p className="text-label uppercase tracking-[0.12em] text-carbon-300">
-				Ingestion
-			</p>
+			<div className="flex items-center gap-3 text-label uppercase tracking-[0.12em] text-carbon-300">
+				<span className="h-1 w-5 rounded-full bg-safe" aria-hidden="true" />
+				<span>Ingestion</span>
+				<span className="h-1 w-5 rounded-full bg-safe" aria-hidden="true" />
+			</div>
 			<div className="mt-2 flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between lg:gap-8">
 				<div>
 					<h1
