@@ -130,23 +130,28 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Add API routes for tenant-scoped event and enforcement read endpoints.
 - [done] Register event and enforcement read routes in the API route tree.
 - [done] Export OpenAPI and generate TypeScript types or client for the dashboard under `apps/dashboard/src/api/generated`.
-- [todo] Add Tailwind v4 styling foundation using the dashboard design-system tokens.
-- [todo] Add routing and the responsive application shell in `apps/dashboard/src`.
-- [todo] Add tenant context, tenant selector, and a centralized tenant-scoped API service boundary.
-- [todo] Implement tenant administration page for tenant details, event sources, operating mode, and provider connections.
-- [todo] Implement threat feed page with filters, pagination, freshness, risk bands, and score display.
-- [todo] Implement event detail page and navigation from the threat feed.
-- [todo] Implement explanation panel components for fused scores, component scores, evidence, and policy outcomes.
-- [todo] Implement threshold/profile management page.
-- [todo] Implement enforcement history page.
+- [done] Add Tailwind v4 styling foundation using the dashboard design-system tokens.
+- [done] Add routing and the responsive application shell in `apps/dashboard/src`.
+- [done] Add tenant context, tenant selector, and settings navigation using mock tenant context.
+- [done] Implement responsive mock-data pages for Overview, Threat Feed, Policies, and Activity.
+- [done] Implement responsive mock-data Tenant Settings, Event Sources, and Response Providers pages.
+- [done] Establish reusable dashboard UI patterns for navigation, dropdowns, badges, segmented bars, date pickers, and responsive page composition.
+- [todo] Add a centralized tenant-scoped API service boundary.
+- [todo] Replace dashboard mock data with generated API queries and response mappers.
+- [todo] Connect tenant settings read/update workflows.
+- [todo] Connect event source and credential creation, rotation, revocation, activation, and disable workflows.
+- [todo] Connect provider registry lookup and tenant provider connection workflows.
+- [todo] Connect threat feed filters, pagination, freshness, and event-detail workflows.
+- [todo] Connect activity date-range, lifecycle, pagination, and refresh workflows.
+- [todo] Connect policy reads and mutation workflows.
+- [todo] Add loading, empty, error, validation, and mutation states for API-backed flows.
 
 ## Phase 10: Validation and Packaging
 
-- [todo] Add backend tests.
-- [todo] Add worker/scoring tests.
-- [todo] Add dashboard tests as appropriate.
 - [todo] Add end-to-end smoke flow for Docker Compose setup.
-- [todo] Add demo seed data and replay scenarios.
+- [done] Add deterministic demo seed data, endpoint smoke-seeding, and the dependency-ordered replay flow.
 - [todo] Add runbook and operator notes.
 - [todo] Validate shadow-mode workflow.
 - [todo] Validate alert-only or enforce workflow.
+- [todo] Validate the selected Keycloak provider end to end from ingestion through scoring, policy, alerting, and enforcement.
+- [todo] Add authentication and role-based access control after the core dashboard workflows are end to end.

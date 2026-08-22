@@ -1,0 +1,360 @@
+{
+    "api": {
+        "provider_registry": {
+            "provider_key": "keycloak",
+            "display_name": "Keycloak",
+            "provider_type": "idp",
+            "connection_method": "oauth_client_credentials",
+            "supported_policy_actions": [
+                "step_up_mfa",
+                "terminate_session",
+                "lock_account"
+            ],
+            "is_active": true
+        },
+        "tenant_onboarding": {
+            "tenant": {
+                "display_name": "Acme",
+                "default_timezone": "Asia/Kolkata"
+            },
+            "initial_operating_mode": "shadow",
+            "initial_caution_threshold": 0.349,
+            "initial_lockout_threshold": 0.463,
+            "initial_fusion_alpha": 0.5,
+            "hash_algorithm": "sha256"
+        },
+        "event_source": {
+            "source_name": "Demo IdP",
+            "source_type": "idp",
+            "payload_format": "json",
+            "vendor": "demo",
+            "external_reference": "demo-idp",
+            "status": "active"
+        },
+        "ingestion_credential": {
+            "credential_name": "Demo ingestion key",
+            "credential_type": "api_key"
+        },
+        "provider_connection": {
+            "connection_name": "Demo Keycloak",
+            "base_url": "http://keycloak:8080",
+            "auth_realm": "demo",
+            "client_id": "continuous-auth-demo",
+            "client_secret_ref": "<KEYCLOAK_DEMO_CLIENT_SECRET>",
+            "status": "disabled"
+        },
+        "event": {
+            "source_event_id": "demo-sign-in-0001",
+            "occurred_at": "2026-08-22T09:30:00Z",
+            "payload_schema_version": 1,
+            "raw_payload": {
+                "user_id": "demo.alice@example.test",
+                "account_id": "demo-alice",
+                "session_id": "demo-session-0001",
+                "source_ip": "198.51.100.42",
+                "device_id": "demo-laptop-01",
+                "host": "demo-workstation-01",
+                "event_type": "interactive_sign_in",
+                "outcome": "success",
+                "auth_method": "password",
+                "location": {
+                    "country": "IN",
+                    "region": "KA"
+                }
+            }
+        }
+    },
+    "database": {
+        "auth_events": [
+            {
+                "key": "event-safe-01",
+                "source_event_id": "demo-sign-in-0001",
+                "occurred_at": "2026-08-22T09:30:00Z",
+                "event_type": "interactive_sign_in",
+                "outcome": "success",
+                "user_hash": "demo-user-alice",
+                "account_hash": "demo-account-alice",
+                "session_hash": "demo-session-0001",
+                "source_ip_hash": "demo-ip-01",
+                "source_ip_prefix": "198.51.100.0/24",
+                "device_hash": "demo-device-01",
+                "host_hash": "demo-host-01",
+                "auth_method": "password",
+                "location_country": "IN",
+                "location_region": "KA",
+                "occurred_hour": 15,
+                "occurred_day_of_week": 5,
+                "hash_key_version": 1,
+                "payload_schema_version": 1
+            },
+            {
+                "key": "event-caution-01",
+                "source_event_id": "demo-sign-in-0002",
+                "occurred_at": "2026-08-22T11:45:00Z",
+                "event_type": "interactive_sign_in",
+                "outcome": "challenge",
+                "user_hash": "demo-user-bob",
+                "account_hash": "demo-account-bob",
+                "session_hash": "demo-session-0002",
+                "source_ip_hash": "demo-ip-02",
+                "source_ip_prefix": "203.0.113.0/24",
+                "device_hash": "demo-device-02",
+                "host_hash": "demo-host-02",
+                "auth_method": "password",
+                "location_country": "IN",
+                "location_region": "MH",
+                "occurred_hour": 17,
+                "occurred_day_of_week": 5,
+                "hash_key_version": 1,
+                "payload_schema_version": 1
+            },
+            {
+                "key": "event-lockout-01",
+                "source_event_id": "demo-sign-in-0003",
+                "occurred_at": "2026-08-22T23:10:00Z",
+                "event_type": "interactive_sign_in",
+                "outcome": "failure",
+                "user_hash": "demo-user-carol",
+                "account_hash": "demo-account-carol",
+                "session_hash": "demo-session-0003",
+                "source_ip_hash": "demo-ip-03",
+                "source_ip_prefix": "192.0.2.0/24",
+                "device_hash": "demo-device-03",
+                "host_hash": "demo-host-03",
+                "auth_method": "password",
+                "failure_reason": "invalid_credentials",
+                "location_country": "US",
+                "location_region": "VA",
+                "occurred_hour": 4,
+                "occurred_day_of_week": 5,
+                "hash_key_version": 1,
+                "payload_schema_version": 1
+            }
+        ],
+        "processing_runs": [
+            {
+                "key": "run-safe-01",
+                "event_key": "event-safe-01",
+                "job_type": "score_event",
+                "status": "succeeded",
+                "attempt_count": 1,
+                "correlation_id": "seed-safe-01",
+                "queued_at": "2026-08-22T09:30:01Z",
+                "started_at": "2026-08-22T09:30:02Z",
+                "finished_at": "2026-08-22T09:30:03Z"
+            },
+            {
+                "key": "run-caution-01",
+                "event_key": "event-caution-01",
+                "job_type": "score_event",
+                "status": "succeeded",
+                "attempt_count": 1,
+                "correlation_id": "seed-caution-01",
+                "queued_at": "2026-08-22T11:45:01Z",
+                "started_at": "2026-08-22T11:45:02Z",
+                "finished_at": "2026-08-22T11:45:04Z"
+            },
+            {
+                "key": "run-lockout-01",
+                "event_key": "event-lockout-01",
+                "job_type": "score_event",
+                "status": "succeeded",
+                "attempt_count": 2,
+                "correlation_id": "seed-lockout-01",
+                "queued_at": "2026-08-22T23:10:01Z",
+                "started_at": "2026-08-22T23:10:02Z",
+                "finished_at": "2026-08-22T23:10:05Z"
+            }
+        ],
+        "feature_snapshots": [
+            {
+                "key": "features-safe-01",
+                "event_key": "event-safe-01",
+                "run_key": "run-safe-01",
+                "login_frequency": 0.18,
+                "avg_inter_event_time": 3600.0,
+                "time_since_last_login": 1800.0,
+                "unique_hosts": 1.0,
+                "host_entropy": 0.0,
+                "top_host_ratio": 1.0,
+                "degree_centrality": 0.05,
+                "hour_of_day": 15,
+                "day_of_week": 5,
+                "feature_version": 1
+            },
+            {
+                "key": "features-caution-01",
+                "event_key": "event-caution-01",
+                "run_key": "run-caution-01",
+                "login_frequency": 0.62,
+                "avg_inter_event_time": 720.0,
+                "time_since_last_login": 90.0,
+                "unique_hosts": 3.0,
+                "host_entropy": 1.02,
+                "top_host_ratio": 0.55,
+                "degree_centrality": 0.32,
+                "hour_of_day": 17,
+                "day_of_week": 5,
+                "feature_version": 1
+            },
+            {
+                "key": "features-lockout-01",
+                "event_key": "event-lockout-01",
+                "run_key": "run-lockout-01",
+                "login_frequency": 0.95,
+                "avg_inter_event_time": 120.0,
+                "time_since_last_login": 15.0,
+                "unique_hosts": 8.0,
+                "host_entropy": 2.71,
+                "top_host_ratio": 0.2,
+                "degree_centrality": 0.87,
+                "hour_of_day": 4,
+                "day_of_week": 5,
+                "feature_version": 1
+            }
+        ],
+        "host_interaction_snapshots": [
+            {
+                "key": "hosts-safe-01",
+                "event_key": "event-safe-01",
+                "run_key": "run-safe-01",
+                "user_hash": "demo-user-alice",
+                "host_hash": "demo-host-01",
+                "interaction_count": 12
+            },
+            {
+                "key": "hosts-caution-01",
+                "event_key": "event-caution-01",
+                "run_key": "run-caution-01",
+                "user_hash": "demo-user-bob",
+                "host_hash": "demo-host-02",
+                "interaction_count": 5
+            },
+            {
+                "key": "hosts-lockout-01",
+                "event_key": "event-lockout-01",
+                "run_key": "run-lockout-01",
+                "user_hash": "demo-user-carol",
+                "host_hash": "demo-host-03",
+                "interaction_count": 1
+            }
+        ],
+        "risk_scores": [
+            {
+                "key": "score-safe-01",
+                "event_key": "event-safe-01",
+                "run_key": "run-safe-01",
+                "feature_key": "features-safe-01",
+                "model_version": "seed-model-v1",
+                "global_anomaly_score": 0.08,
+                "local_anomaly_score_raw": 0.12,
+                "local_anomaly_score_normalized": 0.1,
+                "fusion_alpha": 0.5,
+                "fused_anomaly_score": 0.09,
+                "score_band": "safe"
+            },
+            {
+                "key": "score-caution-01",
+                "event_key": "event-caution-01",
+                "run_key": "run-caution-01",
+                "feature_key": "features-caution-01",
+                "model_version": "seed-model-v1",
+                "global_anomaly_score": 0.42,
+                "local_anomaly_score_raw": 0.5,
+                "local_anomaly_score_normalized": 0.48,
+                "fusion_alpha": 0.5,
+                "fused_anomaly_score": 0.45,
+                "score_band": "caution"
+            },
+            {
+                "key": "score-lockout-01",
+                "event_key": "event-lockout-01",
+                "run_key": "run-lockout-01",
+                "feature_key": "features-lockout-01",
+                "model_version": "seed-model-v1",
+                "global_anomaly_score": 0.78,
+                "local_anomaly_score_raw": 0.91,
+                "local_anomaly_score_normalized": 0.88,
+                "fusion_alpha": 0.5,
+                "fused_anomaly_score": 0.83,
+                "score_band": "lockout"
+            }
+        ],
+        "policy_decisions": [
+            {
+                "key": "decision-safe-01",
+                "event_key": "event-safe-01",
+                "score_key": "score-safe-01",
+                "decision_band": "safe",
+                "recommended_action": "allow",
+                "final_action": "allow",
+                "decision_reason": "Activity remains within the expected range."
+            },
+            {
+                "key": "decision-caution-01",
+                "event_key": "event-caution-01",
+                "score_key": "score-caution-01",
+                "decision_band": "caution",
+                "recommended_action": "step_up_mfa",
+                "final_action": "step_up_mfa",
+                "decision_reason": "Activity differs from the user's recent pattern."
+            },
+            {
+                "key": "decision-lockout-01",
+                "event_key": "event-lockout-01",
+                "score_key": "score-lockout-01",
+                "decision_band": "lockout",
+                "recommended_action": "terminate_session",
+                "final_action": "terminate_session",
+                "decision_reason": "The overall risk score exceeds the block threshold."
+            }
+        ],
+        "alerts": [
+            {
+                "key": "alert-caution-01",
+                "decision_key": "decision-caution-01",
+                "score_key": "score-caution-01",
+                "severity": "medium",
+                "status": "open",
+                "title": "Unusual sign-in activity",
+                "summary": "A sign-in differs from the user's recent activity pattern."
+            },
+            {
+                "key": "alert-lockout-01",
+                "decision_key": "decision-lockout-01",
+                "score_key": "score-lockout-01",
+                "severity": "high",
+                "status": "acknowledged",
+                "title": "High-risk sign-in blocked",
+                "summary": "A high-risk sign-in triggered a session termination response.",
+                "acknowledged_at": "2026-08-22T23:15:00Z"
+            }
+        ],
+        "enforcement_actions": [
+            {
+                "key": "action-caution-01",
+                "decision_key": "decision-caution-01",
+                "event_source_required": true,
+                "action_type": "step_up_mfa",
+                "target_user_hash": "demo-user-bob",
+                "integration_name": "keycloak",
+                "status": "skipped",
+                "attempt_count": 0,
+                "requested_at": "2026-08-22T11:45:05Z"
+            },
+            {
+                "key": "action-lockout-01",
+                "decision_key": "decision-lockout-01",
+                "event_source_required": true,
+                "action_type": "terminate_session",
+                "target_user_hash": "demo-user-carol",
+                "integration_name": "keycloak",
+                "status": "succeeded",
+                "attempt_count": 1,
+                "external_action_id": "seed-action-lockout-01",
+                "requested_at": "2026-08-22T23:10:06Z",
+                "completed_at": "2026-08-22T23:10:07Z"
+            }
+        ]
+    }
+}

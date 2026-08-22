@@ -19,6 +19,7 @@ venv/
 .env
 .env.*
 !.env.template
+infra/seed/seed-state.json
 
 # Frontend
 node_modules/
