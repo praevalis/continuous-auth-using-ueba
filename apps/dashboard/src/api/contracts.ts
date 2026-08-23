@@ -45,6 +45,8 @@ export type OperatingModeCreate =
 	components['schemas']['TenantOperatingModeCreateSchema'];
 export type ThresholdProfile =
 	components['schemas']['TenantThresholdProfileSchema'];
+export type ThresholdProfileCreate =
+	components['schemas']['TenantThresholdProfileCreateSchema'];
 export type OperatingModeValue = components['schemas']['OperatingMode'];
 export type ProviderConnectionMethod =
 	components['schemas']['ProviderConnectionMethod'];

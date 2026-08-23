@@ -7,5 +7,6 @@ export { usePolicyModeMutation } from './usePolicyModeMutation';
 export { useProviderConnections } from './useProviderConnections';
 export { useTenantSettings } from './useTenantSettings';
 export { useTenantUpdate } from './useTenantUpdate';
+export { useThresholdProfileMutation } from './useThresholdProfileMutation';
 export { useThreatFeed } from './useThreatFeed';
 export { useThreatFeedEvent } from './useThreatFeedEvent';

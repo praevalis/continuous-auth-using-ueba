@@ -11,6 +11,7 @@ type SegmentedControlProps<T extends string> = {
 	selectedValue: T;
 	onChange: (_value: T) => void;
 	className?: string;
+	disabled?: boolean;
 };
 
 export default function SegmentedControl<T extends string>({
@@ -18,6 +19,7 @@ export default function SegmentedControl<T extends string>({
 	selectedValue,
 	onChange,
 	className,
+	disabled = false,
 }: SegmentedControlProps<T>) {
 	return (
 		<div
@@ -36,11 +38,12 @@ export default function SegmentedControl<T extends string>({
 					<button
 						key={option.value}
 						type="button"
+						disabled={disabled}
 						className={cn(
 							'min-h-10 whitespace-nowrap border-r border-stone-300 px-2 text-xs last:border-r-0 sm:text-sm',
 							isSelected
 								? 'border-b-2 border-b-primary bg-primary-soft font-semibold text-primary'
-								: 'text-carbon-700 hover:bg-stone-100',
+								: 'text-carbon-700 hover:bg-stone-100 disabled:cursor-not-allowed disabled:opacity-50',
 						)}
 						onClick={() => onChange(option.value)}
 						aria-pressed={isSelected}

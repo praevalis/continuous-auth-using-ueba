@@ -14,6 +14,7 @@ export type Policy = {
 	name: string;
 	status: 'active' | 'inactive';
 	description: string;
+	fusionAlpha: number | null;
 	mode: PolicyMode;
 	responses: PolicyResponse[];
 };

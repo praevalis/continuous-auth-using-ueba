@@ -210,7 +210,7 @@ export default function DateTimePicker({
 	return (
 		<div ref={containerRef} className="relative min-w-0 flex-1">
 			<label
-				className="mb-1 block text-xs text-carbon-300"
+				className="mb-1 block text-sm text-primary"
 				htmlFor={`${label}-date`}
 			>
 				{label}

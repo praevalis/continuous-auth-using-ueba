@@ -21,6 +21,7 @@ import type {
 	TenantProviderConnectionCreate,
 	TenantUpdate,
 	ThresholdProfile,
+	ThresholdProfileCreate,
 } from './contracts';
 
 export type ApiError = Error & { status?: number };
@@ -200,4 +201,10 @@ export const api = {
 
 	listProfiles: (tenantId: string) =>
 		request<ThresholdProfile[]>(`/tenants/${tenantId}/threshold-profiles`),
+
+	createProfile: (tenantId: string, body: ThresholdProfileCreate) =>
+		request<ThresholdProfile>(`/tenants/${tenantId}/threshold-profiles`, {
+			method: 'POST',
+			body: JSON.stringify(body),
+		}),
 };

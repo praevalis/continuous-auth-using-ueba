@@ -16,6 +16,7 @@ type DropdownProps = {
 	align?: 'start' | 'end';
 	buttonClassName?: string;
 	scrollable?: boolean;
+	disabled?: boolean;
 };
 
 function Dropdown({
@@ -29,6 +30,7 @@ function Dropdown({
 	align = 'start',
 	buttonClassName = '',
 	scrollable = false,
+	disabled = false,
 }: DropdownProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -53,7 +55,8 @@ function Dropdown({
 			<button
 				id={id}
 				type="button"
-				className={`inline-flex items-center gap-2 ${fullWidth ? 'h-full w-full justify-between px-3' : ''} ${buttonClassName}`}
+				disabled={disabled}
+				className={`inline-flex items-center gap-2 disabled:cursor-not-allowed disabled:opacity-60 ${fullWidth ? 'h-full w-full justify-between px-3' : ''} ${buttonClassName}`}
 				aria-haspopup="listbox"
 				aria-expanded={isOpen}
 				onClick={() => setIsOpen((open) => !open)}

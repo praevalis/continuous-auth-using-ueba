@@ -1,4 +1,3 @@
-import { LuPencil } from 'react-icons/lu';
 import type { PolicyResponse } from './types';
 
 const toneClasses = {
@@ -9,13 +8,42 @@ const toneClasses = {
 
 type PolicyResponsesProps = {
 	responses: PolicyResponse[];
-	onEdit: (_BAND: PolicyResponse['band']) => void;
 };
 
-export default function PolicyResponses({
-	responses,
-	onEdit,
-}: PolicyResponsesProps) {
+export function PolicyResponsesSkeleton() {
+	return (
+		<section
+			className="mt-12"
+			aria-label="Loading policy response rules"
+			aria-busy="true"
+		>
+			<div className="grid lg:grid-cols-3 lg:divide-x lg:divide-stone-300">
+				{['safe', 'caution', 'lockout'].map((band) => (
+					<article
+						key={band}
+						className="flex min-h-48 flex-col py-6 first:pt-0 last:pb-0 lg:px-6 lg:py-0 lg:first:pl-0 lg:last:pr-0"
+						aria-hidden="true"
+					>
+						<div className="h-0.5 w-full bg-stone-200" />
+						<div className="flex flex-col pt-5">
+							<div className="flex items-center gap-3">
+								<span className="size-3 animate-pulse rounded-full bg-stone-200" />
+								<span className="h-4 w-20 animate-pulse rounded bg-stone-200" />
+							</div>
+							<span className="mt-5 h-5 w-44 animate-pulse rounded bg-stone-200" />
+							<div className="mt-3 max-w-sm space-y-2">
+								<span className="block h-3 w-full animate-pulse rounded bg-stone-200" />
+								<span className="block h-3 w-3/4 animate-pulse rounded bg-stone-200" />
+							</div>
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
+	);
+}
+
+export default function PolicyResponses({ responses }: PolicyResponsesProps) {
 	return (
 		<section className="mt-12" aria-label="Policy response rules">
 			<div className="grid lg:grid-cols-3 lg:divide-x lg:divide-stone-300">
@@ -24,10 +52,10 @@ export default function PolicyResponses({
 					return (
 						<article
 							key={response.band}
-							className="flex min-h-56 flex-col py-6 first:pt-0 last:pb-0 lg:px-6 lg:py-0 lg:first:pl-0 lg:last:pr-0"
+							className="flex min-h-48 flex-col py-6 first:pt-0 last:pb-0 lg:px-6 lg:py-0 lg:first:pl-0 lg:last:pr-0"
 						>
 							<div className={`h-0.5 w-full ${tone.line}`} aria-hidden="true" />
-							<div className="flex flex-1 flex-col pt-5">
+							<div className="flex flex-col pt-5">
 								<div
 									className={`flex items-center gap-3 font-semibold ${tone.text}`}
 								>
@@ -43,14 +71,6 @@ export default function PolicyResponses({
 								<p className="mt-2 max-w-sm text-sm leading-6 text-carbon-300">
 									{response.description}
 								</p>
-								<button
-									type="button"
-									className="mt-auto inline-flex min-h-10 items-center gap-2 pt-4 text-sm text-primary transition hover:text-carbon-300"
-									onClick={() => onEdit(response.band)}
-								>
-									<LuPencil size={16} aria-hidden="true" />
-									Edit
-								</button>
 							</div>
 						</article>
 					);
