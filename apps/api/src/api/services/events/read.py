@@ -7,6 +7,7 @@ from schemas.enforcement import EnforcementActionSchema
 from schemas.event import (
 	AuthEventDetailSchema,
 	AuthEventListFilterParams,
+	AuthEventListItemSchema,
 	AuthEventSchema,
 )
 from schemas.policy import PolicyDecisionSchema
@@ -14,6 +15,7 @@ from schemas.scoring import (
 	EventProcessingRunSchema,
 	FeatureSnapshotSchema,
 	RiskScoreSchema,
+	RiskScoreSummarySchema,
 )
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -35,7 +37,17 @@ class AuthEventReadService:
 		result = await self._repository.list_auth_events_for_tenant(tenant_id, filters)
 		item_count = len(result.items)
 		return AuthEventListResponseSchema(
-			items=[AuthEventSchema.model_validate(event) for event in result.items],
+			items=[
+				AuthEventListItemSchema(
+					**AuthEventSchema.model_validate(item.event).model_dump(),
+					risk_score=(
+						None
+						if item.risk_score is None
+						else RiskScoreSummarySchema.model_validate(item.risk_score)
+					),
+				)
+				for item in result.items
+			],
 			pagination=OffsetPaginationSchema(
 				limit=filters.limit,
 				offset=filters.offset,

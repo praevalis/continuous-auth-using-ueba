@@ -1,7 +1,12 @@
 """Database repositories package."""
 
 from database.repositories.alert import AlertListResult, AlertRepository
-from database.repositories.auth_event import AuthEventListResult, AuthEventRepository
+from database.repositories.auth_event import (
+	AuthEventListItem,
+	AuthEventListResult,
+	AuthEventListRiskScore,
+	AuthEventRepository,
+)
 from database.repositories.enforcement_action import (
 	EnforcementActionListResult,
 	EnforcementActionRepository,
@@ -36,7 +41,9 @@ from database.repositories.tenant_threshold_profile import (
 __all__ = [
 	'AlertListResult',
 	'AlertRepository',
+	'AuthEventListItem',
 	'AuthEventListResult',
+	'AuthEventListRiskScore',
 	'AuthEventRepository',
 	'EnforcementActionListResult',
 	'EnforcementActionRepository',

@@ -3,7 +3,7 @@ from uuid import UUID, uuid4
 
 from domain.policy import ScoreBand
 from domain.scoring import ProcessingJobType, ProcessingRunStatus
-from sqlalchemy import Float, ForeignKey, Integer, String, UniqueConstraint
+from sqlalchemy import Float, ForeignKey, Index, Integer, String, UniqueConstraint
 from sqlalchemy.dialects.postgresql import TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID as PGUUID
 from sqlalchemy.orm import Mapped, mapped_column
@@ -130,6 +130,14 @@ class HostInteractionSnapshotModel(Base):
 
 class RiskScoreModel(Base):
 	__tablename__ = 'risk_scores'
+	__table_args__ = (
+		Index(
+			'ix_risk_scores_tenant_event_scored_at',
+			'tenant_id',
+			'auth_event_id',
+			'scored_at',
+		),
+	)
 
 	id: Mapped[UUID] = mapped_column(
 		PGUUID(as_uuid=True),

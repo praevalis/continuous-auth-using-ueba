@@ -155,6 +155,15 @@ class RiskScoreSchema(SchemaModel):
 	scored_at: datetime
 
 
+class RiskScoreSummarySchema(SchemaModel):
+	"""Compact risk-score projection embedded in event list responses."""
+
+	fused_anomaly_score: float
+	caution_threshold_applied: float
+	lockout_threshold_applied: float
+	score_band: ScoreBand
+
+
 class RiskScoreCreateSchema(SchemaModel):
 	tenant_id: UUID
 	auth_event_id: UUID

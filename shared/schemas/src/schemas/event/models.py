@@ -15,6 +15,7 @@ from schemas.scoring.models import (
 	EventProcessingRunSchema,
 	FeatureSnapshotSchema,
 	RiskScoreSchema,
+	RiskScoreSummarySchema,
 )
 
 
@@ -47,6 +48,12 @@ class AuthEventSchema(SchemaModel):
 	raw_payload_redacted: dict[str, Any] | None = None
 	normalization_metadata: dict[str, Any] | None = None
 	created_at: datetime
+
+
+class AuthEventListItemSchema(AuthEventSchema):
+	"""Authentication event with its latest compact risk-score projection."""
+
+	risk_score: RiskScoreSummarySchema | None = None
 
 
 class AuthEventIngestionRequestSchema(SchemaModel):

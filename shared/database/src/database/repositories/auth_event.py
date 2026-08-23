@@ -3,17 +3,36 @@ from typing import Any
 from uuid import UUID
 
 from domain.exceptions import AuthEventNotFoundError
+from domain.policy import ScoreBand
 from schemas.event import AuthEventCreateSchema, AuthEventListFilterParams
-from sqlalchemy import func, select
+from sqlalchemy import and_, func, select
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from database.models import AuthEventModel
+from database.models import AuthEventModel, RiskScoreModel
+
+
+@dataclass(slots=True)
+class AuthEventListRiskScore:
+	"""Compact latest risk-score values returned with an event list item."""
+
+	fused_anomaly_score: float
+	caution_threshold_applied: float
+	lockout_threshold_applied: float
+	score_band: ScoreBand
+
+
+@dataclass(slots=True)
+class AuthEventListItem:
+	"""An authentication event and its optional latest risk score."""
+
+	event: AuthEventModel
+	risk_score: AuthEventListRiskScore | None
 
 
 @dataclass(slots=True)
 class AuthEventListResult:
-	items: list[AuthEventModel]
+	items: list[AuthEventListItem]
 	total_count: int
 
 
@@ -134,8 +153,42 @@ class AuthEventRepository:
 		filters: AuthEventListFilterParams,
 	) -> AuthEventListResult:
 		"""Return a paginated event list for a tenant."""
-		statement: Any = select(AuthEventModel).where(
-			AuthEventModel.tenant_id == tenant_id
+		latest_score = (
+			select(
+				RiskScoreModel.auth_event_id.label('risk_score_event_id'),
+				RiskScoreModel.fused_anomaly_score,
+				RiskScoreModel.caution_threshold_applied,
+				RiskScoreModel.lockout_threshold_applied,
+				RiskScoreModel.score_band,
+				func.row_number()
+				.over(
+					partition_by=RiskScoreModel.auth_event_id,
+					order_by=(
+						RiskScoreModel.scored_at.desc(),
+						RiskScoreModel.id.desc(),
+					),
+				)
+				.label('score_rank'),
+			)
+			.where(RiskScoreModel.tenant_id == tenant_id)
+			.subquery()
+		)
+		statement: Any = (
+			select(
+				AuthEventModel,
+				latest_score.c.fused_anomaly_score,
+				latest_score.c.caution_threshold_applied,
+				latest_score.c.lockout_threshold_applied,
+				latest_score.c.score_band,
+			)
+			.outerjoin(
+				latest_score,
+				and_(
+					latest_score.c.risk_score_event_id == AuthEventModel.id,
+					latest_score.c.score_rank == 1,
+				),
+			)
+			.where(AuthEventModel.tenant_id == tenant_id)
 		)
 		count_statement: Any = (
 			select(func.count())
@@ -162,10 +215,21 @@ class AuthEventRepository:
 			.offset(filters.offset)
 		)
 		total_count = (await self._session.execute(count_statement)).scalar_one()
-		return AuthEventListResult(
-			items=list(rows.scalars().all()),
-			total_count=total_count,
-		)
+		items: list[AuthEventListItem] = []
+		for row in rows:
+			event = row[0]
+			risk_score = (
+				None
+				if row[1] is None
+				else AuthEventListRiskScore(
+					fused_anomaly_score=row[1],
+					caution_threshold_applied=row[2],
+					lockout_threshold_applied=row[3],
+					score_band=row[4],
+				)
+			)
+			items.append(AuthEventListItem(event=event, risk_score=risk_score))
+		return AuthEventListResult(items=items, total_count=total_count)
 
 	@staticmethod
 	def _apply_event_filters(

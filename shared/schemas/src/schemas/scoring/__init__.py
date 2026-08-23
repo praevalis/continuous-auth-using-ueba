@@ -16,6 +16,7 @@ from schemas.scoring.models import (
 	RiskScoreCreateSchema,
 	RiskScoreFilterParams,
 	RiskScoreSchema,
+	RiskScoreSummarySchema,
 	RiskSummaryFilterParams,
 	RiskSummarySchema,
 )
@@ -36,6 +37,7 @@ __all__ = [
 	'RiskScoreCreateSchema',
 	'RiskScoreFilterParams',
 	'RiskScoreSchema',
+	'RiskScoreSummarySchema',
 	'RiskSummaryFilterParams',
 	'RiskSummarySchema',
 ]

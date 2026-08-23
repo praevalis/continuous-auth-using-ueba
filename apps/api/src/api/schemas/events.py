@@ -1,9 +1,9 @@
 from schemas.base import SchemaModel
-from schemas.event import AuthEventSchema
+from schemas.event import AuthEventListItemSchema
 
 from api.core.pagination import OffsetPaginationSchema
 
 
 class AuthEventListResponseSchema(SchemaModel):
-	items: list[AuthEventSchema]
+	items: list[AuthEventListItemSchema]
 	pagination: OffsetPaginationSchema
