@@ -6,14 +6,14 @@ import {
 } from 'react-icons/lu';
 import type { RiskSummary } from '@/api/contracts';
 import Badge from '@/components/ui/Badge';
-import { formatThreatFeedTime } from './adapters';
+import { formatTimestamp } from '@/utils';
 
 function formatCount(value: number | undefined) {
 	return value === undefined ? '—' : value.toLocaleString();
 }
 
 function formatUpdatedAt(value: string | null) {
-	return value ? `Updated ${formatThreatFeedTime(value)}` : '—';
+	return value ? `Updated ${formatTimestamp(value)}` : '—';
 }
 
 export default function ThreatFeedSignals({

@@ -4,6 +4,7 @@ import type {
 	AuthEventListItem,
 	PolicyDecision,
 } from '@/api/contracts';
+import { formatTimestamp } from '@/utils';
 import type { ThreatEvent } from './types';
 
 function displayLabel(value: string) {
@@ -11,33 +12,6 @@ function displayLabel(value: string) {
 		.split('_')
 		.map((part) => part.charAt(0).toUpperCase() + part.slice(1))
 		.join(' ');
-}
-
-export function formatThreatFeedTime(value: string, now = new Date()) {
-	const date = new Date(value);
-	const sameYear = date.getFullYear() === now.getFullYear();
-	const dateStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-	const eventStart = new Date(
-		date.getFullYear(),
-		date.getMonth(),
-		date.getDate(),
-	);
-	const daysAgo = Math.round(
-		(dateStart.getTime() - eventStart.getTime()) / (24 * 60 * 60 * 1000),
-	);
-	const time = new Intl.DateTimeFormat(undefined, {
-		hour: '2-digit',
-		minute: '2-digit',
-	}).format(date);
-
-	if (daysAgo === 0) return `Today · ${time}`;
-
-	const datePart = new Intl.DateTimeFormat(undefined, {
-		day: '2-digit',
-		month: 'short',
-		year: sameYear ? undefined : 'numeric',
-	}).format(date);
-	return `${datePart} · ${time}`;
 }
 
 function displayNumber(value: number | null | undefined) {
@@ -111,7 +85,7 @@ function responseActivity(
 		activity.push({
 			id,
 			dateTime,
-			time: formatThreatFeedTime(dateTime),
+			time: formatTimestamp(dateTime),
 			label,
 		});
 	};
@@ -166,7 +140,7 @@ export function mapThreatEvent(
 	return {
 		id: event.id,
 		dateTime: event.occurred_at,
-		time: formatThreatFeedTime(event.occurred_at),
+		time: formatTimestamp(event.occurred_at),
 		initials: event.user_hash.slice(0, 2).toUpperCase(),
 		user: `User ${event.user_hash.slice(0, 8)}`,
 		signInType: displayLabel(event.event_type),

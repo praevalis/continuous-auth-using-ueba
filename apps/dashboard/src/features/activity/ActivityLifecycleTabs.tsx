@@ -24,7 +24,7 @@ export default function ActivityLifecycleTabs({
 	selectedId,
 	onSelect,
 }: {
-	sections: ActivitySection[];
+	sections: Array<Pick<ActivitySection, 'id' | 'title'>>;
 	selectedId: ActivityKind;
 	onSelect: (_id: ActivityKind) => void;
 }) {

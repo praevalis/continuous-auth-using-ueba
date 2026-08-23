@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 import Badge from '@/components/ui/Badge';
 import type { ThreatEvent } from './types';
 import EventDetail from './EventDetail';
-import { formatThreatFeedTime } from './adapters';
+import { formatTimestamp } from '@/utils';
 
 function toneClass(tone: ThreatEvent['tone']) {
 	return tone === 'safe'
@@ -287,7 +287,7 @@ export default function ThreatLedger({
 	updatedAt: string | null;
 }) {
 	const updatedLabel = updatedAt
-		? `Updated ${formatThreatFeedTime(updatedAt)}`
+		? `Updated ${formatTimestamp(updatedAt)}`
 		: '—';
 	return (
 		<section

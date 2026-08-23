@@ -19,9 +19,10 @@ export type ActivityDisplayStatus =
 
 export type ActivityEntry = {
 	id: string;
+	dateTime: string;
 	time: string;
 	title: string;
-	user: string;
+	context: string;
 	status: ActivityDisplayStatus;
 	statusTone: ActivityTone;
 };

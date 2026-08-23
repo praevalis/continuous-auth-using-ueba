@@ -1,6 +1,10 @@
 import { LuClock3 } from 'react-icons/lu';
 
-export default function ActivityIntro() {
+export default function ActivityIntro({
+	loading = false,
+}: {
+	loading?: boolean;
+}) {
 	return (
 		<section
 			className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between"
@@ -30,7 +34,8 @@ export default function ActivityIntro() {
 				</p>
 			</div>
 			<p className="inline-flex min-h-10 items-center gap-2 self-start rounded-md border border-stone-300 px-4 py-2 text-sm text-carbon-300 lg:mt-7">
-				<LuClock3 size={16} aria-hidden="true" /> Updated 12s ago
+				<LuClock3 size={16} aria-hidden="true" />
+				{loading ? 'Loading activity' : 'Live activity'}
 			</p>
 		</section>
 	);
