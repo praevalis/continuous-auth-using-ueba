@@ -1,25 +1,104 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { api } from '@/api/client';
+import { useTenant } from '@/api/tenant';
 import PageLayout from '@/components/layout/PageLayout';
-import { mockPolicies } from './mock-data';
 import PolicyModeSelector from './PolicyModeSelector';
 import PoliciesIntro from './PoliciesIntro';
 import PolicyResponses from './PolicyResponses';
 import PolicySelector from './PolicySelector';
-import type { PolicyMode } from './types';
+import type { Policy, PolicyMode } from './types';
 
 export default function Policies() {
-	const [selectedPolicyId, setSelectedPolicyId] = useState(mockPolicies[0].id);
+	const { tenant } = useTenant();
+	const [policies, setPolicies] = useState<Policy[]>([]);
+	const [selectedPolicyId, setSelectedPolicyId] = useState('');
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+	const [mode, setMode] = useState<PolicyMode>('shadow');
+	const load = useCallback(async () => {
+		if (!tenant) return;
+		setLoading(true);
+		try {
+			const [profiles, modes] = await Promise.all([
+				api.listProfiles(tenant.id),
+				api.listModes(tenant.id),
+			]);
+			const mode = modes.find((item) => item.is_active)?.mode ?? 'shadow';
+			setMode(mode);
+			setPolicies(
+				profiles.map((profile) => ({
+					id: profile.id,
+					name: profile.name,
+					status: profile.is_active ? 'active' : 'inactive',
+					description:
+						profile.description ?? 'Risk thresholds for sign-in review.',
+					mode,
+					responses: [
+						{
+							band: 'safe',
+							label: 'Safe',
+							action: 'Allow sign-in',
+							description: 'No response is taken.',
+						},
+						{
+							band: 'caution',
+							label: 'Caution',
+							action: 'Ask for extra verification',
+							description: `Review threshold ${profile.caution_threshold.toFixed(3)}.`,
+						},
+						{
+							band: 'lockout',
+							label: 'Lockout',
+							action: 'End session',
+							description: `Block threshold ${profile.lockout_threshold.toFixed(3)}.`,
+						},
+					],
+				})),
+			);
+			setSelectedPolicyId((current) => current || profiles[0]?.id || '');
+			setError(null);
+		} catch (reason) {
+			setError(
+				reason instanceof Error
+					? reason.message
+					: 'Unable to load risk settings',
+			);
+		} finally {
+			setLoading(false);
+		}
+	}, [tenant]);
+	useEffect(() => {
+		queueMicrotask(() => void load());
+	}, [load]);
 	const selectedPolicy =
-		mockPolicies.find((policy) => policy.id === selectedPolicyId) ??
-		mockPolicies[0];
-	const [mode, setMode] = useState<PolicyMode>(selectedPolicy.mode);
+		policies.find((policy) => policy.id === selectedPolicyId) ?? policies[0];
+	if (loading)
+		return (
+			<PageLayout title="Policies">
+				<p className="mt-10 text-sm text-carbon-500">Loading risk settings…</p>
+			</PageLayout>
+		);
+	if (error || !selectedPolicy)
+		return (
+			<PageLayout title="Policies">
+				<p className="mt-10 text-sm text-lockout">
+					{error ?? 'No risk profiles are configured.'}
+				</p>
+				<button
+					className="mt-4 rounded-control border border-primary px-4 py-2 text-sm"
+					onClick={() => void load()}
+				>
+					Retry
+				</button>
+			</PageLayout>
+		);
 
 	function handleCreatePolicy() {
-		// The create workflow will be connected once policy configuration endpoints exist.
+		void load();
 	}
 
 	function handlePolicySelect(policyId: string) {
-		const nextPolicy = mockPolicies.find((policy) => policy.id === policyId);
+		const nextPolicy = policies.find((policy) => policy.id === policyId);
 		if (!nextPolicy) return;
 		setSelectedPolicyId(nextPolicy.id);
 		setMode(nextPolicy.mode);
@@ -33,7 +112,7 @@ export default function Policies() {
 		<PageLayout title="Policies">
 			<PoliciesIntro onCreatePolicy={handleCreatePolicy} />
 			<PolicySelector
-				policies={mockPolicies}
+				policies={policies}
 				selectedPolicy={selectedPolicy}
 				onSelect={handlePolicySelect}
 			/>
@@ -66,7 +145,18 @@ export default function Policies() {
 				responses={selectedPolicy.responses}
 				onEdit={handleEditResponse}
 			/>
-			<PolicyModeSelector value={mode} onChange={setMode} />
+			<PolicyModeSelector
+				value={mode}
+				onChange={(nextMode) => {
+					setMode(nextMode);
+					void api
+						.createMode(tenant!.id, {
+							mode: nextMode,
+							effective_from: new Date().toISOString(),
+						})
+						.then(load);
+				}}
+			/>
 		</PageLayout>
 	);
 }

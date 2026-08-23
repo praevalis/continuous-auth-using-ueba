@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { LuRefreshCw, LuSearch } from 'react-icons/lu';
 import Dropdown from '@/components/ui/Dropdown';
+import type { ThreatFeedTimeRange } from '@/hooks/useThreatFeed';
 
 const resultOptions = [
 	{ label: 'All results', value: 'all' },
@@ -45,6 +46,8 @@ export default function ThreatFeedToolbar({
 	onResultChange,
 	risk,
 	onRiskChange,
+	timeRange,
+	onTimeRangeChange,
 	onRefresh,
 }: {
 	search: string;
@@ -53,6 +56,8 @@ export default function ThreatFeedToolbar({
 	onResultChange: (_value: string) => void;
 	risk: string;
 	onRiskChange: (_value: string) => void;
+	timeRange: ThreatFeedTimeRange;
+	onTimeRangeChange: (_value: string) => void;
 	onRefresh: () => void;
 }) {
 	const [isRefreshing, setIsRefreshing] = useState(false);
@@ -101,8 +106,8 @@ export default function ThreatFeedToolbar({
 						{ label: 'Last 24 hours', value: '24h' },
 						{ label: 'Last 7 days', value: '7d' },
 					]}
-					value="24h"
-					onChange={() => undefined}
+					value={timeRange}
+					onChange={onTimeRangeChange}
 				/>
 				<FilterControl
 					label="All results"

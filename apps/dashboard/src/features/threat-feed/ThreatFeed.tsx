@@ -1,36 +1,62 @@
 import { useMemo, useState } from 'react';
+import { useTenant } from '@/api/tenant';
 import PageLayout from '@/components/layout/PageLayout';
+import { useThreatFeed, useThreatFeedEvent } from '@/hooks';
 import ThreatFeedIntro from './ThreatFeedIntro';
 import ThreatFeedSignals from './ThreatFeedSignals';
 import ThreatLedger from './ThreatLedger';
 import EventDetail from './EventDetail';
 import ThreatFeedToolbar from './ThreatFeedToolbar';
-import { mockThreatEvents } from './mock-data';
 import { filterThreatEvents, paginateThreatEvents } from './selectors';
+import { mapThreatEvent } from './adapters';
 import type { ThreatFeedFilters } from './types';
+import type { ThreatFeedTimeRange } from '@/hooks/useThreatFeed';
 
 const INITIAL_PAGE_SIZE = 10;
 
 export default function ThreatFeed() {
-	const [selectedId, setSelectedId] = useState<string | null>('evt-002');
+	const { tenant } = useTenant();
+	const [selectedId, setSelectedId] = useState<string | null>(null);
+	const [timeRange, setTimeRange] = useState<ThreatFeedTimeRange>('24h');
 	const [filters, setFilters] = useState<ThreatFeedFilters>({
 		search: '',
 		result: 'all',
 		risk: 'all',
 	});
 	const [visibleCount, setVisibleCount] = useState(INITIAL_PAGE_SIZE);
-
+	const feed = useThreatFeed(tenant?.id, timeRange);
+	const events = useMemo(() => {
+		if (!feed.data) return [];
+		const decisions = new Map(
+			feed.data.decisions.items.map((decision) => [
+				decision.auth_event_id,
+				decision,
+			]),
+		);
+		return feed.data.events.items.map((event) =>
+			mapThreatEvent(event, decisions.get(event.id)),
+		);
+	}, [feed.data]);
 	const filteredEvents = useMemo(
-		() => filterThreatEvents(mockThreatEvents, filters),
-		[filters],
+		() => filterThreatEvents(events, filters),
+		[events, filters],
 	);
 	const { events: loadedEvents, hasMore } = useMemo(
 		() => paginateThreatEvents(filteredEvents, visibleCount),
 		[filteredEvents, visibleCount],
 	);
-	const selectedEvent =
-		mockThreatEvents.find((event) => event.id === selectedId) ??
-		mockThreatEvents[0];
+	const selectedEvent = events.find((event) => event.id === selectedId);
+	const selectedEventResource = useThreatFeedEvent(
+		tenant?.id,
+		selectedEvent?.id,
+	);
+	const selectedEventDetail = selectedEventResource.data
+		? mapThreatEvent(
+				selectedEventResource.data.event,
+				selectedEventResource.data.policy_decision ?? undefined,
+				selectedEventResource.data,
+			)
+		: selectedEvent;
 
 	function updateFilter<Key extends keyof ThreatFeedFilters>(
 		key: Key,
@@ -43,7 +69,10 @@ export default function ThreatFeed() {
 	return (
 		<PageLayout title="Threat feed">
 			<ThreatFeedIntro />
-			<ThreatFeedSignals />
+			<ThreatFeedSignals
+				summary={feed.data?.summary ?? null}
+				updatedAt={feed.data?.summary.generated_at ?? null}
+			/>
 			<div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.7fr)_minmax(320px,0.8fr)]">
 				<ThreatLedger
 					toolbar={
@@ -54,20 +83,56 @@ export default function ThreatFeed() {
 							onResultChange={(value) => updateFilter('result', value)}
 							risk={filters.risk}
 							onRiskChange={(value) => updateFilter('risk', value)}
-							onRefresh={() => setVisibleCount(INITIAL_PAGE_SIZE)}
+							timeRange={timeRange}
+							onTimeRangeChange={(value) => {
+								setTimeRange(value as ThreatFeedTimeRange);
+								setVisibleCount(INITIAL_PAGE_SIZE);
+							}}
+							onRefresh={() => {
+								setVisibleCount(INITIAL_PAGE_SIZE);
+								void feed.refresh();
+							}}
 						/>
 					}
 					events={loadedEvents}
+					loading={feed.loading}
+					error={feed.error}
+					onRetry={() => void feed.refresh()}
 					selectedId={selectedId}
+					selectedEventDetail={selectedEventDetail}
 					onSelect={(id) =>
 						setSelectedId((currentId) => (currentId === id ? null : id))
 					}
 					hasMore={hasMore}
+					totalCount={feed.data?.events.pagination.total_count ?? 0}
+					updatedAt={feed.data?.summary.generated_at ?? null}
 					onLoadMore={() =>
 						setVisibleCount((count) => count + INITIAL_PAGE_SIZE)
 					}
 				/>
-				<EventDetail event={selectedEvent} />
+				{selectedEventDetail ? (
+					selectedEventResource.loading ? (
+						<aside className="hidden border-l border-stone-300 pl-6 text-sm text-carbon-500 lg:block">
+							Loading event evidence…
+						</aside>
+					) : selectedEventResource.error ? (
+						<aside className="hidden border-l border-stone-300 pl-6 text-sm text-lockout lg:block">
+							{selectedEventResource.error.message}
+							<button
+								className="mt-4 rounded-control border border-primary px-4 py-2 text-sm text-primary"
+								onClick={() => void selectedEventResource.refresh()}
+							>
+								Retry
+							</button>
+						</aside>
+					) : (
+						<EventDetail event={selectedEventDetail} />
+					)
+				) : (
+					<aside className="hidden border-l border-stone-300 pl-6 text-sm text-carbon-500 lg:block">
+						Select a sign-in event to review its evidence.
+					</aside>
+				)}
 			</div>
 		</PageLayout>
 	);

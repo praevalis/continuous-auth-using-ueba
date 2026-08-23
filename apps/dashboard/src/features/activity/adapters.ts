@@ -1,9 +1,5 @@
-import type { components } from '@/api/generated/types';
+import type { Alert, EnforcementAction, PolicyDecision } from '@/api/contracts';
 import type { ActivityEntry, ActivityTone } from './types';
-
-type Alert = components['schemas']['AlertSchema'];
-type PolicyDecision = components['schemas']['PolicyDecisionSchema'];
-type EnforcementAction = components['schemas']['EnforcementActionSchema'];
 
 function toneFromBand(band: PolicyDecision['decision_band']): ActivityTone {
 	return band;

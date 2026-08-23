@@ -1,10 +1,10 @@
 import SegmentedBar from '@/components/ui/SegmentedBar';
-import type { ThresholdProfile } from './types';
+import type { components } from '@/api/generated/types';
 
 export default function ActiveRiskProfile({
 	profile,
 }: {
-	profile: ThresholdProfile;
+	profile: components['schemas']['TenantThresholdProfileSchema'];
 }) {
 	const cautionPosition = `${profile.caution_threshold * 100}%`;
 	const lockoutPosition = `${profile.lockout_threshold * 100}%`;

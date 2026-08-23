@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { LuClock3, LuMenu, LuX } from 'react-icons/lu';
 import logo from '@/assets/logo.svg';
 import Dropdown from '@/components/ui/Dropdown';
+import { useTenant } from '@/api/tenant';
 
 const navigationItems = [
 	{ label: 'Overview', to: '/' },
@@ -11,7 +12,6 @@ const navigationItems = [
 	{ label: 'Activity', to: '/activity' },
 ];
 
-const tenantOptions = [{ label: 'Demo tenant', value: 'demo' }];
 const tenantSettingsLinks = [
 	{ label: 'Tenant settings', to: '/settings/tenant' },
 	{ label: 'Event sources & credentials', to: '/settings/event-sources' },
@@ -24,6 +24,11 @@ const responseModeOptions = [
 ];
 
 function MobileNavigation({ onClose }: { onClose: () => void }) {
+	const { tenant, tenants, setTenantId } = useTenant();
+	const tenantOptions = tenants.map((item) => ({
+		label: item.display_name,
+		value: item.id,
+	}));
 	return (
 		<div
 			className="fixed inset-0 z-50 md:hidden"
@@ -74,6 +79,8 @@ function MobileNavigation({ onClose }: { onClose: () => void }) {
 							label="Tenant"
 							options={tenantOptions}
 							links={tenantSettingsLinks}
+							value={tenant?.id}
+							onChange={setTenantId}
 						/>
 						<Dropdown label="Response mode" options={responseModeOptions} />
 						<div className="flex items-center gap-2 text-carbon-300">
@@ -88,6 +95,11 @@ function MobileNavigation({ onClose }: { onClose: () => void }) {
 
 export default function TopNavigation() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const { tenant, tenants, setTenantId } = useTenant();
+	const tenantOptions = tenants.map((item) => ({
+		label: item.display_name,
+		value: item.id,
+	}));
 
 	return (
 		<header className="border-b border-stone-300/80 bg-paper-50">
@@ -113,6 +125,8 @@ export default function TopNavigation() {
 						label="Tenant"
 						options={tenantOptions}
 						links={tenantSettingsLinks}
+						value={tenant?.id}
+						onChange={setTenantId}
 						align="end"
 					/>
 				</div>

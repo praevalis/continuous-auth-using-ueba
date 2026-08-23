@@ -1,9 +1,4 @@
-import type { components } from '@/api/generated/types';
-
-export type Tenant = components['schemas']['TenantSchema'];
-export type OperatingMode = components['schemas']['TenantOperatingModeSchema'];
-export type ThresholdProfile =
-	components['schemas']['TenantThresholdProfileSchema'];
+import type { OperatingMode, Tenant, ThresholdProfile } from '@/api/contracts';
 
 export type ConfigurationState =
 	'configured' | 'not_configured' | 'not_connected';

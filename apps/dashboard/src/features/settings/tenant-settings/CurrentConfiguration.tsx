@@ -1,6 +1,9 @@
-import type { OperatingMode, ThresholdProfile } from './types';
+import type { components } from '@/api/generated/types';
 
-const modeLabels: Record<OperatingMode['mode'], string> = {
+const modeLabels: Record<
+	components['schemas']['TenantOperatingModeSchema']['mode'],
+	string
+> = {
 	shadow: 'Simulation',
 	alert_only: 'Notify only',
 	enforce: 'Active response',
@@ -19,8 +22,8 @@ export default function CurrentConfiguration({
 	operatingMode,
 	thresholdProfile,
 }: {
-	operatingMode: OperatingMode;
-	thresholdProfile: ThresholdProfile;
+	operatingMode: components['schemas']['TenantOperatingModeSchema'];
+	thresholdProfile: components['schemas']['TenantThresholdProfileSchema'];
 }) {
 	const rows = [
 		['Operating mode', modeLabels[operatingMode.mode]],

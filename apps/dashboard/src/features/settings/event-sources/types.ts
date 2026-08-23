@@ -1,8 +1,4 @@
-import type { components } from '@/api/generated/types';
-
-export type EventSource = components['schemas']['EventSourceSchema'];
-export type IngestionCredential =
-	components['schemas']['IngestionCredentialSchema'];
+import type { EventSource, IngestionCredential } from '@/api/contracts';
 
 export type EventSourceWithCredentials = EventSource & {
 	credentials: IngestionCredential[];

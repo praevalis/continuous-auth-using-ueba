@@ -1,6 +1,6 @@
 import Badge from '@/components/ui/Badge';
 import { LuCheck, LuCircleAlert } from 'react-icons/lu';
-import type { TenantProviderConnection } from './types';
+import type { components } from '@/api/generated/types';
 
 const statusContent = {
 	active: { label: 'Active', color: 'safe' },
@@ -11,7 +11,7 @@ const statusContent = {
 export default function ProviderStatusBadge({
 	status,
 }: {
-	status: TenantProviderConnection['status'];
+	status: components['schemas']['TenantProviderConnectionSchema']['status'];
 }) {
 	const content = statusContent[status];
 	const colorClasses = {

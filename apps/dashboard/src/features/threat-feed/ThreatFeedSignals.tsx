@@ -4,25 +4,46 @@ import {
 	LuLockKeyhole,
 	LuShieldAlert,
 } from 'react-icons/lu';
+import type { RiskSummary } from '@/api/contracts';
 import Badge from '@/components/ui/Badge';
+import { formatThreatFeedTime } from './adapters';
 
-const signals = [
-	{
-		value: '23',
-		label: 'lockout signals',
-		icon: LuLockKeyhole,
-		tone: 'text-lockout',
-	},
-	{
-		value: '87',
-		label: 'caution signals',
-		icon: LuShieldAlert,
-		tone: 'text-caution',
-	},
-	{ value: '1,842', label: 'events', icon: LuActivity, tone: 'text-primary' },
-];
+function formatCount(value: number | undefined) {
+	return value === undefined ? '—' : value.toLocaleString();
+}
 
-export default function ThreatFeedSignals() {
+function formatUpdatedAt(value: string | null) {
+	return value ? `Updated ${formatThreatFeedTime(value)}` : '—';
+}
+
+export default function ThreatFeedSignals({
+	summary,
+	updatedAt,
+}: {
+	summary: RiskSummary | null;
+	updatedAt: string | null;
+}) {
+	const signals = [
+		{
+			value: formatCount(summary?.lockout_count),
+			label: 'lockout signals',
+			icon: LuLockKeyhole,
+			tone: 'text-lockout',
+		},
+		{
+			value: formatCount(summary?.caution_count),
+			label: 'caution signals',
+			icon: LuShieldAlert,
+			tone: 'text-caution',
+		},
+		{
+			value: formatCount(summary?.event_count),
+			label: 'events',
+			icon: LuActivity,
+			tone: 'text-primary',
+		},
+	];
+
 	return (
 		<section
 			className="mt-8 border-y border-stone-300 py-4"
@@ -48,7 +69,7 @@ export default function ThreatFeedSignals() {
 				<div className="relative flex items-center gap-2 border-t border-stone-300 px-2 pt-3 before:absolute before:left-0 before:top-1/2 before:h-6 before:-translate-y-1/2 before:border-l before:border-stone-300 before:content-[''] sm:gap-3 sm:border-l sm:border-t-0 sm:px-3 sm:pt-0 sm:before:hidden">
 					<LuClock3 size={18} className="shrink-0" />
 					<span className="text-xs text-carbon-300 sm:text-sm">
-						Updated 12s ago
+						{formatUpdatedAt(updatedAt)}
 					</span>
 				</div>
 			</div>

@@ -2,7 +2,8 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { LuX } from 'react-icons/lu';
 import Dropdown from '@/components/ui/Dropdown';
-import type { ProviderConnectionMethod, ProviderConnectionView } from './types';
+import type { ProviderConnectionMethod } from './types';
+import type { components } from '@/api/generated/types';
 
 const methodOptions = [
 	{ label: 'OAuth client credentials', value: 'oauth_client_credentials' },
@@ -15,7 +16,9 @@ export default function AddProviderConnectionDialog({
 	onCreate,
 }: {
 	onClose: () => void;
-	onCreate: (_connection: ProviderConnectionView) => void;
+	onCreate: (
+		_connection: components['schemas']['TenantProviderConnectionCreateSchema'],
+	) => void | Promise<void>;
 }) {
 	const [name, setName] = useState('');
 	const [baseUrl, setBaseUrl] = useState('');
@@ -26,10 +29,7 @@ export default function AddProviderConnectionDialog({
 	function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		if (!name.trim() || !baseUrl.trim()) return;
-		const now = new Date().toISOString();
-		onCreate({
-			id: `provider-connection-${Date.now()}`,
-			tenant_id: 'tenant-demo',
+		void onCreate({
 			provider_registry_id: 'provider-registry-keycloak',
 			connection_name: name.trim(),
 			base_url: baseUrl.trim(),
@@ -39,27 +39,6 @@ export default function AddProviderConnectionDialog({
 			api_token_ref: null,
 			external_tenant_reference: null,
 			status: 'disabled',
-			disabled_at: now,
-			last_tested_at: null,
-			last_test_error: null,
-			created_at: now,
-			updated_at: now,
-			provider: {
-				id: 'provider-registry-keycloak',
-				provider_key: 'keycloak',
-				display_name: 'Keycloak',
-				provider_type: 'idp',
-				connection_method: method,
-				supported_policy_actions: [
-					'step_up_mfa',
-					'terminate_session',
-					'alert_only',
-				],
-				is_active: true,
-				deprecated_at: null,
-				created_at: now,
-				updated_at: now,
-			},
 		});
 		onClose();
 	}

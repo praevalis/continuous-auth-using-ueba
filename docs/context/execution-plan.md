@@ -132,19 +132,19 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Export OpenAPI and generate TypeScript types or client for the dashboard under `apps/dashboard/src/api/generated`.
 - [done] Add Tailwind v4 styling foundation using the dashboard design-system tokens.
 - [done] Add routing and the responsive application shell in `apps/dashboard/src`.
-- [done] Add tenant context, tenant selector, and settings navigation using mock tenant context.
+- [done] Add tenant context, tenant selector, and settings navigation backed by the tenant API.
 - [done] Implement responsive mock-data pages for Overview, Threat Feed, Policies, and Activity.
 - [done] Implement responsive mock-data Tenant Settings, Event Sources, and Response Providers pages.
 - [done] Establish reusable dashboard UI patterns for navigation, dropdowns, badges, segmented bars, date pickers, and responsive page composition.
-- [todo] Add a centralized tenant-scoped API service boundary.
-- [todo] Replace dashboard mock data with generated API queries and response mappers.
-- [todo] Connect tenant settings read/update workflows.
-- [todo] Connect event source and credential creation, rotation, revocation, activation, and disable workflows.
-- [todo] Connect provider registry lookup and tenant provider connection workflows.
-- [todo] Connect threat feed filters, pagination, freshness, and event-detail workflows.
-- [todo] Connect activity date-range, lifecycle, pagination, and refresh workflows.
-- [todo] Connect policy reads and mutation workflows.
-- [todo] Add loading, empty, error, validation, and mutation states for API-backed flows.
+- [done] Add a centralized tenant-scoped API service boundary.
+- [done] Replace dashboard mock data with generated API queries and response mappers.
+- [done] Connect tenant settings read/update workflows.
+- [done] Connect event source and credential creation, rotation, revocation, activation, and disable workflows.
+- [done] Connect provider registry lookup and tenant provider connection workflows.
+- [done] Connect threat feed filters, pagination, freshness, and event-detail workflows.
+- [done] Connect activity date-range, lifecycle, pagination, and refresh workflows.
+- [done] Connect policy reads and mutation workflows.
+- [done] Add loading, empty, error, validation, and mutation states for API-backed flows.
 
 ## Phase 10: Validation and Packaging
 

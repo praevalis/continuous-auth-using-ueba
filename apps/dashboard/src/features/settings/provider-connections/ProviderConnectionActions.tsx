@@ -1,5 +1,5 @@
 import { LuBan, LuPencil, LuPower, LuRefreshCw } from 'react-icons/lu';
-import type { TenantProviderConnection } from './types';
+import type { components } from '@/api/generated/types';
 
 export default function ProviderConnectionActions({
 	status,
@@ -8,7 +8,7 @@ export default function ProviderConnectionActions({
 	onToggle,
 	compact = false,
 }: {
-	status: TenantProviderConnection['status'];
+	status: components['schemas']['TenantProviderConnectionSchema']['status'];
 	onTest: () => void;
 	onEdit: () => void;
 	onToggle: () => void;

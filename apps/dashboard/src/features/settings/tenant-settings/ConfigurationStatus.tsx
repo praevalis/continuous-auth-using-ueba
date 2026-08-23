@@ -1,11 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import Badge from '@/components/ui/Badge';
 import ActiveRiskProfile from './ActiveRiskProfile';
-import type {
-	ConfigurationState,
-	TenantConfigurationStatus,
-	ThresholdProfile,
-} from './types';
+import type { ThresholdProfile } from '@/api/contracts';
+import type { ConfigurationState, TenantConfigurationStatus } from './types';
 
 const statusContent: Record<
 	ConfigurationState,

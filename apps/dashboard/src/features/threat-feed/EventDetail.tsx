@@ -10,6 +10,34 @@ export default function EventDetail({
 	event: ThreatEvent;
 	mobile?: boolean;
 }) {
+	const scoreSegments =
+		event.cautionThreshold !== null && event.lockoutThreshold !== null
+			? [
+					{
+						label: 'Safe',
+						value: `${Math.max(event.cautionThreshold, 0) * 100}%`,
+						className: 'bg-safe',
+					},
+					{
+						label: 'Caution',
+						value: `${Math.max(event.lockoutThreshold - event.cautionThreshold, 0) * 100}%`,
+						className: 'bg-caution',
+					},
+					{
+						label: 'Lockout',
+						value: `${Math.max(1 - event.lockoutThreshold, 0) * 100}%`,
+						className: 'bg-lockout',
+					},
+				]
+			: [];
+	const riskNoticeClass =
+		event.tone === 'lockout'
+			? 'text-lockout'
+			: event.tone === 'caution'
+				? 'text-caution'
+				: event.tone === 'safe'
+					? 'text-safe'
+					: 'text-carbon-300';
 	return (
 		<aside
 			className={
@@ -47,11 +75,15 @@ export default function EventDetail({
 					</p>
 				</div>
 			</div>
-			<p className="mt-4 flex items-center gap-2 border-b border-stone-300 pb-4 text-xs text-caution">
-				<span className="grid size-4 shrink-0 place-items-center rounded-full border border-caution text-[10px] font-semibold">
+			<p
+				className={`mt-4 flex items-center gap-2 border-b border-stone-300 pb-4 text-xs ${riskNoticeClass}`}
+			>
+				<span className="grid size-4 shrink-0 place-items-center rounded-full border text-[10px] font-semibold">
 					!
 				</span>
-				This sign-in has a caution-level risk score.
+				{event.risk === 'Unknown'
+					? 'A risk score is not available for this sign-in.'
+					: `This sign-in has a ${event.risk.toLowerCase()}-level risk score.`}
 			</p>
 			<section className="border-b border-stone-300 py-4">
 				<div className="flex items-start justify-between gap-3">
@@ -60,51 +92,51 @@ export default function EventDetail({
 						<p className="mt-1 text-xs text-carbon-300">{event.response}</p>
 					</div>
 					<Badge className="rounded-control bg-neutral-soft px-2 py-1 text-xs text-carbon-300">
-						Simulation
+						{event.decisionStatus}
 					</Badge>
 				</div>
 				<p className="mt-2 flex items-center gap-2 text-xs text-carbon-300">
-					<LuInfo size={14} /> Recorded only; no provider action taken.
+					<LuInfo size={14} /> {event.decisionNote}
 				</p>
 			</section>
 			<section className="border-b border-stone-300 py-4">
 				<h3 className="text-section-title">Score composition</h3>
 				<div className="mt-4">
-					<div className="flex justify-between text-xs">
-						<span className="text-safe">Safe</span>
-						<span className="text-lockout">Lockout</span>
-					</div>
-					<div className="relative mt-2">
-						<SegmentedBar
-							items={[
-								{ label: 'Safe', value: '34.9%', className: 'bg-safe' },
-								{ label: 'Caution', value: '11.4%', className: 'bg-caution' },
-								{ label: 'Lockout', value: '53.7%', className: 'bg-lockout' },
-							]}
-						/>
-						<span
-							className="absolute -top-2.5 -translate-x-1/2 text-xs"
-							style={{ left: `${event.score * 100}%` }}
-						>
-							▼
-						</span>
-					</div>
-					<div className="relative mt-2 h-4 font-mono text-[0.625rem] text-carbon-300 lg:text-label">
-						<span className="absolute left-0">0.000</span>
-						<span
-							className="absolute -translate-x-1/2"
-							style={{ left: '34.9%' }}
-						>
-							0.349
-						</span>
-						<span
-							className="absolute -translate-x-1/2"
-							style={{ left: '46.3%' }}
-						>
-							0.463
-						</span>
-						<span className="absolute right-0">1.000</span>
-					</div>
+					{event.score !== null && scoreSegments.length > 0 ? (
+						<>
+							<div className="flex justify-between text-xs">
+								<span className="text-safe">Safe</span>
+								<span className="text-lockout">Lockout</span>
+							</div>
+							<div className="relative mt-2">
+								<SegmentedBar items={scoreSegments} />
+								<span
+									className="absolute -top-2.5 -translate-x-1/2 text-xs"
+									style={{ left: `${event.score * 100}%` }}
+								>
+									▼
+								</span>
+							</div>
+							<div className="relative mt-2 h-4 font-mono text-[0.625rem] text-carbon-300 lg:text-label">
+								<span className="absolute left-0">0.000</span>
+								<span
+									className="absolute -translate-x-1/2"
+									style={{ left: `${event.cautionThreshold! * 100}%` }}
+								>
+									{event.cautionThreshold!.toFixed(3)}
+								</span>
+								<span
+									className="absolute -translate-x-1/2"
+									style={{ left: `${event.lockoutThreshold! * 100}%` }}
+								>
+									{event.lockoutThreshold!.toFixed(3)}
+								</span>
+								<span className="absolute right-0">1.000</span>
+							</div>
+						</>
+					) : (
+						<p className="text-xs text-carbon-300">Score data unavailable.</p>
+					)}
 				</div>
 			</section>
 			<section className="border-b border-stone-300 py-4">
@@ -125,6 +157,11 @@ export default function EventDetail({
 							<span>{signal.baseline}</span>
 						</div>
 					))}
+					{event.observedSignals.length === 0 && (
+						<p className="col-span-3 text-xs text-carbon-300">
+							Feature snapshot unavailable.
+						</p>
+					)}
 				</div>
 				<div className="mt-3 space-y-3 text-xs lg:hidden">
 					{event.observedSignals.map((signal) => (
@@ -144,32 +181,45 @@ export default function EventDetail({
 							</div>
 						</div>
 					))}
+					{event.observedSignals.length === 0 && (
+						<p className="text-xs text-carbon-300">
+							Feature snapshot unavailable.
+						</p>
+					)}
 				</div>
 			</section>
 			<section className="py-4">
 				<h3 className="text-section-title">Response activity</h3>
 				<div className="mt-3 space-y-3">
 					{event.responseActivity.map((activity) => (
-						<div className="flex items-start gap-3 text-xs" key={activity.time}>
+						<div className="flex items-start gap-3 text-xs" key={activity.id}>
 							<span className="mt-0.5 flex size-5 shrink-0 items-center justify-center text-primary">
 								<LuClock3 size={15} />
 							</span>
-							<span className="font-mono leading-5 text-carbon-300">
+							<time
+								className="shrink-0 whitespace-nowrap font-mono text-[0.625rem] leading-5 text-carbon-300"
+								dateTime={activity.dateTime}
+							>
 								{activity.time}
-							</span>
+							</time>
 							<span className="leading-5">{activity.label}</span>
 						</div>
 					))}
+					{event.responseActivity.length === 0 && (
+						<p className="text-xs text-carbon-300">
+							No response activity recorded.
+						</p>
+					)}
 				</div>
 				<Badge
-					className="mt-3 text-sm text-safe"
+					className={`mt-3 text-sm ${event.responseStatus === 'Failed' ? 'text-lockout' : event.responseStatus === 'Success' ? 'text-safe' : 'text-carbon-300'}`}
 					leading={
-						<span className="grid size-4 place-items-center rounded-full bg-safe text-white">
-							<LuCheck size={10} />
+						<span className="grid size-4 place-items-center rounded-full bg-safe text-[10px] font-semibold leading-none text-white">
+							{event.responseStatus === 'Success' ? <LuCheck size={10} /> : '!'}
 						</span>
 					}
 				>
-					Success
+					{event.responseStatus}
 				</Badge>
 			</section>
 		</aside>

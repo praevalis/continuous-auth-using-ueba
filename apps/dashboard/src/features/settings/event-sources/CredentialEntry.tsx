@@ -1,6 +1,6 @@
 import { LuBan, LuKeyRound, LuRefreshCw } from 'react-icons/lu';
 import ResourceStatusBadge from './ResourceStatusBadge';
-import type { IngestionCredential } from './types';
+import type { components } from '@/api/generated/types';
 
 function formatDate(value: string | null | undefined) {
 	if (!value) return 'Never';
@@ -22,7 +22,7 @@ export default function CredentialEntry({
 	onRotate,
 	onRevoke,
 }: {
-	credential: IngestionCredential;
+	credential: components['schemas']['IngestionCredentialSchema'];
 	onRotate: () => void;
 	onRevoke: () => void;
 }) {

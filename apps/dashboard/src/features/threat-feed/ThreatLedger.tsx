@@ -3,13 +3,16 @@ import type { ReactNode } from 'react';
 import Badge from '@/components/ui/Badge';
 import type { ThreatEvent } from './types';
 import EventDetail from './EventDetail';
+import { formatThreatFeedTime } from './adapters';
 
 function toneClass(tone: ThreatEvent['tone']) {
 	return tone === 'safe'
 		? 'text-safe'
 		: tone === 'caution'
 			? 'text-caution'
-			: 'text-lockout';
+			: tone === 'lockout'
+				? 'text-lockout'
+				: 'text-carbon-300';
 }
 
 function toneBackground(tone: ThreatEvent['tone']) {
@@ -17,7 +20,9 @@ function toneBackground(tone: ThreatEvent['tone']) {
 		? 'bg-safe'
 		: tone === 'caution'
 			? 'bg-caution'
-			: 'bg-lockout';
+			: tone === 'lockout'
+				? 'bg-lockout'
+				: 'bg-stone-300';
 }
 
 function RiskBadge({ event }: { event: ThreatEvent }) {
@@ -40,10 +45,12 @@ function ScoreTrace({ event }: { event: ThreatEvent }) {
 			: event.tone === 'caution'
 				? '#A87528'
 				: '#984A43';
-	const marker = 18 + event.score * 58;
+	const marker = event.score === null ? null : 18 + event.score * 58;
 	return (
 		<div className="min-w-24">
-			<span className="font-mono text-xs">{event.score.toFixed(3)}</span>
+			<span className="font-mono text-xs">
+				{event.score === null ? '—' : event.score.toFixed(3)}
+			</span>
 			<svg
 				className="mt-1 h-5 w-24"
 				viewBox="0 0 80 20"
@@ -57,14 +64,16 @@ function ScoreTrace({ event }: { event: ThreatEvent }) {
 					stroke={color}
 					strokeWidth="1.5"
 				/>
-				<circle
-					cx={marker}
-					cy="11"
-					r="2.5"
-					fill="white"
-					stroke={color}
-					strokeWidth="1.5"
-				/>
+				{marker !== null && (
+					<circle
+						cx={marker}
+						cy="11"
+						r="2.5"
+						fill="white"
+						stroke={color}
+						strokeWidth="1.5"
+					/>
+				)}
 			</svg>
 		</div>
 	);
@@ -98,6 +107,79 @@ function Identity({
 	);
 }
 
+function DesktopEventRowSkeleton() {
+	return (
+		<div
+			className="relative grid w-full grid-cols-[72px_minmax(150px,1.4fr)_minmax(90px,0.9fr)_100px_110px_minmax(130px,1fr)] items-center gap-4 py-3 pl-4 pr-2"
+			aria-hidden="true"
+		>
+			<span className="absolute inset-y-3 left-0 w-1 rounded-full bg-stone-200" />
+			<span className="h-3 w-16 animate-pulse rounded bg-stone-200" />
+			<span className="flex min-w-0 items-center gap-2">
+				<span className="size-7 shrink-0 animate-pulse rounded-full bg-stone-200" />
+				<span className="min-w-0 flex-1 space-y-1.5">
+					<span className="block h-3 w-24 animate-pulse rounded bg-stone-200" />
+					<span className="block h-2.5 w-32 animate-pulse rounded bg-stone-200" />
+				</span>
+			</span>
+			<span className="h-3 w-20 animate-pulse rounded bg-stone-200" />
+			<span className="h-5 w-16 animate-pulse rounded-control bg-stone-200" />
+			<span className="space-y-1.5">
+				<span className="block h-3 w-12 animate-pulse rounded bg-stone-200" />
+				<span className="block h-2 animate-pulse rounded bg-stone-200" />
+			</span>
+			<span className="h-3 w-28 animate-pulse rounded bg-stone-200" />
+		</div>
+	);
+}
+
+function MobileEventRowSkeleton() {
+	return (
+		<div
+			className="relative grid w-full grid-cols-[58px_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_16px] grid-rows-[minmax(0,1fr)_auto] gap-x-2 gap-y-2 px-3 py-3"
+			aria-hidden="true"
+		>
+			<span className="absolute inset-y-3 left-0 w-1 rounded-full bg-stone-200" />
+			<span className="col-start-1 row-start-1 h-3 w-12 animate-pulse self-center rounded bg-stone-200" />
+			<span className="col-start-2 col-span-3 row-start-1 flex items-center gap-2">
+				<span className="size-7 shrink-0 animate-pulse rounded-full bg-stone-200" />
+				<span className="min-w-0 flex-1 space-y-1.5">
+					<span className="block h-3 w-24 animate-pulse rounded bg-stone-200" />
+					<span className="block h-2.5 w-32 animate-pulse rounded bg-stone-200" />
+				</span>
+			</span>
+			<span className="col-start-5 row-start-1 row-span-2 h-4 w-3 animate-pulse self-center rounded bg-stone-200" />
+			<span className="col-start-2 col-span-3 row-start-2 grid grid-cols-3 gap-2">
+				<span className="h-3 w-12 animate-pulse rounded bg-stone-200" />
+				<span className="h-3 w-14 animate-pulse rounded bg-stone-200" />
+				<span className="h-3 w-16 animate-pulse rounded bg-stone-200" />
+			</span>
+		</div>
+	);
+}
+
+function FeedError({
+	error,
+	onRetry,
+	className,
+}: {
+	error: Error;
+	onRetry: () => void;
+	className: string;
+}) {
+	return (
+		<div className={className} role="alert">
+			<p>{error.message}</p>
+			<button
+				className="mt-4 rounded-control border border-primary px-4 py-2 text-sm text-primary"
+				onClick={onRetry}
+			>
+				Retry
+			</button>
+		</div>
+	);
+}
+
 function DesktopEventRow({
 	event,
 	selected,
@@ -116,7 +198,12 @@ function DesktopEventRow({
 			<span
 				className={`absolute inset-y-3 left-0 w-1 rounded-full ${toneBackground(event.tone)}`}
 			/>
-			<span className="font-mono text-xs text-carbon-700">{event.time}</span>
+			<time
+				className="font-mono text-xs text-carbon-700"
+				dateTime={event.dateTime}
+			>
+				{event.time}
+			</time>
 			<Identity event={event} />
 			<span>{event.signInType}</span>
 			<RiskBadge event={event} />
@@ -159,7 +246,7 @@ function MobileEventRow({
 			/>
 			<span className="col-start-2 row-start-2 col-span-3 grid min-w-0 grid-cols-3 items-center gap-2">
 				<span className="min-w-0 font-mono text-xs">
-					{event.score.toFixed(3)}
+					{event.score === null ? '—' : event.score.toFixed(3)}
 				</span>
 				<span
 					className={`min-w-0 text-xs ${event.result === 'Failed' ? 'text-lockout' : 'text-safe'}`}
@@ -175,18 +262,33 @@ function MobileEventRow({
 export default function ThreatLedger({
 	toolbar,
 	events,
+	loading,
+	error,
+	onRetry,
 	selectedId,
+	selectedEventDetail,
 	onSelect,
 	hasMore,
 	onLoadMore,
+	totalCount,
+	updatedAt,
 }: {
 	toolbar: ReactNode;
 	events: ThreatEvent[];
+	loading: boolean;
+	error: Error | null;
+	onRetry: () => void;
 	selectedId: string | null;
+	selectedEventDetail?: ThreatEvent;
 	onSelect: (_id: string) => void;
 	hasMore: boolean;
 	onLoadMore: () => void;
+	totalCount: number;
+	updatedAt: string | null;
 }) {
+	const updatedLabel = updatedAt
+		? `Updated ${formatThreatFeedTime(updatedAt)}`
+		: '—';
 	return (
 		<section
 			className="min-w-0 max-w-full overflow-hidden"
@@ -200,7 +302,7 @@ export default function ThreatLedger({
 				>
 					Live threat feed
 				</h2>
-				<span className="text-xs text-carbon-300">Updated 12s ago</span>
+				<span className="text-xs text-carbon-300">{updatedLabel}</span>
 			</div>
 			<div className="mt-6 hidden border-b border-stone-300 pb-2 text-left text-xs font-medium text-carbon-700 lg:grid lg:grid-cols-[72px_minmax(150px,1.4fr)_minmax(90px,0.9fr)_100px_110px_minmax(130px,1fr)] lg:gap-4 lg:pl-4">
 				<span>Occurred</span>
@@ -211,32 +313,66 @@ export default function ThreatLedger({
 				<span>Response decision</span>
 			</div>
 			<div className="threat-feed-scrollbar hidden h-[41rem] divide-y divide-stone-300/80 overflow-y-auto lg:block [scrollbar-color:theme(colors.primary.soft)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary-soft [&::-webkit-scrollbar-track]:bg-transparent">
-				{events.map((event) => (
-					<DesktopEventRow
-						key={event.id}
-						event={event}
-						selected={event.id === selectedId}
-						onSelect={() => onSelect(event.id)}
+				{loading ? (
+					Array.from({ length: 6 }, (_, index) => (
+						<DesktopEventRowSkeleton key={index} />
+					))
+				) : error ? (
+					<FeedError
+						error={error}
+						onRetry={onRetry}
+						className="flex h-full flex-col items-start justify-center px-4 text-sm text-lockout"
 					/>
-				))}
-			</div>
-			<div className="mt-6 space-y-3 lg:hidden">
-				{events.map((event) => (
-					<div
-						key={event.id}
-						className="overflow-hidden rounded-panel border border-stone-300 bg-transparent"
-					>
-						<MobileEventRow
+				) : (
+					events.map((event) => (
+						<DesktopEventRow
+							key={event.id}
 							event={event}
 							selected={event.id === selectedId}
 							onSelect={() => onSelect(event.id)}
 						/>
-						{event.id === selectedId && <EventDetail event={event} mobile />}
-					</div>
-				))}
+					))
+				)}
+			</div>
+			<div className="mt-6 space-y-3 lg:hidden">
+				{loading ? (
+					Array.from({ length: 4 }, (_, index) => (
+						<div
+							key={index}
+							className="overflow-hidden rounded-panel border border-stone-300 bg-transparent"
+						>
+							<MobileEventRowSkeleton />
+						</div>
+					))
+				) : error ? (
+					<FeedError
+						error={error}
+						onRetry={onRetry}
+						className="rounded-panel border border-stone-300 px-3 py-6 text-sm text-lockout"
+					/>
+				) : (
+					events.map((event) => (
+						<div
+							key={event.id}
+							className="overflow-hidden rounded-panel border border-stone-300 bg-transparent"
+						>
+							<MobileEventRow
+								event={event}
+								selected={event.id === selectedId}
+								onSelect={() => onSelect(event.id)}
+							/>
+							{event.id === selectedId && (
+								<EventDetail event={selectedEventDetail ?? event} mobile />
+							)}
+						</div>
+					))
+				)}
 			</div>
 			<div className="mt-5 flex items-center justify-between border-t border-stone-300 pt-3 text-xs font-medium text-carbon-700">
-				<span>Showing 1–{events.length} of 1,842 events</span>
+				<span>
+					{events.length ? `Showing 1–${events.length}` : 'No events'} of{' '}
+					{totalCount.toLocaleString()} events
+				</span>
 				{hasMore && (
 					<button
 						type="button"

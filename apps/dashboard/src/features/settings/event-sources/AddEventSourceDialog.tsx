@@ -2,7 +2,7 @@ import { useState } from 'react';
 import type { FormEvent } from 'react';
 import { LuX } from 'react-icons/lu';
 import Dropdown from '@/components/ui/Dropdown';
-import type { EventSourceWithCredentials } from './types';
+import type { components } from '@/api/generated/types';
 
 const sourceTypeOptions = [
 	{ label: 'Identity provider', value: 'idp' },
@@ -21,7 +21,9 @@ export default function AddEventSourceDialog({
 	onCreate,
 }: {
 	onClose: () => void;
-	onCreate: (_source: EventSourceWithCredentials) => void;
+	onCreate: (
+		_source: components['schemas']['EventSourceCreateSchema'],
+	) => void | Promise<void>;
 }) {
 	const [sourceName, setSourceName] = useState('');
 	const [sourceType, setSourceType] = useState('idp');
@@ -32,20 +34,14 @@ export default function AddEventSourceDialog({
 	function handleSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
 		if (!sourceName.trim()) return;
-		const now = new Date().toISOString();
-		onCreate({
-			id: `source-${Date.now()}`,
-			tenant_id: 'tenant-demo',
+		void onCreate({
 			source_name: sourceName.trim(),
-			source_type: sourceType as EventSourceWithCredentials['source_type'],
+			source_type: sourceType as components['schemas']['EventSourceType'],
 			payload_format:
-				payloadFormat as EventSourceWithCredentials['payload_format'],
+				payloadFormat as components['schemas']['EventPayloadFormat'],
 			vendor: vendor.trim() || null,
 			external_reference: externalReference.trim() || null,
 			status: 'active',
-			created_at: now,
-			updated_at: now,
-			credentials: [],
 		});
 		onClose();
 	}

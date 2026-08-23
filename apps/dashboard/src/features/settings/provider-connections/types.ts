@@ -1,10 +1,9 @@
-import type { components } from '@/api/generated/types';
+import type {
+	ProviderRegistry,
+	TenantProviderConnection,
+} from '@/api/contracts';
 
-export type ProviderRegistry = components['schemas']['ProviderRegistrySchema'];
-export type TenantProviderConnection =
-	components['schemas']['TenantProviderConnectionSchema'];
-export type ProviderConnectionMethod =
-	components['schemas']['ProviderConnectionMethod'];
+export type { ProviderConnectionMethod } from '@/api/contracts';
 
 export type ProviderConnectionView = TenantProviderConnection & {
 	provider: ProviderRegistry;

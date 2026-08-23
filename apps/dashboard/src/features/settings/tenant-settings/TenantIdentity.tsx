@@ -1,7 +1,7 @@
 import Badge from '@/components/ui/Badge';
 import Dropdown from '@/components/ui/Dropdown';
 import { listTimeZones } from 'timezone-support';
-import type { Tenant } from './types';
+import type { components } from '@/api/generated/types';
 
 const timezoneOptions = listTimeZones()
 	.sort((left, right) => left.localeCompare(right))
@@ -25,7 +25,7 @@ export default function TenantIdentity({
 	onSave,
 	isSaveDisabled,
 }: {
-	tenant: Tenant;
+	tenant: components['schemas']['TenantSchema'];
 	displayName: string;
 	timezone: string;
 	onDisplayNameChange: (_value: string) => void;

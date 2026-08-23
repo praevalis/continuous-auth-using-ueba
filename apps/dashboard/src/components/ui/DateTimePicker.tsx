@@ -298,7 +298,7 @@ export default function DateTimePicker({
 										<button
 											key={day.toISOString()}
 											type="button"
-											disabled={Boolean(isDisabled)}
+											disabled={!!isDisabled}
 											onClick={() => selectDay(day)}
 											className={`grid size-7 place-items-center rounded-control text-[0.6875rem] transition ${
 												isSelected

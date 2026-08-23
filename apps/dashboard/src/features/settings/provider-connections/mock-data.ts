@@ -1,9 +1,10 @@
-import type { ProviderConnectionView, ProviderRegistry } from './types';
+import type { components } from '@/api/generated/types';
+import type { ProviderConnectionView } from './types';
 
 const tenantId = 'tenant-demo';
 const keycloakRegistryId = 'provider-registry-keycloak';
 
-const keycloakProvider: ProviderRegistry = {
+const keycloakProvider: components['schemas']['ProviderRegistrySchema'] = {
 	id: keycloakRegistryId,
 	provider_key: 'keycloak',
 	display_name: 'Keycloak',
