@@ -21,6 +21,7 @@ from api.services.integrations import (
 	TenantProviderConnectionService,
 )
 from api.services.policy_decisions import PolicyDecisionReadService
+from api.services.risk_summary import RiskSummaryReadService
 from api.services.tenants import (
 	TenantConfigurationService,
 	TenantManagementService,
@@ -204,3 +205,10 @@ def get_policy_decision_read_service(
 		The policy-decision read service bound to the current session.
 	"""
 	return PolicyDecisionReadService(session)
+
+
+def get_risk_summary_read_service(
+	session: Annotated[AsyncSession, Depends(get_db_session)],
+) -> RiskSummaryReadService:
+	"""Return the tenant risk-summary read service."""
+	return RiskSummaryReadService(session)

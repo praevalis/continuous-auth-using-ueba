@@ -178,3 +178,26 @@ class RiskScoreFilterParams(SchemaModel):
 	processing_run_id: UUID | None = None
 	threshold_profile_id: UUID | None = None
 	score_band: ScoreBand | None = None
+
+
+class RiskSummaryFilterParams(SchemaModel):
+	"""Optional occurrence-time bounds for a tenant risk summary."""
+
+	occurred_after: datetime | None = None
+	occurred_before: datetime | None = None
+
+
+class RiskSummarySchema(SchemaModel):
+	"""Tenant event and scored-risk counts for risk summary consumers."""
+
+	tenant_id: UUID
+	occurred_after: datetime | None = None
+	occurred_before: datetime | None = None
+	event_count: int = Field(ge=0)
+	safe_count: int = Field(ge=0)
+	caution_count: int = Field(ge=0)
+	lockout_count: int = Field(ge=0)
+	unscored_count: int = Field(ge=0)
+	latest_event_at: datetime | None = None
+	latest_scored_at: datetime | None = None
+	generated_at: datetime

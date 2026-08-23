@@ -7,7 +7,15 @@ from uuid import UUID
 from domain.event import AuthEventOutcome
 from pydantic import Field
 
+from schemas.alert.models import AlertSchema
 from schemas.base import SchemaModel
+from schemas.enforcement.models import EnforcementActionSchema
+from schemas.policy.models import PolicyDecisionSchema
+from schemas.scoring.models import (
+	EventProcessingRunSchema,
+	FeatureSnapshotSchema,
+	RiskScoreSchema,
+)
 
 
 class AuthEventSchema(SchemaModel):
@@ -111,3 +119,15 @@ class AuthEventListFilterParams(SchemaModel):
 	sort: str = '-occurred_at'
 	limit: int = Field(default=50, ge=1, le=200)
 	offset: int = Field(default=0, ge=0)
+
+
+class AuthEventDetailSchema(SchemaModel):
+	"""An authentication event with its persisted processing evidence."""
+
+	event: AuthEventSchema
+	processing_run: EventProcessingRunSchema | None = None
+	feature_snapshot: FeatureSnapshotSchema | None = None
+	risk_score: RiskScoreSchema | None = None
+	policy_decision: PolicyDecisionSchema | None = None
+	alerts: list[AlertSchema] = Field(default_factory=list)
+	enforcement_actions: list[EnforcementActionSchema] = Field(default_factory=list)

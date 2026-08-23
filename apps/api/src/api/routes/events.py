@@ -2,7 +2,7 @@ from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, Depends
-from schemas.event import AuthEventListFilterParams, AuthEventSchema
+from schemas.event import AuthEventDetailSchema, AuthEventListFilterParams
 
 from api.dependencies import get_auth_event_read_service
 from api.schemas import AuthEventListResponseSchema
@@ -21,11 +21,11 @@ async def list_events(
 	return await service.list_events(tenant_id, filters)
 
 
-@router.get('/{auth_event_id}', response_model=AuthEventSchema)
+@router.get('/{auth_event_id}', response_model=AuthEventDetailSchema)
 async def get_event(
 	tenant_id: UUID,
 	auth_event_id: UUID,
 	service: Annotated[AuthEventReadService, Depends(get_auth_event_read_service)],
-) -> AuthEventSchema:
-	"""Return a tenant auth event."""
+) -> AuthEventDetailSchema:
+	"""Return a tenant auth event with its processing evidence."""
 	return await service.get_event(tenant_id, auth_event_id)

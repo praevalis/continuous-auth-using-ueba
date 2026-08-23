@@ -2,6 +2,7 @@
 
 from schemas.event.models import (
 	AuthEventCreateSchema,
+	AuthEventDetailSchema,
 	AuthEventIngestionAcceptedSchema,
 	AuthEventIngestionMessageSchema,
 	AuthEventIngestionRequestSchema,
@@ -12,6 +13,7 @@ from schemas.event.models import (
 
 __all__ = [
 	'AuthEventCreateSchema',
+	'AuthEventDetailSchema',
 	'AuthEventIngestionAcceptedSchema',
 	'AuthEventIngestionMessageSchema',
 	'AuthEventIngestionRequestSchema',

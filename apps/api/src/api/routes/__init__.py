@@ -9,6 +9,7 @@ from api.routes.health import router as health_router
 from api.routes.ingestion import router as ingestion_router
 from api.routes.integrations import router as integrations_router
 from api.routes.policy_decisions import router as policy_decisions_router
+from api.routes.risk_summary import router as risk_summary_router
 from api.routes.tenant_configuration import router as tenant_configuration_router
 from api.routes.tenants import router as tenants_router
 
@@ -22,6 +23,7 @@ api_router.include_router(tenant_configuration_router)
 api_router.include_router(ingestion_router)
 api_router.include_router(integrations_router)
 api_router.include_router(policy_decisions_router)
+api_router.include_router(risk_summary_router)
 
 
 def register_routes(app: FastAPI) -> None:
