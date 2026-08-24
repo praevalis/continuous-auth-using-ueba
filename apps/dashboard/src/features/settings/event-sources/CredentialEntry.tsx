@@ -17,6 +17,15 @@ function formatLastUsed(value: string | null | undefined) {
 	return value.includes('09:22') ? '2 minutes ago' : '18 minutes ago';
 }
 
+function maskKeyId(value: string) {
+	if (value.length <= 10) return value;
+	return `${value.slice(0, 5)}•••••${value.slice(-5)}`;
+}
+
+function formatStatus(value: string) {
+	return value.charAt(0).toUpperCase() + value.slice(1);
+}
+
 export default function CredentialEntry({
 	credential,
 	onRotate,
@@ -39,7 +48,9 @@ export default function CredentialEntry({
 					<p className="text-base font-semibold leading-5 text-primary">
 						{credential.credential_name}
 					</p>
-					<p className="mt-1 text-sm text-carbon-500">{credential.key_id}</p>
+					<p className="mt-1 text-sm text-carbon-500">
+						Key ID · {maskKeyId(credential.key_id)}
+					</p>
 					<p className="mt-2 text-xs text-carbon-500">
 						API key · Expires {formatDate(credential.expires_at)} · Last used{' '}
 						{formatLastUsed(credential.last_used_at)}
@@ -49,7 +60,7 @@ export default function CredentialEntry({
 			<div className="flex min-w-0 flex-wrap items-center gap-3 pl-10 sm:pl-0">
 				<ResourceStatusBadge
 					className="hidden shrink-0 sm:inline-flex"
-					label={active ? 'Active' : credential.status}
+					label={active ? 'Active' : formatStatus(credential.status)}
 					tone={active ? 'safe' : 'lockout'}
 				/>
 				{active && (

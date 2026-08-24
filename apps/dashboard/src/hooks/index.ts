@@ -2,6 +2,7 @@ export { useAsyncResource } from './useAsyncResource';
 export { useMutation } from './useMutation';
 export { useActivity } from './useActivity';
 export { useEventSources } from './useEventSources';
+export { useEventSourceMutation } from './useEventSourceMutation';
 export { usePolicies } from './usePolicies';
 export { usePolicyModeMutation } from './usePolicyModeMutation';
 export { useProviderConnections } from './useProviderConnections';

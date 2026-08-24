@@ -174,6 +174,13 @@ class EventSourceService:
 				f'Event source "{event_source_id}" is already disabled.'
 			)
 
+		# Revoke active credentials before changing the source state so the source
+		# and its credentials are disabled in one transaction.
+		await (
+			self._uow.ingestion_credentials.revoke_active_credentials_for_event_source(
+				event_source_id,
+			)
+		)
 		updated_event_source_model = await self._uow.event_sources.update_event_source(
 			event_source_id,
 			EventSourceUpdateSchema(status=EventSourceStatus.DISABLED),

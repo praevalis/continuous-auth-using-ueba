@@ -16,6 +16,8 @@ from domain.exceptions import (
 	IngestionAuthenticationError,
 	IngestionCredentialAlreadyExistsError,
 	IngestionCredentialNotFoundError,
+	InvalidEventSourceStateError,
+	InvalidIngestionCredentialStateError,
 	InvalidOperatingModeTransitionError,
 	InvalidProviderConnectionConfigurationError,
 	InvalidThresholdConfigurationError,
@@ -116,6 +118,8 @@ def get_domain_error_mapping(error: DomainError) -> DomainErrorMapping:
 		error,
 		(
 			InvalidOperatingModeTransitionError,
+			InvalidEventSourceStateError,
+			InvalidIngestionCredentialStateError,
 			InvalidProviderConnectionConfigurationError,
 			InvalidThresholdConfigurationError,
 			ActiveProviderRegistryError,

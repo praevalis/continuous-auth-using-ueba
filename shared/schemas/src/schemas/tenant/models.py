@@ -287,7 +287,6 @@ class IngestionCredentialSchema(SchemaModel):
 	credential_name: str = Field(min_length=1)
 	credential_type: IngestionCredentialType
 	key_id: str = Field(min_length=1)
-	key_hash: str = Field(min_length=1)
 	status: IngestionCredentialStatus
 	expires_at: datetime | None = None
 	last_used_at: datetime | None = None

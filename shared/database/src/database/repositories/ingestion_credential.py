@@ -5,6 +5,10 @@ from domain.exceptions import (
 	IngestionCredentialAlreadyExistsError,
 	IngestionCredentialNotFoundError,
 )
+from domain.tenant import (
+	DefaultEventSourceRules,
+	IngestionCredentialStatus,
+)
 from schemas.tenant import (
 	IngestionCredentialCreateSchema,
 	IngestionCredentialFilterParams,
@@ -27,6 +31,7 @@ class IngestionCredentialRepository:
 		"""
 		self._session = session
 		self._event_source_repository = EventSourceRepository(session)
+		self._event_source_rules = DefaultEventSourceRules()
 
 	async def create_ingestion_credential(
 		self,
@@ -113,6 +118,29 @@ class IngestionCredentialRepository:
 		await self._session.flush()
 		await self._session.refresh(credential)
 		return credential
+
+	async def revoke_active_credentials_for_event_source(
+		self,
+		event_source_id: UUID,
+	) -> None:
+		"""Revoke all active credentials assigned to an event source.
+
+		Args:
+			event_source_id: The event source identifier whose credentials should be
+				revoked.
+		"""
+		result = await self._session.execute(
+			select(IngestionCredentialModel).where(
+				IngestionCredentialModel.event_source_id == event_source_id,
+			)
+		)
+		credentials = result.scalars().all()
+		for credential in credentials:
+			if self._event_source_rules.should_revoke_credential_on_disable(
+				credential.status
+			):
+				credential.status = IngestionCredentialStatus.REVOKED
+		await self._session.flush()
 
 	async def delete_ingestion_credential(
 		self,

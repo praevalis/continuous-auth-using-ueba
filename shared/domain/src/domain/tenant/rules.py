@@ -2,6 +2,7 @@ from collections.abc import Iterable
 from typing import Protocol
 
 from domain.exceptions import (
+	InvalidEventSourceStateError,
 	InvalidThresholdConfigurationError,
 	MultipleActiveConfigurationsError,
 )
@@ -10,6 +11,52 @@ from domain.tenant.entities import (
 	TenantOperatingModeRecord,
 	TenantThresholdProfile,
 )
+from domain.tenant.enums import EventSourceStatus, IngestionCredentialStatus
+
+
+class IEventSourceRules(Protocol):
+	def ensure_can_issue_credentials(self, status: EventSourceStatus) -> None:
+		"""Ensure an event source is active before issuing credentials."""
+		...
+
+	def should_revoke_credential_on_disable(
+		self,
+		status: IngestionCredentialStatus,
+	) -> bool:
+		"""Return whether a credential should be revoked on source disablement."""
+		...
+
+
+class DefaultEventSourceRules:
+	@staticmethod
+	def ensure_can_issue_credentials(status: EventSourceStatus) -> None:
+		"""Ensure an event source is active before issuing credentials.
+
+		Args:
+			status: The current event source status.
+
+		Raises:
+			InvalidEventSourceStateError: If the event source is disabled.
+		"""
+		if status != EventSourceStatus.ACTIVE:
+			raise InvalidEventSourceStateError(
+				'Credentials can only be issued for active event sources.'
+			)
+
+	@staticmethod
+	def should_revoke_credential_on_disable(
+		status: IngestionCredentialStatus,
+	) -> bool:
+		"""Return whether a credential should be revoked on source disablement.
+
+		Args:
+			status: The current ingestion credential status.
+
+		Returns:
+			True for active credentials, which are the only credentials that can be
+			revoked during source disablement.
+		"""
+		return status == IngestionCredentialStatus.ACTIVE
 
 
 class ITenantConfigurationValidator(Protocol):

@@ -8,7 +8,10 @@ from domain.exceptions import (
 	EventSourceNotFoundError,
 	InvalidIngestionCredentialStateError,
 )
-from domain.tenant import IngestionCredentialStatus
+from domain.tenant import (
+	DefaultEventSourceRules,
+	IngestionCredentialStatus,
+)
 from schemas.tenant import (
 	IngestionCredentialCreateSchema,
 	IngestionCredentialFilterParams,
@@ -27,6 +30,7 @@ class IngestionCredentialService:
 			uow: The request-scoped database unit of work.
 		"""
 		self._uow = uow
+		self._event_source_rules = DefaultEventSourceRules()
 
 	async def issue_ingestion_credential(
 		self,
@@ -58,6 +62,7 @@ class IngestionCredentialService:
 					f'Event source "{payload.event_source_id}" does not exist for '
 					f'tenant "{tenant_id}".'
 				)
+			self._event_source_rules.ensure_can_issue_credentials(event_source.status)
 
 		plaintext_secret = f'ca_{secrets.token_urlsafe(32)}'
 		credential_model = (

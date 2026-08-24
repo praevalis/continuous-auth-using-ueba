@@ -40,7 +40,7 @@ export default function EventSourceSection({
 		<section className="border-b border-stone-300 py-8 last:border-b-0 lg:grid lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.7fr)] lg:gap-10">
 			<div className="relative pl-5 lg:pl-6">
 				<span
-					className="absolute left-0 top-0 h-24 w-1 rounded-full bg-safe lg:h-19"
+					className={`absolute left-0 top-0 h-24 w-1 rounded-full ${active ? 'bg-safe' : 'bg-lockout'} lg:h-19`}
 					aria-hidden="true"
 				/>
 				<div className="flex w-full items-start justify-between gap-4">
@@ -107,7 +107,13 @@ export default function EventSourceSection({
 					<button
 						type="button"
 						onClick={onIssueCredential}
-						className="inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-control border border-stone-300 px-2 text-[0.6875rem] text-primary transition hover:bg-primary-soft sm:min-h-9 sm:px-3 sm:text-xs"
+						disabled={!active}
+						title={
+							active
+								? 'Issue credential'
+								: 'Activate the event source to issue a credential'
+						}
+						className="inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-control border border-stone-300 px-2 text-[0.6875rem] text-primary transition hover:bg-primary-soft disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-9 sm:px-3 sm:text-xs"
 					>
 						<LuPlus size={14} /> Issue credential
 					</button>
@@ -122,6 +128,29 @@ export default function EventSourceSection({
 						/>
 					))}
 				</div>
+			</div>
+		</section>
+	);
+}
+
+export function EventSourceSectionSkeleton() {
+	return (
+		<section className="border-b border-stone-300 py-8 last:border-b-0 lg:grid lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.7fr)] lg:gap-10">
+			<div className="relative pl-5 lg:pl-6">
+				<span
+					className="absolute left-0 top-0 h-24 w-1 animate-pulse rounded-full bg-stone-200 lg:h-19"
+					aria-hidden="true"
+				/>
+				<div className="h-7 w-48 animate-pulse rounded bg-stone-200" />
+				<div className="mt-4 h-6 w-20 animate-pulse rounded bg-stone-200" />
+				<div className="mt-5 h-4 w-56 max-w-full animate-pulse rounded bg-stone-200" />
+			</div>
+			<div className="mt-8 rounded-panel bg-stone-100 p-5 sm:p-6 lg:mt-0 lg:rounded-none lg:border-l lg:border-stone-300 lg:bg-transparent lg:pl-10 lg:pt-0">
+				<div className="flex items-center justify-between gap-4">
+					<div className="h-6 w-32 animate-pulse rounded bg-stone-200" />
+					<div className="h-9 w-28 animate-pulse rounded bg-stone-200" />
+				</div>
+				<div className="mt-5 h-16 animate-pulse rounded bg-stone-200" />
 			</div>
 		</section>
 	);

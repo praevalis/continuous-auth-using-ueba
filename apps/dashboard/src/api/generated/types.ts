@@ -4,4449 +4,4434 @@
  */
 
 export interface paths {
-	'/tenants/{tenant_id}/alerts': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Alerts
-		 * @description Return tenant alerts.
-		 */
-		get: operations['list_alerts_tenants__tenant_id__alerts_get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/alerts/{alert_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Alert
-		 * @description Return a tenant alert.
-		 */
-		get: operations['get_alert_tenants__tenant_id__alerts__alert_id__get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/activity-trends': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Activity Trends
-		 * @description Return zero-filled activity trends for a tenant.
-		 */
-		get: operations['get_activity_trends_tenants__tenant_id__activity_trends_get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/events': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Events
-		 * @description Return tenant auth events.
-		 */
-		get: operations['list_events_tenants__tenant_id__events_get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/events/{auth_event_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Event
-		 * @description Return a tenant auth event with its processing evidence.
-		 */
-		get: operations['get_event_tenants__tenant_id__events__auth_event_id__get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/enforcement-actions': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Enforcement Actions
-		 * @description Return tenant enforcement actions.
-		 */
-		get: operations['list_enforcement_actions_tenants__tenant_id__enforcement_actions_get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/enforcement-actions/{enforcement_action_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Enforcement Action
-		 * @description Return a tenant enforcement action.
-		 */
-		get: operations['get_enforcement_action_tenants__tenant_id__enforcement_actions__enforcement_action_id__get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/health': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Health check
-		 * @description Return a basic liveness response.
-		 *
-		 *     Returns:
-		 *             A simple liveness payload.
-		 */
-		get: operations['health_check_health_get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Tenants
-		 * @description Return tenants matching the provided filters.
-		 *
-		 *     Args:
-		 *             filters: The tenant filter parameters.
-		 *             service: The tenant management service.
-		 *
-		 *     Returns:
-		 *             The matching tenants.
-		 */
-		get: operations['list_tenants_tenants_get'];
-		put?: never;
-		/**
-		 * Create Tenant
-		 * @description Create a tenant and its initial bootstrap configuration.
-		 *
-		 *     Args:
-		 *             payload: The tenant onboarding payload.
-		 *             service: The tenant onboarding service.
-		 *
-		 *     Returns:
-		 *             The created tenant and its initial active configuration records.
-		 */
-		post: operations['create_tenant_tenants_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Tenant
-		 * @description Return an active tenant by identifier.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             service: The tenant management service.
-		 *
-		 *     Returns:
-		 *             The matching tenant.
-		 */
-		get: operations['get_tenant_tenants__tenant_id__get'];
-		put?: never;
-		post?: never;
-		/**
-		 * Delete Tenant
-		 * @description Soft delete an active tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             service: The tenant management service.
-		 *
-		 *     Returns:
-		 *             An empty response.
-		 */
-		delete: operations['delete_tenant_tenants__tenant_id__delete'];
-		options?: never;
-		head?: never;
-		/**
-		 * Update Tenant
-		 * @description Update an active tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             payload: The tenant update payload.
-		 *             service: The tenant management service.
-		 *
-		 *     Returns:
-		 *             The updated tenant.
-		 */
-		patch: operations['update_tenant_tenants__tenant_id__patch'];
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/operating-modes': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Operating Modes
-		 * @description Return operating modes for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             filters: The operating mode filter parameters.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The operating modes for the tenant.
-		 */
-		get: operations['list_operating_modes_tenants__tenant_id__operating_modes_get'];
-		put?: never;
-		/**
-		 * Create Operating Mode
-		 * @description Create an operating mode for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             payload: The operating mode payload.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The created operating mode.
-		 */
-		post: operations['create_operating_mode_tenants__tenant_id__operating_modes_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/operating-modes/{operating_mode_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Operating Mode
-		 * @description Return an operating mode for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             operating_mode_id: The operating mode identifier.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The matching operating mode.
-		 */
-		get: operations['get_operating_mode_tenants__tenant_id__operating_modes__operating_mode_id__get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/operating-modes/{operating_mode_id}/retire': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Retire Operating Mode
-		 * @description Retire an operating mode for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             operating_mode_id: The operating mode identifier.
-		 *             payload: The operating mode retirement payload.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The retired operating mode.
-		 */
-		post: operations['retire_operating_mode_tenants__tenant_id__operating_modes__operating_mode_id__retire_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/threshold-profiles': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Threshold Profiles
-		 * @description Return threshold profiles for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             filters: The threshold profile filter parameters.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The threshold profiles for the tenant.
-		 */
-		get: operations['list_threshold_profiles_tenants__tenant_id__threshold_profiles_get'];
-		put?: never;
-		/**
-		 * Create Threshold Profile
-		 * @description Create a threshold profile for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             payload: The threshold profile payload.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The created threshold profile.
-		 */
-		post: operations['create_threshold_profile_tenants__tenant_id__threshold_profiles_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/threshold-profiles/{threshold_profile_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Threshold Profile
-		 * @description Return a threshold profile for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             threshold_profile_id: The threshold profile identifier.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The matching threshold profile.
-		 */
-		get: operations['get_threshold_profile_tenants__tenant_id__threshold_profiles__threshold_profile_id__get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/threshold-profiles/{threshold_profile_id}/retire': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Retire Threshold Profile
-		 * @description Retire a threshold profile for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             threshold_profile_id: The threshold profile identifier.
-		 *             payload: The threshold profile retirement payload.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The retired threshold profile.
-		 */
-		post: operations['retire_threshold_profile_tenants__tenant_id__threshold_profiles__threshold_profile_id__retire_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/hash-key-versions': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Hash Key Versions
-		 * @description Return hash key versions for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             filters: The hash key version filter parameters.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The hash key versions for the tenant.
-		 */
-		get: operations['list_hash_key_versions_tenants__tenant_id__hash_key_versions_get'];
-		put?: never;
-		/**
-		 * Create Hash Key Version
-		 * @description Create a hash key version for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             payload: The hash key version payload.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The created hash key version.
-		 */
-		post: operations['create_hash_key_version_tenants__tenant_id__hash_key_versions_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/hash-key-versions/{hash_key_version_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Hash Key Version
-		 * @description Return a hash key version for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             hash_key_version_id: The hash key version identifier.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The matching hash key version.
-		 */
-		get: operations['get_hash_key_version_tenants__tenant_id__hash_key_versions__hash_key_version_id__get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/hash-key-versions/{hash_key_version_id}/retire': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Retire Hash Key Version
-		 * @description Retire a hash key version for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The tenant identifier.
-		 *             hash_key_version_id: The hash key version identifier.
-		 *             payload: The hash key version retirement payload.
-		 *             service: The tenant configuration service.
-		 *
-		 *     Returns:
-		 *             The retired hash key version.
-		 */
-		post: operations['retire_hash_key_version_tenants__tenant_id__hash_key_versions__hash_key_version_id__retire_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/ingestion/events': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Ingest Auth Event
-		 * @description Validate and accept an auth-event ingestion request.
-		 *
-		 *     Args:
-		 *             payload: The raw auth-event ingestion payload.
-		 *             key_id: The public ingestion credential key identifier.
-		 *             key_secret: The plaintext ingestion credential secret.
-		 *             service: The auth-event ingestion service.
-		 *
-		 *     Returns:
-		 *             The accepted-ingestion acknowledgement payload.
-		 */
-		post: operations['ingest_auth_event_ingestion_events_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/ingestion/event-sources': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Event Sources
-		 * @description Return event sources for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The owning tenant identifier.
-		 *             filters: The event source filter parameters.
-		 *             service: The event source service.
-		 *
-		 *     Returns:
-		 *             The event sources for the tenant.
-		 */
-		get: operations['list_event_sources_ingestion_event_sources_get'];
-		put?: never;
-		/**
-		 * Create Event Source
-		 * @description Create an event source.
-		 *
-		 *     Args:
-		 *             tenant_id: The owning tenant identifier.
-		 *             payload: The event source payload.
-		 *             service: The event source service.
-		 *
-		 *     Returns:
-		 *             The created event source.
-		 */
-		post: operations['create_event_source_ingestion_event_sources_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/ingestion/event-sources/{event_source_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Event Source
-		 * @description Return an event source by identifier.
-		 *
-		 *     Args:
-		 *             event_source_id: The event source identifier.
-		 *             service: The event source service.
-		 *
-		 *     Returns:
-		 *             The matching event source.
-		 */
-		get: operations['get_event_source_ingestion_event_sources__event_source_id__get'];
-		put?: never;
-		post?: never;
-		/**
-		 * Delete Event Source
-		 * @description Delete an event source by identifier.
-		 *
-		 *     Args:
-		 *             event_source_id: The event source identifier.
-		 *             service: The event source service.
-		 *
-		 *     Returns:
-		 *             An empty response.
-		 */
-		delete: operations['delete_event_source_ingestion_event_sources__event_source_id__delete'];
-		options?: never;
-		head?: never;
-		/**
-		 * Update Event Source
-		 * @description Update event source metadata by identifier.
-		 *
-		 *     Args:
-		 *             event_source_id: The event source identifier.
-		 *             payload: The event source update payload.
-		 *             service: The event source service.
-		 *
-		 *     Returns:
-		 *             The updated event source.
-		 */
-		patch: operations['update_event_source_ingestion_event_sources__event_source_id__patch'];
-		trace?: never;
-	};
-	'/ingestion/event-sources/{event_source_id}/activate': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Activate Event Source
-		 * @description Activate a disabled event source.
-		 *
-		 *     Args:
-		 *             event_source_id: The event source identifier.
-		 *             service: The event source service.
-		 *
-		 *     Returns:
-		 *             The activated event source.
-		 */
-		post: operations['activate_event_source_ingestion_event_sources__event_source_id__activate_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/ingestion/event-sources/{event_source_id}/disable': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Disable Event Source
-		 * @description Disable an active event source.
-		 *
-		 *     Args:
-		 *             event_source_id: The event source identifier.
-		 *             service: The event source service.
-		 *
-		 *     Returns:
-		 *             The disabled event source.
-		 */
-		post: operations['disable_event_source_ingestion_event_sources__event_source_id__disable_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/ingestion/ingestion-credentials': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Ingestion Credentials
-		 * @description Return ingestion credentials for a tenant.
-		 *
-		 *     Args:
-		 *             tenant_id: The owning tenant identifier.
-		 *             filters: The ingestion credential filter parameters.
-		 *             service: The ingestion credential service.
-		 *
-		 *     Returns:
-		 *             The ingestion credentials for the tenant.
-		 */
-		get: operations['list_ingestion_credentials_ingestion_ingestion_credentials_get'];
-		put?: never;
-		/**
-		 * Issue Ingestion Credential
-		 * @description Issue an ingestion credential.
-		 *
-		 *     Args:
-		 *             tenant_id: The owning tenant identifier.
-		 *             payload: The ingestion credential payload.
-		 *             service: The ingestion credential service.
-		 *
-		 *     Returns:
-		 *             The issued credential metadata and plaintext secret.
-		 */
-		post: operations['issue_ingestion_credential_ingestion_ingestion_credentials_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/ingestion/ingestion-credentials/{credential_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Ingestion Credential
-		 * @description Return an ingestion credential by identifier.
-		 *
-		 *     Args:
-		 *             credential_id: The ingestion credential identifier.
-		 *             service: The ingestion credential service.
-		 *
-		 *     Returns:
-		 *             The matching ingestion credential.
-		 */
-		get: operations['get_ingestion_credential_ingestion_ingestion_credentials__credential_id__get'];
-		put?: never;
-		post?: never;
-		/**
-		 * Delete Ingestion Credential
-		 * @description Delete an ingestion credential by identifier.
-		 *
-		 *     Args:
-		 *             credential_id: The ingestion credential identifier.
-		 *             service: The ingestion credential service.
-		 *
-		 *     Returns:
-		 *             An empty response.
-		 */
-		delete: operations['delete_ingestion_credential_ingestion_ingestion_credentials__credential_id__delete'];
-		options?: never;
-		head?: never;
-		/**
-		 * Update Ingestion Credential
-		 * @description Update ingestion credential metadata by identifier.
-		 *
-		 *     Args:
-		 *             credential_id: The ingestion credential identifier.
-		 *             payload: The ingestion credential update payload.
-		 *             service: The ingestion credential service.
-		 *
-		 *     Returns:
-		 *             The updated ingestion credential.
-		 */
-		patch: operations['update_ingestion_credential_ingestion_ingestion_credentials__credential_id__patch'];
-		trace?: never;
-	};
-	'/ingestion/ingestion-credentials/{credential_id}/revoke': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Revoke Ingestion Credential
-		 * @description Revoke an active ingestion credential.
-		 *
-		 *     Args:
-		 *             credential_id: The ingestion credential identifier.
-		 *             service: The ingestion credential service.
-		 *
-		 *     Returns:
-		 *             The revoked ingestion credential.
-		 */
-		post: operations['revoke_ingestion_credential_ingestion_ingestion_credentials__credential_id__revoke_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/ingestion/ingestion-credentials/{credential_id}/rotate': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Rotate Ingestion Credential
-		 * @description Rotate an active ingestion credential.
-		 *
-		 *     Args:
-		 *             credential_id: The ingestion credential identifier.
-		 *             service: The ingestion credential service.
-		 *
-		 *     Returns:
-		 *             The rotated credential metadata and plaintext secret.
-		 */
-		post: operations['rotate_ingestion_credential_ingestion_ingestion_credentials__credential_id__rotate_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/integrations/provider-registry': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Provider Registry Entries
-		 * @description Return provider registry entries.
-		 */
-		get: operations['list_provider_registry_entries_integrations_provider_registry_get'];
-		put?: never;
-		/**
-		 * Create Provider Registry
-		 * @description Create a provider registry entry.
-		 */
-		post: operations['create_provider_registry_integrations_provider_registry_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/integrations/provider-registry/{provider_registry_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Provider Registry
-		 * @description Return a provider registry entry by identifier.
-		 */
-		get: operations['get_provider_registry_integrations_provider_registry__provider_registry_id__get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		/**
-		 * Update Provider Registry
-		 * @description Update a provider registry entry by identifier.
-		 */
-		patch: operations['update_provider_registry_integrations_provider_registry__provider_registry_id__patch'];
-		trace?: never;
-	};
-	'/integrations/provider-registry/{provider_registry_id}/deprecate': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Deprecate Provider Registry
-		 * @description Deprecate a provider registry entry.
-		 */
-		post: operations['deprecate_provider_registry_integrations_provider_registry__provider_registry_id__deprecate_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/integrations/provider-registry/{provider_registry_id}/reactivate': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Reactivate Provider Registry
-		 * @description Reactivate a provider registry entry.
-		 */
-		post: operations['reactivate_provider_registry_integrations_provider_registry__provider_registry_id__reactivate_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/integrations/tenant-provider-connections': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Tenant Provider Connections
-		 * @description Return tenant provider connections for a tenant.
-		 */
-		get: operations['list_tenant_provider_connections_integrations_tenant_provider_connections_get'];
-		put?: never;
-		/**
-		 * Create Tenant Provider Connection
-		 * @description Create a tenant provider connection.
-		 */
-		post: operations['create_tenant_provider_connection_integrations_tenant_provider_connections_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/integrations/tenant-provider-connections/{tenant_provider_connection_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Tenant Provider Connection
-		 * @description Return a tenant provider connection by identifier.
-		 */
-		get: operations['get_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		/**
-		 * Update Tenant Provider Connection
-		 * @description Update a tenant provider connection by identifier.
-		 */
-		patch: operations['update_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__patch'];
-		trace?: never;
-	};
-	'/integrations/tenant-provider-connections/{tenant_provider_connection_id}/activate': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Activate Tenant Provider Connection
-		 * @description Activate a tenant provider connection.
-		 */
-		post: operations['activate_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__activate_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/integrations/tenant-provider-connections/{tenant_provider_connection_id}/disable': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Disable Tenant Provider Connection
-		 * @description Disable a tenant provider connection.
-		 */
-		post: operations['disable_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__disable_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/integrations/tenant-provider-connections/{tenant_provider_connection_id}/test': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		get?: never;
-		put?: never;
-		/**
-		 * Test Tenant Provider Connection
-		 * @description Test a tenant provider connection.
-		 */
-		post: operations['test_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__test_post'];
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/policy-decisions': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * List Policy Decisions
-		 * @description Return tenant policy decisions.
-		 */
-		get: operations['list_policy_decisions_tenants__tenant_id__policy_decisions_get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/policy-decisions/{policy_decision_id}': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Policy Decision
-		 * @description Return a tenant policy decision.
-		 */
-		get: operations['get_policy_decision_tenants__tenant_id__policy_decisions__policy_decision_id__get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/pipeline-health': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Pipeline Health
-		 * @description Return computed pipeline health for a tenant.
-		 */
-		get: operations['get_pipeline_health_tenants__tenant_id__pipeline_health_get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
-	'/tenants/{tenant_id}/risk-summary': {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		/**
-		 * Get Risk Summary
-		 * @description Return tenant event and scored-risk summary indicators.
-		 */
-		get: operations['get_risk_summary_tenants__tenant_id__risk_summary_get'];
-		put?: never;
-		post?: never;
-		delete?: never;
-		options?: never;
-		head?: never;
-		patch?: never;
-		trace?: never;
-	};
+    "/tenants/{tenant_id}/alerts": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Alerts
+         * @description Return tenant alerts.
+         */
+        get: operations["list_alerts_tenants__tenant_id__alerts_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/alerts/{alert_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Alert
+         * @description Return a tenant alert.
+         */
+        get: operations["get_alert_tenants__tenant_id__alerts__alert_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/activity-trends": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Activity Trends
+         * @description Return zero-filled activity trends for a tenant.
+         */
+        get: operations["get_activity_trends_tenants__tenant_id__activity_trends_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Events
+         * @description Return tenant auth events.
+         */
+        get: operations["list_events_tenants__tenant_id__events_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/events/{auth_event_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Event
+         * @description Return a tenant auth event with its processing evidence.
+         */
+        get: operations["get_event_tenants__tenant_id__events__auth_event_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/enforcement-actions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Enforcement Actions
+         * @description Return tenant enforcement actions.
+         */
+        get: operations["list_enforcement_actions_tenants__tenant_id__enforcement_actions_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/enforcement-actions/{enforcement_action_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Enforcement Action
+         * @description Return a tenant enforcement action.
+         */
+        get: operations["get_enforcement_action_tenants__tenant_id__enforcement_actions__enforcement_action_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Health check
+         * @description Return a basic liveness response.
+         *
+         *     Returns:
+         *             A simple liveness payload.
+         */
+        get: operations["health_check_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Tenants
+         * @description Return tenants matching the provided filters.
+         *
+         *     Args:
+         *             filters: The tenant filter parameters.
+         *             service: The tenant management service.
+         *
+         *     Returns:
+         *             The matching tenants.
+         */
+        get: operations["list_tenants_tenants_get"];
+        put?: never;
+        /**
+         * Create Tenant
+         * @description Create a tenant and its initial bootstrap configuration.
+         *
+         *     Args:
+         *             payload: The tenant onboarding payload.
+         *             service: The tenant onboarding service.
+         *
+         *     Returns:
+         *             The created tenant and its initial active configuration records.
+         */
+        post: operations["create_tenant_tenants_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Tenant
+         * @description Return an active tenant by identifier.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             service: The tenant management service.
+         *
+         *     Returns:
+         *             The matching tenant.
+         */
+        get: operations["get_tenant_tenants__tenant_id__get"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete Tenant
+         * @description Soft delete an active tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             service: The tenant management service.
+         *
+         *     Returns:
+         *             An empty response.
+         */
+        delete: operations["delete_tenant_tenants__tenant_id__delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update Tenant
+         * @description Update an active tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             payload: The tenant update payload.
+         *             service: The tenant management service.
+         *
+         *     Returns:
+         *             The updated tenant.
+         */
+        patch: operations["update_tenant_tenants__tenant_id__patch"];
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/operating-modes": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Operating Modes
+         * @description Return operating modes for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             filters: The operating mode filter parameters.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The operating modes for the tenant.
+         */
+        get: operations["list_operating_modes_tenants__tenant_id__operating_modes_get"];
+        put?: never;
+        /**
+         * Create Operating Mode
+         * @description Create an operating mode for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             payload: The operating mode payload.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The created operating mode.
+         */
+        post: operations["create_operating_mode_tenants__tenant_id__operating_modes_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/operating-modes/{operating_mode_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Operating Mode
+         * @description Return an operating mode for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             operating_mode_id: The operating mode identifier.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The matching operating mode.
+         */
+        get: operations["get_operating_mode_tenants__tenant_id__operating_modes__operating_mode_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/operating-modes/{operating_mode_id}/retire": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Retire Operating Mode
+         * @description Retire an operating mode for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             operating_mode_id: The operating mode identifier.
+         *             payload: The operating mode retirement payload.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The retired operating mode.
+         */
+        post: operations["retire_operating_mode_tenants__tenant_id__operating_modes__operating_mode_id__retire_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/threshold-profiles": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Threshold Profiles
+         * @description Return threshold profiles for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             filters: The threshold profile filter parameters.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The threshold profiles for the tenant.
+         */
+        get: operations["list_threshold_profiles_tenants__tenant_id__threshold_profiles_get"];
+        put?: never;
+        /**
+         * Create Threshold Profile
+         * @description Create a threshold profile for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             payload: The threshold profile payload.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The created threshold profile.
+         */
+        post: operations["create_threshold_profile_tenants__tenant_id__threshold_profiles_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/threshold-profiles/{threshold_profile_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Threshold Profile
+         * @description Return a threshold profile for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             threshold_profile_id: The threshold profile identifier.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The matching threshold profile.
+         */
+        get: operations["get_threshold_profile_tenants__tenant_id__threshold_profiles__threshold_profile_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/threshold-profiles/{threshold_profile_id}/retire": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Retire Threshold Profile
+         * @description Retire a threshold profile for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             threshold_profile_id: The threshold profile identifier.
+         *             payload: The threshold profile retirement payload.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The retired threshold profile.
+         */
+        post: operations["retire_threshold_profile_tenants__tenant_id__threshold_profiles__threshold_profile_id__retire_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/hash-key-versions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Hash Key Versions
+         * @description Return hash key versions for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             filters: The hash key version filter parameters.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The hash key versions for the tenant.
+         */
+        get: operations["list_hash_key_versions_tenants__tenant_id__hash_key_versions_get"];
+        put?: never;
+        /**
+         * Create Hash Key Version
+         * @description Create a hash key version for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             payload: The hash key version payload.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The created hash key version.
+         */
+        post: operations["create_hash_key_version_tenants__tenant_id__hash_key_versions_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/hash-key-versions/{hash_key_version_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Hash Key Version
+         * @description Return a hash key version for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             hash_key_version_id: The hash key version identifier.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The matching hash key version.
+         */
+        get: operations["get_hash_key_version_tenants__tenant_id__hash_key_versions__hash_key_version_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/hash-key-versions/{hash_key_version_id}/retire": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Retire Hash Key Version
+         * @description Retire a hash key version for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The tenant identifier.
+         *             hash_key_version_id: The hash key version identifier.
+         *             payload: The hash key version retirement payload.
+         *             service: The tenant configuration service.
+         *
+         *     Returns:
+         *             The retired hash key version.
+         */
+        post: operations["retire_hash_key_version_tenants__tenant_id__hash_key_versions__hash_key_version_id__retire_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ingestion/events": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Ingest Auth Event
+         * @description Validate and accept an auth-event ingestion request.
+         *
+         *     Args:
+         *             payload: The raw auth-event ingestion payload.
+         *             key_id: The public ingestion credential key identifier.
+         *             key_secret: The plaintext ingestion credential secret.
+         *             service: The auth-event ingestion service.
+         *
+         *     Returns:
+         *             The accepted-ingestion acknowledgement payload.
+         */
+        post: operations["ingest_auth_event_ingestion_events_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ingestion/event-sources": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Event Sources
+         * @description Return event sources for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The owning tenant identifier.
+         *             filters: The event source filter parameters.
+         *             service: The event source service.
+         *
+         *     Returns:
+         *             The event sources for the tenant.
+         */
+        get: operations["list_event_sources_ingestion_event_sources_get"];
+        put?: never;
+        /**
+         * Create Event Source
+         * @description Create an event source.
+         *
+         *     Args:
+         *             tenant_id: The owning tenant identifier.
+         *             payload: The event source payload.
+         *             service: The event source service.
+         *
+         *     Returns:
+         *             The created event source.
+         */
+        post: operations["create_event_source_ingestion_event_sources_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ingestion/event-sources/{event_source_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Event Source
+         * @description Return an event source by identifier.
+         *
+         *     Args:
+         *             event_source_id: The event source identifier.
+         *             service: The event source service.
+         *
+         *     Returns:
+         *             The matching event source.
+         */
+        get: operations["get_event_source_ingestion_event_sources__event_source_id__get"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete Event Source
+         * @description Delete an event source by identifier.
+         *
+         *     Args:
+         *             event_source_id: The event source identifier.
+         *             service: The event source service.
+         *
+         *     Returns:
+         *             An empty response.
+         */
+        delete: operations["delete_event_source_ingestion_event_sources__event_source_id__delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update Event Source
+         * @description Update event source metadata by identifier.
+         *
+         *     Args:
+         *             event_source_id: The event source identifier.
+         *             payload: The event source update payload.
+         *             service: The event source service.
+         *
+         *     Returns:
+         *             The updated event source.
+         */
+        patch: operations["update_event_source_ingestion_event_sources__event_source_id__patch"];
+        trace?: never;
+    };
+    "/ingestion/event-sources/{event_source_id}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Activate Event Source
+         * @description Activate a disabled event source.
+         *
+         *     Args:
+         *             event_source_id: The event source identifier.
+         *             service: The event source service.
+         *
+         *     Returns:
+         *             The activated event source.
+         */
+        post: operations["activate_event_source_ingestion_event_sources__event_source_id__activate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ingestion/event-sources/{event_source_id}/disable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Disable Event Source
+         * @description Disable an active event source.
+         *
+         *     Args:
+         *             event_source_id: The event source identifier.
+         *             service: The event source service.
+         *
+         *     Returns:
+         *             The disabled event source.
+         */
+        post: operations["disable_event_source_ingestion_event_sources__event_source_id__disable_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ingestion/ingestion-credentials": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Ingestion Credentials
+         * @description Return ingestion credentials for a tenant.
+         *
+         *     Args:
+         *             tenant_id: The owning tenant identifier.
+         *             filters: The ingestion credential filter parameters.
+         *             service: The ingestion credential service.
+         *
+         *     Returns:
+         *             The ingestion credentials for the tenant.
+         */
+        get: operations["list_ingestion_credentials_ingestion_ingestion_credentials_get"];
+        put?: never;
+        /**
+         * Issue Ingestion Credential
+         * @description Issue an ingestion credential.
+         *
+         *     Args:
+         *             tenant_id: The owning tenant identifier.
+         *             payload: The ingestion credential payload.
+         *             service: The ingestion credential service.
+         *
+         *     Returns:
+         *             The issued credential metadata and plaintext secret.
+         */
+        post: operations["issue_ingestion_credential_ingestion_ingestion_credentials_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ingestion/ingestion-credentials/{credential_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Ingestion Credential
+         * @description Return an ingestion credential by identifier.
+         *
+         *     Args:
+         *             credential_id: The ingestion credential identifier.
+         *             service: The ingestion credential service.
+         *
+         *     Returns:
+         *             The matching ingestion credential.
+         */
+        get: operations["get_ingestion_credential_ingestion_ingestion_credentials__credential_id__get"];
+        put?: never;
+        post?: never;
+        /**
+         * Delete Ingestion Credential
+         * @description Delete an ingestion credential by identifier.
+         *
+         *     Args:
+         *             credential_id: The ingestion credential identifier.
+         *             service: The ingestion credential service.
+         *
+         *     Returns:
+         *             An empty response.
+         */
+        delete: operations["delete_ingestion_credential_ingestion_ingestion_credentials__credential_id__delete"];
+        options?: never;
+        head?: never;
+        /**
+         * Update Ingestion Credential
+         * @description Update ingestion credential metadata by identifier.
+         *
+         *     Args:
+         *             credential_id: The ingestion credential identifier.
+         *             payload: The ingestion credential update payload.
+         *             service: The ingestion credential service.
+         *
+         *     Returns:
+         *             The updated ingestion credential.
+         */
+        patch: operations["update_ingestion_credential_ingestion_ingestion_credentials__credential_id__patch"];
+        trace?: never;
+    };
+    "/ingestion/ingestion-credentials/{credential_id}/revoke": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Revoke Ingestion Credential
+         * @description Revoke an active ingestion credential.
+         *
+         *     Args:
+         *             credential_id: The ingestion credential identifier.
+         *             service: The ingestion credential service.
+         *
+         *     Returns:
+         *             The revoked ingestion credential.
+         */
+        post: operations["revoke_ingestion_credential_ingestion_ingestion_credentials__credential_id__revoke_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/ingestion/ingestion-credentials/{credential_id}/rotate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Rotate Ingestion Credential
+         * @description Rotate an active ingestion credential.
+         *
+         *     Args:
+         *             credential_id: The ingestion credential identifier.
+         *             service: The ingestion credential service.
+         *
+         *     Returns:
+         *             The rotated credential metadata and plaintext secret.
+         */
+        post: operations["rotate_ingestion_credential_ingestion_ingestion_credentials__credential_id__rotate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/integrations/provider-registry": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Provider Registry Entries
+         * @description Return provider registry entries.
+         */
+        get: operations["list_provider_registry_entries_integrations_provider_registry_get"];
+        put?: never;
+        /**
+         * Create Provider Registry
+         * @description Create a provider registry entry.
+         */
+        post: operations["create_provider_registry_integrations_provider_registry_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/integrations/provider-registry/{provider_registry_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Provider Registry
+         * @description Return a provider registry entry by identifier.
+         */
+        get: operations["get_provider_registry_integrations_provider_registry__provider_registry_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update Provider Registry
+         * @description Update a provider registry entry by identifier.
+         */
+        patch: operations["update_provider_registry_integrations_provider_registry__provider_registry_id__patch"];
+        trace?: never;
+    };
+    "/integrations/provider-registry/{provider_registry_id}/deprecate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Deprecate Provider Registry
+         * @description Deprecate a provider registry entry.
+         */
+        post: operations["deprecate_provider_registry_integrations_provider_registry__provider_registry_id__deprecate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/integrations/provider-registry/{provider_registry_id}/reactivate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Reactivate Provider Registry
+         * @description Reactivate a provider registry entry.
+         */
+        post: operations["reactivate_provider_registry_integrations_provider_registry__provider_registry_id__reactivate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/integrations/tenant-provider-connections": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Tenant Provider Connections
+         * @description Return tenant provider connections for a tenant.
+         */
+        get: operations["list_tenant_provider_connections_integrations_tenant_provider_connections_get"];
+        put?: never;
+        /**
+         * Create Tenant Provider Connection
+         * @description Create a tenant provider connection.
+         */
+        post: operations["create_tenant_provider_connection_integrations_tenant_provider_connections_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/integrations/tenant-provider-connections/{tenant_provider_connection_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Tenant Provider Connection
+         * @description Return a tenant provider connection by identifier.
+         */
+        get: operations["get_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        /**
+         * Update Tenant Provider Connection
+         * @description Update a tenant provider connection by identifier.
+         */
+        patch: operations["update_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__patch"];
+        trace?: never;
+    };
+    "/integrations/tenant-provider-connections/{tenant_provider_connection_id}/activate": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Activate Tenant Provider Connection
+         * @description Activate a tenant provider connection.
+         */
+        post: operations["activate_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__activate_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/integrations/tenant-provider-connections/{tenant_provider_connection_id}/disable": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Disable Tenant Provider Connection
+         * @description Disable a tenant provider connection.
+         */
+        post: operations["disable_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__disable_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/integrations/tenant-provider-connections/{tenant_provider_connection_id}/test": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Test Tenant Provider Connection
+         * @description Test a tenant provider connection.
+         */
+        post: operations["test_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__test_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/policy-decisions": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Policy Decisions
+         * @description Return tenant policy decisions.
+         */
+        get: operations["list_policy_decisions_tenants__tenant_id__policy_decisions_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/policy-decisions/{policy_decision_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Policy Decision
+         * @description Return a tenant policy decision.
+         */
+        get: operations["get_policy_decision_tenants__tenant_id__policy_decisions__policy_decision_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/pipeline-health": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Pipeline Health
+         * @description Return computed pipeline health for a tenant.
+         */
+        get: operations["get_pipeline_health_tenants__tenant_id__pipeline_health_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/tenants/{tenant_id}/risk-summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Risk Summary
+         * @description Return tenant event and scored-risk summary indicators.
+         */
+        get: operations["get_risk_summary_tenants__tenant_id__risk_summary_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
-	schemas: {
-		/**
-		 * ActivityTrendBucketSchema
-		 * @description Aggregated tenant activity for one time bucket.
-		 */
-		ActivityTrendBucketSchema: {
-			/**
-			 * Bucket Start
-			 * Format: date-time
-			 */
-			bucket_start: string;
-			/**
-			 * Bucket End
-			 * Format: date-time
-			 */
-			bucket_end: string;
-			/** Event Count */
-			event_count: number;
-			/** Scored Count */
-			scored_count: number;
-			/** Safe Count */
-			safe_count: number;
-			/** Caution Count */
-			caution_count: number;
-			/** Lockout Count */
-			lockout_count: number;
-			/** Unscored Count */
-			unscored_count: number;
-			/** Decision Count */
-			decision_count: number;
-			/** Alert Count */
-			alert_count: number;
-			/** Response Count */
-			response_count: number;
-		};
-		/**
-		 * ActivityTrendInterval
-		 * @enum {string}
-		 */
-		ActivityTrendInterval: 'hour' | 'day';
-		/**
-		 * ActivityTrendSchema
-		 * @description Tenant activity trend buckets for a requested time range.
-		 */
-		ActivityTrendSchema: {
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Occurred After
-			 * Format: date-time
-			 */
-			occurred_after: string;
-			/**
-			 * Occurred Before
-			 * Format: date-time
-			 */
-			occurred_before: string;
-			interval: components['schemas']['ActivityTrendInterval'];
-			/** Buckets */
-			buckets: components['schemas']['ActivityTrendBucketSchema'][];
-			/**
-			 * Generated At
-			 * Format: date-time
-			 */
-			generated_at: string;
-		};
-		/** AlertListResponseSchema */
-		AlertListResponseSchema: {
-			/** Items */
-			items: components['schemas']['AlertSchema'][];
-			pagination: components['schemas']['OffsetPaginationSchema'];
-		};
-		/** AlertSchema */
-		AlertSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Policy Decision Id
-			 * Format: uuid
-			 */
-			policy_decision_id: string;
-			/**
-			 * Risk Score Id
-			 * Format: uuid
-			 */
-			risk_score_id: string;
-			severity: components['schemas']['AlertSeverity'];
-			status: components['schemas']['AlertStatus'];
-			/** Title */
-			title: string;
-			/** Summary */
-			summary: string;
-			/** Alert Metadata */
-			alert_metadata?: {
-				[key: string]: unknown;
-			} | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-			/** Acknowledged At */
-			acknowledged_at?: string | null;
-			/** Resolved At */
-			resolved_at?: string | null;
-		};
-		/**
-		 * AlertSeverity
-		 * @enum {string}
-		 */
-		AlertSeverity: 'low' | 'medium' | 'high';
-		/**
-		 * AlertStatus
-		 * @enum {string}
-		 */
-		AlertStatus: 'open' | 'acknowledged' | 'resolved';
-		/**
-		 * AuthEventDetailSchema
-		 * @description An authentication event with its persisted processing evidence.
-		 */
-		AuthEventDetailSchema: {
-			event: components['schemas']['AuthEventSchema'];
-			processing_run?: components['schemas']['EventProcessingRunSchema'] | null;
-			feature_snapshot?: components['schemas']['FeatureSnapshotSchema'] | null;
-			risk_score?: components['schemas']['RiskScoreSchema'] | null;
-			policy_decision?: components['schemas']['PolicyDecisionSchema'] | null;
-			/** Alerts */
-			alerts?: components['schemas']['AlertSchema'][];
-			/** Enforcement Actions */
-			enforcement_actions?: components['schemas']['EnforcementActionSchema'][];
-		};
-		/** AuthEventIngestionAcceptedSchema */
-		AuthEventIngestionAcceptedSchema: {
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Event Source Id
-			 * Format: uuid
-			 */
-			event_source_id: string;
-			/**
-			 * Ingestion Credential Id
-			 * Format: uuid
-			 */
-			ingestion_credential_id: string;
-			/**
-			 * Accepted At
-			 * Format: date-time
-			 */
-			accepted_at: string;
-		};
-		/** AuthEventIngestionRequestSchema */
-		AuthEventIngestionRequestSchema: {
-			/** Event Source Id */
-			event_source_id?: string | null;
-			/** Source Event Id */
-			source_event_id?: string | null;
-			/**
-			 * Occurred At
-			 * Format: date-time
-			 */
-			occurred_at: string;
-			/**
-			 * Payload Schema Version
-			 * @default 1
-			 */
-			payload_schema_version: number;
-			/** Raw Payload */
-			raw_payload: {
-				[key: string]: unknown;
-			};
-		};
-		/**
-		 * AuthEventListItemSchema
-		 * @description Authentication event with its latest compact risk-score projection.
-		 */
-		AuthEventListItemSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Event Source Id
-			 * Format: uuid
-			 */
-			event_source_id: string;
-			/** Ingestion Credential Id */
-			ingestion_credential_id?: string | null;
-			/** Source Event Id */
-			source_event_id?: string | null;
-			/** Idempotency Key */
-			idempotency_key: string;
-			/**
-			 * Occurred At
-			 * Format: date-time
-			 */
-			occurred_at: string;
-			/**
-			 * Ingested At
-			 * Format: date-time
-			 */
-			ingested_at: string;
-			/** Event Type */
-			event_type: string;
-			outcome: components['schemas']['AuthEventOutcome'];
-			/** User Hash */
-			user_hash: string;
-			/** Account Hash */
-			account_hash?: string | null;
-			/** Session Hash */
-			session_hash?: string | null;
-			/** Source Ip Hash */
-			source_ip_hash?: string | null;
-			/** Source Ip Prefix */
-			source_ip_prefix?: string | null;
-			/** Device Hash */
-			device_hash?: string | null;
-			/** Host Hash */
-			host_hash?: string | null;
-			/** Auth Method */
-			auth_method?: string | null;
-			/** Failure Reason */
-			failure_reason?: string | null;
-			/** Location Country */
-			location_country?: string | null;
-			/** Location Region */
-			location_region?: string | null;
-			/** Occurred Hour */
-			occurred_hour: number;
-			/** Occurred Day Of Week */
-			occurred_day_of_week: number;
-			/** Hash Key Version */
-			hash_key_version: number;
-			/** Payload Schema Version */
-			payload_schema_version: number;
-			/** Raw Payload Redacted */
-			raw_payload_redacted?: {
-				[key: string]: unknown;
-			} | null;
-			/** Normalization Metadata */
-			normalization_metadata?: {
-				[key: string]: unknown;
-			} | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-			risk_score?: components['schemas']['RiskScoreSummarySchema'] | null;
-		};
-		/** AuthEventListResponseSchema */
-		AuthEventListResponseSchema: {
-			/** Items */
-			items: components['schemas']['AuthEventListItemSchema'][];
-			pagination: components['schemas']['OffsetPaginationSchema'];
-		};
-		/**
-		 * AuthEventOutcome
-		 * @enum {string}
-		 */
-		AuthEventOutcome:
-			'success' | 'failure' | 'challenge' | 'logout' | 'unknown';
-		/** AuthEventSchema */
-		AuthEventSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Event Source Id
-			 * Format: uuid
-			 */
-			event_source_id: string;
-			/** Ingestion Credential Id */
-			ingestion_credential_id?: string | null;
-			/** Source Event Id */
-			source_event_id?: string | null;
-			/** Idempotency Key */
-			idempotency_key: string;
-			/**
-			 * Occurred At
-			 * Format: date-time
-			 */
-			occurred_at: string;
-			/**
-			 * Ingested At
-			 * Format: date-time
-			 */
-			ingested_at: string;
-			/** Event Type */
-			event_type: string;
-			outcome: components['schemas']['AuthEventOutcome'];
-			/** User Hash */
-			user_hash: string;
-			/** Account Hash */
-			account_hash?: string | null;
-			/** Session Hash */
-			session_hash?: string | null;
-			/** Source Ip Hash */
-			source_ip_hash?: string | null;
-			/** Source Ip Prefix */
-			source_ip_prefix?: string | null;
-			/** Device Hash */
-			device_hash?: string | null;
-			/** Host Hash */
-			host_hash?: string | null;
-			/** Auth Method */
-			auth_method?: string | null;
-			/** Failure Reason */
-			failure_reason?: string | null;
-			/** Location Country */
-			location_country?: string | null;
-			/** Location Region */
-			location_region?: string | null;
-			/** Occurred Hour */
-			occurred_hour: number;
-			/** Occurred Day Of Week */
-			occurred_day_of_week: number;
-			/** Hash Key Version */
-			hash_key_version: number;
-			/** Payload Schema Version */
-			payload_schema_version: number;
-			/** Raw Payload Redacted */
-			raw_payload_redacted?: {
-				[key: string]: unknown;
-			} | null;
-			/** Normalization Metadata */
-			normalization_metadata?: {
-				[key: string]: unknown;
-			} | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-		};
-		/** EnforcementActionListResponseSchema */
-		EnforcementActionListResponseSchema: {
-			/** Items */
-			items: components['schemas']['EnforcementActionSchema'][];
-			pagination: components['schemas']['OffsetPaginationSchema'];
-		};
-		/** EnforcementActionSchema */
-		EnforcementActionSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Policy Decision Id
-			 * Format: uuid
-			 */
-			policy_decision_id: string;
-			/** Event Source Id */
-			event_source_id?: string | null;
-			action_type: components['schemas']['EnforcementActionType'];
-			/** Target User Hash */
-			target_user_hash: string;
-			/** Integration Name */
-			integration_name: string;
-			/** Request Payload Redacted */
-			request_payload_redacted?: {
-				[key: string]: unknown;
-			} | null;
-			status: components['schemas']['EnforcementActionStatus'];
-			/** Attempt Count */
-			attempt_count: number;
-			/** External Action Id */
-			external_action_id?: string | null;
-			/** Error Code */
-			error_code?: string | null;
-			/** Error Message */
-			error_message?: string | null;
-			/**
-			 * Requested At
-			 * Format: date-time
-			 */
-			requested_at: string;
-			/** Completed At */
-			completed_at?: string | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-		};
-		/**
-		 * EnforcementActionStatus
-		 * @enum {string}
-		 */
-		EnforcementActionStatus:
-			'pending' | 'sent' | 'succeeded' | 'failed' | 'skipped';
-		/**
-		 * EnforcementActionType
-		 * @enum {string}
-		 */
-		EnforcementActionType: 'step_up_mfa' | 'terminate_session' | 'lock_account';
-		/**
-		 * EventPayloadFormat
-		 * @enum {string}
-		 */
-		EventPayloadFormat: 'json' | 'syslog';
-		/** EventProcessingRunSchema */
-		EventProcessingRunSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Auth Event Id
-			 * Format: uuid
-			 */
-			auth_event_id: string;
-			job_type: components['schemas']['ProcessingJobType'];
-			status: components['schemas']['ProcessingRunStatus'];
-			/** Attempt Count */
-			attempt_count: number;
-			/** Correlation Id */
-			correlation_id?: string | null;
-			/** Error Code */
-			error_code?: string | null;
-			/** Error Message */
-			error_message?: string | null;
-			/**
-			 * Queued At
-			 * Format: date-time
-			 */
-			queued_at: string;
-			/** Started At */
-			started_at?: string | null;
-			/** Finished At */
-			finished_at?: string | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-		};
-		/** EventSourceCreateSchema */
-		EventSourceCreateSchema: {
-			/** Source Name */
-			source_name: string;
-			source_type: components['schemas']['EventSourceType'];
-			payload_format?: components['schemas']['EventPayloadFormat'] | null;
-			/** Vendor */
-			vendor?: string | null;
-			/** External Reference */
-			external_reference?: string | null;
-			/** @default active */
-			status: components['schemas']['EventSourceStatus'];
-		};
-		/** EventSourceMetadataUpdateSchema */
-		EventSourceMetadataUpdateSchema: {
-			/** Source Name */
-			source_name?: string | null;
-			source_type?: components['schemas']['EventSourceType'] | null;
-			payload_format?: components['schemas']['EventPayloadFormat'] | null;
-			/** Vendor */
-			vendor?: string | null;
-			/** External Reference */
-			external_reference?: string | null;
-		};
-		/** EventSourceSchema */
-		EventSourceSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/** Source Name */
-			source_name: string;
-			source_type: components['schemas']['EventSourceType'];
-			payload_format?: components['schemas']['EventPayloadFormat'] | null;
-			/** Vendor */
-			vendor?: string | null;
-			/** External Reference */
-			external_reference?: string | null;
-			status: components['schemas']['EventSourceStatus'];
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-			/**
-			 * Updated At
-			 * Format: date-time
-			 */
-			updated_at: string;
-		};
-		/**
-		 * EventSourceStatus
-		 * @enum {string}
-		 */
-		EventSourceStatus: 'active' | 'disabled';
-		/**
-		 * EventSourceType
-		 * @enum {string}
-		 */
-		EventSourceType: 'idp' | 'siem' | 'agent' | 'manual_replay';
-		/** FeatureSnapshotSchema */
-		FeatureSnapshotSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Auth Event Id
-			 * Format: uuid
-			 */
-			auth_event_id: string;
-			/**
-			 * Processing Run Id
-			 * Format: uuid
-			 */
-			processing_run_id: string;
-			/** Window Start */
-			window_start?: string | null;
-			/** Window End */
-			window_end?: string | null;
-			/** Login Frequency */
-			login_frequency?: number | null;
-			/** Avg Inter Event Time */
-			avg_inter_event_time?: number | null;
-			/** Time Since Last Login */
-			time_since_last_login?: number | null;
-			/** Unique Hosts */
-			unique_hosts?: number | null;
-			/** Host Entropy */
-			host_entropy?: number | null;
-			/** Top Host Ratio */
-			top_host_ratio?: number | null;
-			/** Degree Centrality */
-			degree_centrality?: number | null;
-			/** Hour Of Day */
-			hour_of_day: number;
-			/** Day Of Week */
-			day_of_week: number;
-			/** Feature Version */
-			feature_version: number;
-			/**
-			 * Computed At
-			 * Format: date-time
-			 */
-			computed_at: string;
-		};
-		/** HTTPValidationError */
-		HTTPValidationError: {
-			/** Detail */
-			detail?: components['schemas']['ValidationError'][];
-		};
-		/** IngestionCredentialCreateSchema */
-		IngestionCredentialCreateSchema: {
-			/** Credential Name */
-			credential_name: string;
-			/** Event Source Id */
-			event_source_id?: string | null;
-			/** @default api_key */
-			credential_type: components['schemas']['IngestionCredentialType'];
-			/** Expires At */
-			expires_at?: string | null;
-		};
-		/** IngestionCredentialMetadataUpdateSchema */
-		IngestionCredentialMetadataUpdateSchema: {
-			/** Credential Name */
-			credential_name?: string | null;
-			/** Event Source Id */
-			event_source_id?: string | null;
-			/** Expires At */
-			expires_at?: string | null;
-		};
-		/** IngestionCredentialSchema */
-		IngestionCredentialSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/** Event Source Id */
-			event_source_id?: string | null;
-			/** Credential Name */
-			credential_name: string;
-			credential_type: components['schemas']['IngestionCredentialType'];
-			/** Key Id */
-			key_id: string;
-			/** Key Hash */
-			key_hash: string;
-			status: components['schemas']['IngestionCredentialStatus'];
-			/** Expires At */
-			expires_at?: string | null;
-			/** Last Used At */
-			last_used_at?: string | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-			/** Rotated At */
-			rotated_at?: string | null;
-		};
-		/**
-		 * IngestionCredentialStatus
-		 * @enum {string}
-		 */
-		IngestionCredentialStatus: 'active' | 'revoked' | 'expired';
-		/**
-		 * IngestionCredentialType
-		 * @enum {string}
-		 */
-		IngestionCredentialType: 'api_key';
-		/** IssuedIngestionCredentialSchema */
-		IssuedIngestionCredentialSchema: {
-			credential: components['schemas']['IngestionCredentialSchema'];
-			/** Plaintext Secret */
-			plaintext_secret: string;
-		};
-		/** OffsetPaginationSchema */
-		OffsetPaginationSchema: {
-			/** Limit */
-			limit: number;
-			/** Offset */
-			offset: number;
-			/** Total Count */
-			total_count: number;
-			/** Has Next */
-			has_next: boolean;
-			/** Has Prev */
-			has_prev: boolean;
-		};
-		/**
-		 * OperatingMode
-		 * @enum {string}
-		 */
-		OperatingMode: 'shadow' | 'alert_only' | 'enforce';
-		/**
-		 * PipelineComponent
-		 * @enum {string}
-		 */
-		PipelineComponent: 'ingestion' | 'analysis' | 'responses';
-		/**
-		 * PipelineHealthComponentSchema
-		 * @description Current operational health for one tenant pipeline component.
-		 */
-		PipelineHealthComponentSchema: {
-			component: components['schemas']['PipelineComponent'];
-			status: components['schemas']['PipelineHealthStatus'];
-			/** Last Activity At */
-			last_activity_at?: string | null;
-			/** Last Success At */
-			last_success_at?: string | null;
-			/** Pending Count */
-			pending_count: number;
-			/** Failed Count */
-			failed_count: number;
-			/** Detail */
-			detail?: string | null;
-		};
-		/**
-		 * PipelineHealthSchema
-		 * @description Computed operational health for a tenant's processing pipeline.
-		 */
-		PipelineHealthSchema: {
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Generated At
-			 * Format: date-time
-			 */
-			generated_at: string;
-			/** Components */
-			components: components['schemas']['PipelineHealthComponentSchema'][];
-		};
-		/**
-		 * PipelineHealthStatus
-		 * @enum {string}
-		 */
-		PipelineHealthStatus: 'healthy' | 'degraded' | 'idle' | 'not_configured';
-		/**
-		 * PolicyAction
-		 * @enum {string}
-		 */
-		PolicyAction:
-			| 'allow'
-			| 'step_up_mfa'
-			| 'terminate_session'
-			| 'lock_account'
-			| 'alert_only'
-			| 'none';
-		/** PolicyDecisionListResponseSchema */
-		PolicyDecisionListResponseSchema: {
-			/** Items */
-			items: components['schemas']['PolicyDecisionSchema'][];
-			pagination: components['schemas']['OffsetPaginationSchema'];
-		};
-		/** PolicyDecisionSchema */
-		PolicyDecisionSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Auth Event Id
-			 * Format: uuid
-			 */
-			auth_event_id: string;
-			/**
-			 * Risk Score Id
-			 * Format: uuid
-			 */
-			risk_score_id: string;
-			/**
-			 * Operating Mode Id
-			 * Format: uuid
-			 */
-			operating_mode_id: string;
-			decision_band: components['schemas']['ScoreBand'];
-			recommended_action: components['schemas']['PolicyAction'];
-			final_action: components['schemas']['PolicyAction'];
-			/** Decision Reason */
-			decision_reason?: string | null;
-			/** Decision Metadata */
-			decision_metadata?: {
-				[key: string]: unknown;
-			} | null;
-			/**
-			 * Decided At
-			 * Format: date-time
-			 */
-			decided_at: string;
-		};
-		/**
-		 * ProcessingJobType
-		 * @enum {string}
-		 */
-		ProcessingJobType: 'score_event' | 'send_alert' | 'enforce_action';
-		/**
-		 * ProcessingRunStatus
-		 * @enum {string}
-		 */
-		ProcessingRunStatus:
-			'queued' | 'running' | 'succeeded' | 'failed' | 'dead_lettered';
-		/**
-		 * ProviderConnectionMethod
-		 * @enum {string}
-		 */
-		ProviderConnectionMethod:
-			'api_token' | 'oauth_client_credentials' | 'service_account';
-		/** ProviderConnectionTestResultSchema */
-		ProviderConnectionTestResultSchema: {
-			/**
-			 * Connection Id
-			 * Format: uuid
-			 */
-			connection_id: string;
-			/**
-			 * Provider Registry Id
-			 * Format: uuid
-			 */
-			provider_registry_id: string;
-			/** Provider Key */
-			provider_key: string;
-			/** Success */
-			success: boolean;
-			/**
-			 * Tested At
-			 * Format: date-time
-			 */
-			tested_at: string;
-			status: components['schemas']['TenantProviderConnectionStatus'];
-			/** Error Code */
-			error_code?: string | null;
-			/** Error Message */
-			error_message?: string | null;
-			/** Response Metadata */
-			response_metadata?: {
-				[key: string]: unknown;
-			} | null;
-		};
-		/** ProviderRegistryCreateSchema */
-		ProviderRegistryCreateSchema: {
-			/** Provider Key */
-			provider_key: string;
-			/** Display Name */
-			display_name: string;
-			provider_type: components['schemas']['ProviderType'];
-			connection_method: components['schemas']['ProviderConnectionMethod'];
-			/** Supported Policy Actions */
-			supported_policy_actions?: components['schemas']['PolicyAction'][];
-			/**
-			 * Is Active
-			 * @default true
-			 */
-			is_active: boolean;
-			/** Deprecated At */
-			deprecated_at?: string | null;
-		};
-		/** ProviderRegistrySchema */
-		ProviderRegistrySchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/** Provider Key */
-			provider_key: string;
-			/** Display Name */
-			display_name: string;
-			provider_type: components['schemas']['ProviderType'];
-			connection_method: components['schemas']['ProviderConnectionMethod'];
-			/** Supported Policy Actions */
-			supported_policy_actions: components['schemas']['PolicyAction'][];
-			/** Is Active */
-			is_active: boolean;
-			/** Deprecated At */
-			deprecated_at?: string | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-			/**
-			 * Updated At
-			 * Format: date-time
-			 */
-			updated_at: string;
-		};
-		/** ProviderRegistryUpdateSchema */
-		ProviderRegistryUpdateSchema: {
-			/** Display Name */
-			display_name?: string | null;
-			connection_method?:
-				components['schemas']['ProviderConnectionMethod'] | null;
-			/** Supported Policy Actions */
-			supported_policy_actions?: components['schemas']['PolicyAction'][] | null;
-			/** Is Active */
-			is_active?: boolean | null;
-			/** Deprecated At */
-			deprecated_at?: string | null;
-		};
-		/**
-		 * ProviderType
-		 * @enum {string}
-		 */
-		ProviderType: 'idp' | 'siem';
-		/** RiskScoreSchema */
-		RiskScoreSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Auth Event Id
-			 * Format: uuid
-			 */
-			auth_event_id: string;
-			/**
-			 * Feature Snapshot Id
-			 * Format: uuid
-			 */
-			feature_snapshot_id: string;
-			/**
-			 * Processing Run Id
-			 * Format: uuid
-			 */
-			processing_run_id: string;
-			/** Model Version */
-			model_version: string;
-			/**
-			 * Threshold Profile Id
-			 * Format: uuid
-			 */
-			threshold_profile_id: string;
-			/** Global Anomaly Score */
-			global_anomaly_score: number;
-			/** Local Anomaly Score Raw */
-			local_anomaly_score_raw: number;
-			/** Local Anomaly Score Normalized */
-			local_anomaly_score_normalized: number;
-			/** Fusion Alpha */
-			fusion_alpha: number;
-			/** Fused Anomaly Score */
-			fused_anomaly_score: number;
-			/** Caution Threshold Applied */
-			caution_threshold_applied: number;
-			/** Lockout Threshold Applied */
-			lockout_threshold_applied: number;
-			score_band: components['schemas']['ScoreBand'];
-			/**
-			 * Scored At
-			 * Format: date-time
-			 */
-			scored_at: string;
-		};
-		/**
-		 * RiskScoreSummarySchema
-		 * @description Compact risk-score projection embedded in event list responses.
-		 */
-		RiskScoreSummarySchema: {
-			/** Fused Anomaly Score */
-			fused_anomaly_score: number;
-			/** Caution Threshold Applied */
-			caution_threshold_applied: number;
-			/** Lockout Threshold Applied */
-			lockout_threshold_applied: number;
-			score_band: components['schemas']['ScoreBand'];
-		};
-		/**
-		 * RiskSummarySchema
-		 * @description Tenant event and scored-risk counts for risk summary consumers.
-		 */
-		RiskSummarySchema: {
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/** Occurred After */
-			occurred_after?: string | null;
-			/** Occurred Before */
-			occurred_before?: string | null;
-			/** Event Count */
-			event_count: number;
-			/** Safe Count */
-			safe_count: number;
-			/** Caution Count */
-			caution_count: number;
-			/** Lockout Count */
-			lockout_count: number;
-			/** Unscored Count */
-			unscored_count: number;
-			/** Latest Event At */
-			latest_event_at?: string | null;
-			/** Latest Scored At */
-			latest_scored_at?: string | null;
-			/**
-			 * Generated At
-			 * Format: date-time
-			 */
-			generated_at: string;
-		};
-		/**
-		 * ScoreBand
-		 * @enum {string}
-		 */
-		ScoreBand: 'safe' | 'caution' | 'lockout';
-		/** TenantCreateSchema */
-		TenantCreateSchema: {
-			/** Display Name */
-			display_name: string;
-			/** Default Timezone */
-			default_timezone: string;
-		};
-		/** TenantHashKeyVersionCreateSchema */
-		TenantHashKeyVersionCreateSchema: {
-			/** Key Version */
-			key_version: number;
-			/** Algorithm */
-			algorithm: string;
-			/** Salt Value */
-			salt_value: string;
-			/**
-			 * Effective From
-			 * Format: date-time
-			 */
-			effective_from: string;
-			/** Effective To */
-			effective_to?: string | null;
-		};
-		/** TenantHashKeyVersionRetireSchema */
-		TenantHashKeyVersionRetireSchema: {
-			/** Effective To */
-			effective_to?: string | null;
-		};
-		/** TenantHashKeyVersionSchema */
-		TenantHashKeyVersionSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/** Key Version */
-			key_version: number;
-			/** Algorithm */
-			algorithm: string;
-			/** Salt Value */
-			salt_value: string;
-			/** Is Active */
-			is_active: boolean;
-			/**
-			 * Effective From
-			 * Format: date-time
-			 */
-			effective_from: string;
-			/** Effective To */
-			effective_to?: string | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-		};
-		/** TenantOnboardingCreateSchema */
-		TenantOnboardingCreateSchema: {
-			tenant: components['schemas']['TenantCreateSchema'];
-			/** @default shadow */
-			initial_operating_mode: components['schemas']['OperatingMode'];
-			/**
-			 * Initial Caution Threshold
-			 * @default 0.349
-			 */
-			initial_caution_threshold: number;
-			/**
-			 * Initial Lockout Threshold
-			 * @default 0.463
-			 */
-			initial_lockout_threshold: number;
-			/** Initial Fusion Alpha */
-			initial_fusion_alpha?: number | null;
-			/**
-			 * Hash Algorithm
-			 * @default sha256
-			 */
-			hash_algorithm: string;
-		};
-		/** TenantOnboardingSchema */
-		TenantOnboardingSchema: {
-			tenant: components['schemas']['TenantSchema'];
-			operating_mode: components['schemas']['TenantOperatingModeSchema'];
-			threshold_profile: components['schemas']['TenantThresholdProfileSchema'];
-			hash_key_version: components['schemas']['TenantHashKeyVersionSchema'];
-		};
-		/** TenantOperatingModeCreateSchema */
-		TenantOperatingModeCreateSchema: {
-			mode: components['schemas']['OperatingMode'];
-			/**
-			 * Effective From
-			 * Format: date-time
-			 */
-			effective_from: string;
-			/** Effective To */
-			effective_to?: string | null;
-			/** Changed By */
-			changed_by?: string | null;
-			/** Change Reason */
-			change_reason?: string | null;
-		};
-		/** TenantOperatingModeRetireSchema */
-		TenantOperatingModeRetireSchema: {
-			/** Effective To */
-			effective_to?: string | null;
-			/** Changed By */
-			changed_by?: string | null;
-			/** Change Reason */
-			change_reason?: string | null;
-		};
-		/** TenantOperatingModeSchema */
-		TenantOperatingModeSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			mode: components['schemas']['OperatingMode'];
-			/** Is Active */
-			is_active: boolean;
-			/**
-			 * Effective From
-			 * Format: date-time
-			 */
-			effective_from: string;
-			/** Effective To */
-			effective_to?: string | null;
-			/** Changed By */
-			changed_by?: string | null;
-			/** Change Reason */
-			change_reason?: string | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-		};
-		/** TenantProviderConnectionCreateSchema */
-		TenantProviderConnectionCreateSchema: {
-			/**
-			 * Provider Registry Id
-			 * Format: uuid
-			 */
-			provider_registry_id: string;
-			/** Connection Name */
-			connection_name: string;
-			/** Base Url */
-			base_url: string;
-			/** Auth Realm */
-			auth_realm?: string | null;
-			/** Client Id */
-			client_id?: string | null;
-			/** Client Secret Ref */
-			client_secret_ref?: string | null;
-			/** Api Token Ref */
-			api_token_ref?: string | null;
-			/** External Tenant Reference */
-			external_tenant_reference?: string | null;
-			/** @default disabled */
-			status: components['schemas']['TenantProviderConnectionStatus'];
-			/** Disabled At */
-			disabled_at?: string | null;
-			/** Last Tested At */
-			last_tested_at?: string | null;
-			/** Last Test Error */
-			last_test_error?: string | null;
-		};
-		/** TenantProviderConnectionSchema */
-		TenantProviderConnectionSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/**
-			 * Provider Registry Id
-			 * Format: uuid
-			 */
-			provider_registry_id: string;
-			/** Connection Name */
-			connection_name: string;
-			/** Base Url */
-			base_url: string;
-			/** Auth Realm */
-			auth_realm?: string | null;
-			/** Client Id */
-			client_id?: string | null;
-			/** Client Secret Ref */
-			client_secret_ref?: string | null;
-			/** Api Token Ref */
-			api_token_ref?: string | null;
-			/** External Tenant Reference */
-			external_tenant_reference?: string | null;
-			status: components['schemas']['TenantProviderConnectionStatus'];
-			/** Disabled At */
-			disabled_at?: string | null;
-			/** Last Tested At */
-			last_tested_at?: string | null;
-			/** Last Test Error */
-			last_test_error?: string | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-			/**
-			 * Updated At
-			 * Format: date-time
-			 */
-			updated_at: string;
-		};
-		/**
-		 * TenantProviderConnectionStatus
-		 * @enum {string}
-		 */
-		TenantProviderConnectionStatus: 'active' | 'disabled' | 'test_failed';
-		/** TenantProviderConnectionUpdateSchema */
-		TenantProviderConnectionUpdateSchema: {
-			/** Connection Name */
-			connection_name?: string | null;
-			/** Base Url */
-			base_url?: string | null;
-			/** Auth Realm */
-			auth_realm?: string | null;
-			/** Client Id */
-			client_id?: string | null;
-			/** Client Secret Ref */
-			client_secret_ref?: string | null;
-			/** Api Token Ref */
-			api_token_ref?: string | null;
-			/** External Tenant Reference */
-			external_tenant_reference?: string | null;
-			status?: components['schemas']['TenantProviderConnectionStatus'] | null;
-			/** Disabled At */
-			disabled_at?: string | null;
-			/** Last Tested At */
-			last_tested_at?: string | null;
-			/** Last Test Error */
-			last_test_error?: string | null;
-		};
-		/** TenantSchema */
-		TenantSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/** Slug */
-			slug: string;
-			/** Display Name */
-			display_name: string;
-			status: components['schemas']['TenantStatus'];
-			/** Default Timezone */
-			default_timezone: string;
-			/** Deleted At */
-			deleted_at?: string | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-			/**
-			 * Updated At
-			 * Format: date-time
-			 */
-			updated_at: string;
-		};
-		/**
-		 * TenantStatus
-		 * @enum {string}
-		 */
-		TenantStatus: 'active' | 'suspended' | 'archived';
-		/** TenantThresholdProfileCreateSchema */
-		TenantThresholdProfileCreateSchema: {
-			/** Name */
-			name: string;
-			/** Description */
-			description?: string | null;
-			/** Caution Threshold */
-			caution_threshold: number;
-			/** Lockout Threshold */
-			lockout_threshold: number;
-			/** Fusion Alpha */
-			fusion_alpha?: number | null;
-			/**
-			 * Effective From
-			 * Format: date-time
-			 */
-			effective_from: string;
-			/** Effective To */
-			effective_to?: string | null;
-		};
-		/** TenantThresholdProfileRetireSchema */
-		TenantThresholdProfileRetireSchema: {
-			/** Effective To */
-			effective_to?: string | null;
-		};
-		/** TenantThresholdProfileSchema */
-		TenantThresholdProfileSchema: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id: string;
-			/**
-			 * Tenant Id
-			 * Format: uuid
-			 */
-			tenant_id: string;
-			/** Name */
-			name: string;
-			/** Description */
-			description?: string | null;
-			/** Caution Threshold */
-			caution_threshold: number;
-			/** Lockout Threshold */
-			lockout_threshold: number;
-			/** Fusion Alpha */
-			fusion_alpha?: number | null;
-			/** Is Active */
-			is_active: boolean;
-			/**
-			 * Effective From
-			 * Format: date-time
-			 */
-			effective_from: string;
-			/** Effective To */
-			effective_to?: string | null;
-			/**
-			 * Created At
-			 * Format: date-time
-			 */
-			created_at: string;
-			/**
-			 * Updated At
-			 * Format: date-time
-			 */
-			updated_at: string;
-		};
-		/** TenantUpdateSchema */
-		TenantUpdateSchema: {
-			/** Display Name */
-			display_name?: string | null;
-			/** Default Timezone */
-			default_timezone?: string | null;
-			status?: components['schemas']['TenantStatus'] | null;
-		};
-		/** ValidationError */
-		ValidationError: {
-			/** Location */
-			loc: (string | number)[];
-			/** Message */
-			msg: string;
-			/** Error Type */
-			type: string;
-			/** Input */
-			input?: unknown;
-			/** Context */
-			ctx?: Record<string, never>;
-		};
-	};
-	responses: never;
-	parameters: never;
-	requestBodies: never;
-	headers: never;
-	pathItems: never;
+    schemas: {
+        /**
+         * ActivityTrendBucketSchema
+         * @description Aggregated tenant activity for one time bucket.
+         */
+        ActivityTrendBucketSchema: {
+            /**
+             * Bucket Start
+             * Format: date-time
+             */
+            bucket_start: string;
+            /**
+             * Bucket End
+             * Format: date-time
+             */
+            bucket_end: string;
+            /** Event Count */
+            event_count: number;
+            /** Scored Count */
+            scored_count: number;
+            /** Safe Count */
+            safe_count: number;
+            /** Caution Count */
+            caution_count: number;
+            /** Lockout Count */
+            lockout_count: number;
+            /** Unscored Count */
+            unscored_count: number;
+            /** Decision Count */
+            decision_count: number;
+            /** Alert Count */
+            alert_count: number;
+            /** Response Count */
+            response_count: number;
+        };
+        /**
+         * ActivityTrendInterval
+         * @enum {string}
+         */
+        ActivityTrendInterval: "hour" | "day";
+        /**
+         * ActivityTrendSchema
+         * @description Tenant activity trend buckets for a requested time range.
+         */
+        ActivityTrendSchema: {
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Occurred After
+             * Format: date-time
+             */
+            occurred_after: string;
+            /**
+             * Occurred Before
+             * Format: date-time
+             */
+            occurred_before: string;
+            interval: components["schemas"]["ActivityTrendInterval"];
+            /** Buckets */
+            buckets: components["schemas"]["ActivityTrendBucketSchema"][];
+            /**
+             * Generated At
+             * Format: date-time
+             */
+            generated_at: string;
+        };
+        /** AlertListResponseSchema */
+        AlertListResponseSchema: {
+            /** Items */
+            items: components["schemas"]["AlertSchema"][];
+            pagination: components["schemas"]["OffsetPaginationSchema"];
+        };
+        /** AlertSchema */
+        AlertSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Policy Decision Id
+             * Format: uuid
+             */
+            policy_decision_id: string;
+            /**
+             * Risk Score Id
+             * Format: uuid
+             */
+            risk_score_id: string;
+            severity: components["schemas"]["AlertSeverity"];
+            status: components["schemas"]["AlertStatus"];
+            /** Title */
+            title: string;
+            /** Summary */
+            summary: string;
+            /** Alert Metadata */
+            alert_metadata?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Acknowledged At */
+            acknowledged_at?: string | null;
+            /** Resolved At */
+            resolved_at?: string | null;
+        };
+        /**
+         * AlertSeverity
+         * @enum {string}
+         */
+        AlertSeverity: "low" | "medium" | "high";
+        /**
+         * AlertStatus
+         * @enum {string}
+         */
+        AlertStatus: "open" | "acknowledged" | "resolved";
+        /**
+         * AuthEventDetailSchema
+         * @description An authentication event with its persisted processing evidence.
+         */
+        AuthEventDetailSchema: {
+            event: components["schemas"]["AuthEventSchema"];
+            processing_run?: components["schemas"]["EventProcessingRunSchema"] | null;
+            feature_snapshot?: components["schemas"]["FeatureSnapshotSchema"] | null;
+            risk_score?: components["schemas"]["RiskScoreSchema"] | null;
+            policy_decision?: components["schemas"]["PolicyDecisionSchema"] | null;
+            /** Alerts */
+            alerts?: components["schemas"]["AlertSchema"][];
+            /** Enforcement Actions */
+            enforcement_actions?: components["schemas"]["EnforcementActionSchema"][];
+        };
+        /** AuthEventIngestionAcceptedSchema */
+        AuthEventIngestionAcceptedSchema: {
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Event Source Id
+             * Format: uuid
+             */
+            event_source_id: string;
+            /**
+             * Ingestion Credential Id
+             * Format: uuid
+             */
+            ingestion_credential_id: string;
+            /**
+             * Accepted At
+             * Format: date-time
+             */
+            accepted_at: string;
+        };
+        /** AuthEventIngestionRequestSchema */
+        AuthEventIngestionRequestSchema: {
+            /** Event Source Id */
+            event_source_id?: string | null;
+            /** Source Event Id */
+            source_event_id?: string | null;
+            /**
+             * Occurred At
+             * Format: date-time
+             */
+            occurred_at: string;
+            /**
+             * Payload Schema Version
+             * @default 1
+             */
+            payload_schema_version: number;
+            /** Raw Payload */
+            raw_payload: {
+                [key: string]: unknown;
+            };
+        };
+        /**
+         * AuthEventListItemSchema
+         * @description Authentication event with its latest compact risk-score projection.
+         */
+        AuthEventListItemSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Event Source Id
+             * Format: uuid
+             */
+            event_source_id: string;
+            /** Ingestion Credential Id */
+            ingestion_credential_id?: string | null;
+            /** Source Event Id */
+            source_event_id?: string | null;
+            /** Idempotency Key */
+            idempotency_key: string;
+            /**
+             * Occurred At
+             * Format: date-time
+             */
+            occurred_at: string;
+            /**
+             * Ingested At
+             * Format: date-time
+             */
+            ingested_at: string;
+            /** Event Type */
+            event_type: string;
+            outcome: components["schemas"]["AuthEventOutcome"];
+            /** User Hash */
+            user_hash: string;
+            /** Account Hash */
+            account_hash?: string | null;
+            /** Session Hash */
+            session_hash?: string | null;
+            /** Source Ip Hash */
+            source_ip_hash?: string | null;
+            /** Source Ip Prefix */
+            source_ip_prefix?: string | null;
+            /** Device Hash */
+            device_hash?: string | null;
+            /** Host Hash */
+            host_hash?: string | null;
+            /** Auth Method */
+            auth_method?: string | null;
+            /** Failure Reason */
+            failure_reason?: string | null;
+            /** Location Country */
+            location_country?: string | null;
+            /** Location Region */
+            location_region?: string | null;
+            /** Occurred Hour */
+            occurred_hour: number;
+            /** Occurred Day Of Week */
+            occurred_day_of_week: number;
+            /** Hash Key Version */
+            hash_key_version: number;
+            /** Payload Schema Version */
+            payload_schema_version: number;
+            /** Raw Payload Redacted */
+            raw_payload_redacted?: {
+                [key: string]: unknown;
+            } | null;
+            /** Normalization Metadata */
+            normalization_metadata?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            risk_score?: components["schemas"]["RiskScoreSummarySchema"] | null;
+        };
+        /** AuthEventListResponseSchema */
+        AuthEventListResponseSchema: {
+            /** Items */
+            items: components["schemas"]["AuthEventListItemSchema"][];
+            pagination: components["schemas"]["OffsetPaginationSchema"];
+        };
+        /**
+         * AuthEventOutcome
+         * @enum {string}
+         */
+        AuthEventOutcome: "success" | "failure" | "challenge" | "logout" | "unknown";
+        /** AuthEventSchema */
+        AuthEventSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Event Source Id
+             * Format: uuid
+             */
+            event_source_id: string;
+            /** Ingestion Credential Id */
+            ingestion_credential_id?: string | null;
+            /** Source Event Id */
+            source_event_id?: string | null;
+            /** Idempotency Key */
+            idempotency_key: string;
+            /**
+             * Occurred At
+             * Format: date-time
+             */
+            occurred_at: string;
+            /**
+             * Ingested At
+             * Format: date-time
+             */
+            ingested_at: string;
+            /** Event Type */
+            event_type: string;
+            outcome: components["schemas"]["AuthEventOutcome"];
+            /** User Hash */
+            user_hash: string;
+            /** Account Hash */
+            account_hash?: string | null;
+            /** Session Hash */
+            session_hash?: string | null;
+            /** Source Ip Hash */
+            source_ip_hash?: string | null;
+            /** Source Ip Prefix */
+            source_ip_prefix?: string | null;
+            /** Device Hash */
+            device_hash?: string | null;
+            /** Host Hash */
+            host_hash?: string | null;
+            /** Auth Method */
+            auth_method?: string | null;
+            /** Failure Reason */
+            failure_reason?: string | null;
+            /** Location Country */
+            location_country?: string | null;
+            /** Location Region */
+            location_region?: string | null;
+            /** Occurred Hour */
+            occurred_hour: number;
+            /** Occurred Day Of Week */
+            occurred_day_of_week: number;
+            /** Hash Key Version */
+            hash_key_version: number;
+            /** Payload Schema Version */
+            payload_schema_version: number;
+            /** Raw Payload Redacted */
+            raw_payload_redacted?: {
+                [key: string]: unknown;
+            } | null;
+            /** Normalization Metadata */
+            normalization_metadata?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** EnforcementActionListResponseSchema */
+        EnforcementActionListResponseSchema: {
+            /** Items */
+            items: components["schemas"]["EnforcementActionSchema"][];
+            pagination: components["schemas"]["OffsetPaginationSchema"];
+        };
+        /** EnforcementActionSchema */
+        EnforcementActionSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Policy Decision Id
+             * Format: uuid
+             */
+            policy_decision_id: string;
+            /** Event Source Id */
+            event_source_id?: string | null;
+            action_type: components["schemas"]["EnforcementActionType"];
+            /** Target User Hash */
+            target_user_hash: string;
+            /** Integration Name */
+            integration_name: string;
+            /** Request Payload Redacted */
+            request_payload_redacted?: {
+                [key: string]: unknown;
+            } | null;
+            status: components["schemas"]["EnforcementActionStatus"];
+            /** Attempt Count */
+            attempt_count: number;
+            /** External Action Id */
+            external_action_id?: string | null;
+            /** Error Code */
+            error_code?: string | null;
+            /** Error Message */
+            error_message?: string | null;
+            /**
+             * Requested At
+             * Format: date-time
+             */
+            requested_at: string;
+            /** Completed At */
+            completed_at?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /**
+         * EnforcementActionStatus
+         * @enum {string}
+         */
+        EnforcementActionStatus: "pending" | "sent" | "succeeded" | "failed" | "skipped";
+        /**
+         * EnforcementActionType
+         * @enum {string}
+         */
+        EnforcementActionType: "step_up_mfa" | "terminate_session" | "lock_account";
+        /**
+         * EventPayloadFormat
+         * @enum {string}
+         */
+        EventPayloadFormat: "json" | "syslog";
+        /** EventProcessingRunSchema */
+        EventProcessingRunSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Auth Event Id
+             * Format: uuid
+             */
+            auth_event_id: string;
+            job_type: components["schemas"]["ProcessingJobType"];
+            status: components["schemas"]["ProcessingRunStatus"];
+            /** Attempt Count */
+            attempt_count: number;
+            /** Correlation Id */
+            correlation_id?: string | null;
+            /** Error Code */
+            error_code?: string | null;
+            /** Error Message */
+            error_message?: string | null;
+            /**
+             * Queued At
+             * Format: date-time
+             */
+            queued_at: string;
+            /** Started At */
+            started_at?: string | null;
+            /** Finished At */
+            finished_at?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** EventSourceCreateSchema */
+        EventSourceCreateSchema: {
+            /** Source Name */
+            source_name: string;
+            source_type: components["schemas"]["EventSourceType"];
+            payload_format?: components["schemas"]["EventPayloadFormat"] | null;
+            /** Vendor */
+            vendor?: string | null;
+            /** External Reference */
+            external_reference?: string | null;
+            /** @default active */
+            status: components["schemas"]["EventSourceStatus"];
+        };
+        /** EventSourceMetadataUpdateSchema */
+        EventSourceMetadataUpdateSchema: {
+            /** Source Name */
+            source_name?: string | null;
+            source_type?: components["schemas"]["EventSourceType"] | null;
+            payload_format?: components["schemas"]["EventPayloadFormat"] | null;
+            /** Vendor */
+            vendor?: string | null;
+            /** External Reference */
+            external_reference?: string | null;
+        };
+        /** EventSourceSchema */
+        EventSourceSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /** Source Name */
+            source_name: string;
+            source_type: components["schemas"]["EventSourceType"];
+            payload_format?: components["schemas"]["EventPayloadFormat"] | null;
+            /** Vendor */
+            vendor?: string | null;
+            /** External Reference */
+            external_reference?: string | null;
+            status: components["schemas"]["EventSourceStatus"];
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /**
+         * EventSourceStatus
+         * @enum {string}
+         */
+        EventSourceStatus: "active" | "disabled";
+        /**
+         * EventSourceType
+         * @enum {string}
+         */
+        EventSourceType: "idp" | "siem" | "agent" | "manual_replay";
+        /** FeatureSnapshotSchema */
+        FeatureSnapshotSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Auth Event Id
+             * Format: uuid
+             */
+            auth_event_id: string;
+            /**
+             * Processing Run Id
+             * Format: uuid
+             */
+            processing_run_id: string;
+            /** Window Start */
+            window_start?: string | null;
+            /** Window End */
+            window_end?: string | null;
+            /** Login Frequency */
+            login_frequency?: number | null;
+            /** Avg Inter Event Time */
+            avg_inter_event_time?: number | null;
+            /** Time Since Last Login */
+            time_since_last_login?: number | null;
+            /** Unique Hosts */
+            unique_hosts?: number | null;
+            /** Host Entropy */
+            host_entropy?: number | null;
+            /** Top Host Ratio */
+            top_host_ratio?: number | null;
+            /** Degree Centrality */
+            degree_centrality?: number | null;
+            /** Hour Of Day */
+            hour_of_day: number;
+            /** Day Of Week */
+            day_of_week: number;
+            /** Feature Version */
+            feature_version: number;
+            /**
+             * Computed At
+             * Format: date-time
+             */
+            computed_at: string;
+        };
+        /** HTTPValidationError */
+        HTTPValidationError: {
+            /** Detail */
+            detail?: components["schemas"]["ValidationError"][];
+        };
+        /** IngestionCredentialCreateSchema */
+        IngestionCredentialCreateSchema: {
+            /** Credential Name */
+            credential_name: string;
+            /** Event Source Id */
+            event_source_id?: string | null;
+            /** @default api_key */
+            credential_type: components["schemas"]["IngestionCredentialType"];
+            /** Expires At */
+            expires_at?: string | null;
+        };
+        /** IngestionCredentialMetadataUpdateSchema */
+        IngestionCredentialMetadataUpdateSchema: {
+            /** Credential Name */
+            credential_name?: string | null;
+            /** Event Source Id */
+            event_source_id?: string | null;
+            /** Expires At */
+            expires_at?: string | null;
+        };
+        /** IngestionCredentialSchema */
+        IngestionCredentialSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /** Event Source Id */
+            event_source_id?: string | null;
+            /** Credential Name */
+            credential_name: string;
+            credential_type: components["schemas"]["IngestionCredentialType"];
+            /** Key Id */
+            key_id: string;
+            status: components["schemas"]["IngestionCredentialStatus"];
+            /** Expires At */
+            expires_at?: string | null;
+            /** Last Used At */
+            last_used_at?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /** Rotated At */
+            rotated_at?: string | null;
+        };
+        /**
+         * IngestionCredentialStatus
+         * @enum {string}
+         */
+        IngestionCredentialStatus: "active" | "revoked" | "expired";
+        /**
+         * IngestionCredentialType
+         * @enum {string}
+         */
+        IngestionCredentialType: "api_key";
+        /** IssuedIngestionCredentialSchema */
+        IssuedIngestionCredentialSchema: {
+            credential: components["schemas"]["IngestionCredentialSchema"];
+            /** Plaintext Secret */
+            plaintext_secret: string;
+        };
+        /** OffsetPaginationSchema */
+        OffsetPaginationSchema: {
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Total Count */
+            total_count: number;
+            /** Has Next */
+            has_next: boolean;
+            /** Has Prev */
+            has_prev: boolean;
+        };
+        /**
+         * OperatingMode
+         * @enum {string}
+         */
+        OperatingMode: "shadow" | "alert_only" | "enforce";
+        /**
+         * PipelineComponent
+         * @enum {string}
+         */
+        PipelineComponent: "ingestion" | "analysis" | "responses";
+        /**
+         * PipelineHealthComponentSchema
+         * @description Current operational health for one tenant pipeline component.
+         */
+        PipelineHealthComponentSchema: {
+            component: components["schemas"]["PipelineComponent"];
+            status: components["schemas"]["PipelineHealthStatus"];
+            /** Last Activity At */
+            last_activity_at?: string | null;
+            /** Last Success At */
+            last_success_at?: string | null;
+            /** Pending Count */
+            pending_count: number;
+            /** Failed Count */
+            failed_count: number;
+            /** Detail */
+            detail?: string | null;
+        };
+        /**
+         * PipelineHealthSchema
+         * @description Computed operational health for a tenant's processing pipeline.
+         */
+        PipelineHealthSchema: {
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Generated At
+             * Format: date-time
+             */
+            generated_at: string;
+            /** Components */
+            components: components["schemas"]["PipelineHealthComponentSchema"][];
+        };
+        /**
+         * PipelineHealthStatus
+         * @enum {string}
+         */
+        PipelineHealthStatus: "healthy" | "degraded" | "idle" | "not_configured";
+        /**
+         * PolicyAction
+         * @enum {string}
+         */
+        PolicyAction: "allow" | "step_up_mfa" | "terminate_session" | "lock_account" | "alert_only" | "none";
+        /** PolicyDecisionListResponseSchema */
+        PolicyDecisionListResponseSchema: {
+            /** Items */
+            items: components["schemas"]["PolicyDecisionSchema"][];
+            pagination: components["schemas"]["OffsetPaginationSchema"];
+        };
+        /** PolicyDecisionSchema */
+        PolicyDecisionSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Auth Event Id
+             * Format: uuid
+             */
+            auth_event_id: string;
+            /**
+             * Risk Score Id
+             * Format: uuid
+             */
+            risk_score_id: string;
+            /**
+             * Operating Mode Id
+             * Format: uuid
+             */
+            operating_mode_id: string;
+            decision_band: components["schemas"]["ScoreBand"];
+            recommended_action: components["schemas"]["PolicyAction"];
+            final_action: components["schemas"]["PolicyAction"];
+            /** Decision Reason */
+            decision_reason?: string | null;
+            /** Decision Metadata */
+            decision_metadata?: {
+                [key: string]: unknown;
+            } | null;
+            /**
+             * Decided At
+             * Format: date-time
+             */
+            decided_at: string;
+        };
+        /**
+         * ProcessingJobType
+         * @enum {string}
+         */
+        ProcessingJobType: "score_event" | "send_alert" | "enforce_action";
+        /**
+         * ProcessingRunStatus
+         * @enum {string}
+         */
+        ProcessingRunStatus: "queued" | "running" | "succeeded" | "failed" | "dead_lettered";
+        /**
+         * ProviderConnectionMethod
+         * @enum {string}
+         */
+        ProviderConnectionMethod: "api_token" | "oauth_client_credentials" | "service_account";
+        /** ProviderConnectionTestResultSchema */
+        ProviderConnectionTestResultSchema: {
+            /**
+             * Connection Id
+             * Format: uuid
+             */
+            connection_id: string;
+            /**
+             * Provider Registry Id
+             * Format: uuid
+             */
+            provider_registry_id: string;
+            /** Provider Key */
+            provider_key: string;
+            /** Success */
+            success: boolean;
+            /**
+             * Tested At
+             * Format: date-time
+             */
+            tested_at: string;
+            status: components["schemas"]["TenantProviderConnectionStatus"];
+            /** Error Code */
+            error_code?: string | null;
+            /** Error Message */
+            error_message?: string | null;
+            /** Response Metadata */
+            response_metadata?: {
+                [key: string]: unknown;
+            } | null;
+        };
+        /** ProviderRegistryCreateSchema */
+        ProviderRegistryCreateSchema: {
+            /** Provider Key */
+            provider_key: string;
+            /** Display Name */
+            display_name: string;
+            provider_type: components["schemas"]["ProviderType"];
+            connection_method: components["schemas"]["ProviderConnectionMethod"];
+            /** Supported Policy Actions */
+            supported_policy_actions?: components["schemas"]["PolicyAction"][];
+            /**
+             * Is Active
+             * @default true
+             */
+            is_active: boolean;
+            /** Deprecated At */
+            deprecated_at?: string | null;
+        };
+        /** ProviderRegistrySchema */
+        ProviderRegistrySchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Provider Key */
+            provider_key: string;
+            /** Display Name */
+            display_name: string;
+            provider_type: components["schemas"]["ProviderType"];
+            connection_method: components["schemas"]["ProviderConnectionMethod"];
+            /** Supported Policy Actions */
+            supported_policy_actions: components["schemas"]["PolicyAction"][];
+            /** Is Active */
+            is_active: boolean;
+            /** Deprecated At */
+            deprecated_at?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** ProviderRegistryUpdateSchema */
+        ProviderRegistryUpdateSchema: {
+            /** Display Name */
+            display_name?: string | null;
+            connection_method?: components["schemas"]["ProviderConnectionMethod"] | null;
+            /** Supported Policy Actions */
+            supported_policy_actions?: components["schemas"]["PolicyAction"][] | null;
+            /** Is Active */
+            is_active?: boolean | null;
+            /** Deprecated At */
+            deprecated_at?: string | null;
+        };
+        /**
+         * ProviderType
+         * @enum {string}
+         */
+        ProviderType: "idp" | "siem";
+        /** RiskScoreSchema */
+        RiskScoreSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Auth Event Id
+             * Format: uuid
+             */
+            auth_event_id: string;
+            /**
+             * Feature Snapshot Id
+             * Format: uuid
+             */
+            feature_snapshot_id: string;
+            /**
+             * Processing Run Id
+             * Format: uuid
+             */
+            processing_run_id: string;
+            /** Model Version */
+            model_version: string;
+            /**
+             * Threshold Profile Id
+             * Format: uuid
+             */
+            threshold_profile_id: string;
+            /** Global Anomaly Score */
+            global_anomaly_score: number;
+            /** Local Anomaly Score Raw */
+            local_anomaly_score_raw: number;
+            /** Local Anomaly Score Normalized */
+            local_anomaly_score_normalized: number;
+            /** Fusion Alpha */
+            fusion_alpha: number;
+            /** Fused Anomaly Score */
+            fused_anomaly_score: number;
+            /** Caution Threshold Applied */
+            caution_threshold_applied: number;
+            /** Lockout Threshold Applied */
+            lockout_threshold_applied: number;
+            score_band: components["schemas"]["ScoreBand"];
+            /**
+             * Scored At
+             * Format: date-time
+             */
+            scored_at: string;
+        };
+        /**
+         * RiskScoreSummarySchema
+         * @description Compact risk-score projection embedded in event list responses.
+         */
+        RiskScoreSummarySchema: {
+            /** Fused Anomaly Score */
+            fused_anomaly_score: number;
+            /** Caution Threshold Applied */
+            caution_threshold_applied: number;
+            /** Lockout Threshold Applied */
+            lockout_threshold_applied: number;
+            score_band: components["schemas"]["ScoreBand"];
+        };
+        /**
+         * RiskSummarySchema
+         * @description Tenant event and scored-risk counts for risk summary consumers.
+         */
+        RiskSummarySchema: {
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /** Occurred After */
+            occurred_after?: string | null;
+            /** Occurred Before */
+            occurred_before?: string | null;
+            /** Event Count */
+            event_count: number;
+            /** Safe Count */
+            safe_count: number;
+            /** Caution Count */
+            caution_count: number;
+            /** Lockout Count */
+            lockout_count: number;
+            /** Unscored Count */
+            unscored_count: number;
+            /** Latest Event At */
+            latest_event_at?: string | null;
+            /** Latest Scored At */
+            latest_scored_at?: string | null;
+            /**
+             * Generated At
+             * Format: date-time
+             */
+            generated_at: string;
+        };
+        /**
+         * ScoreBand
+         * @enum {string}
+         */
+        ScoreBand: "safe" | "caution" | "lockout";
+        /** TenantCreateSchema */
+        TenantCreateSchema: {
+            /** Display Name */
+            display_name: string;
+            /** Default Timezone */
+            default_timezone: string;
+        };
+        /** TenantHashKeyVersionCreateSchema */
+        TenantHashKeyVersionCreateSchema: {
+            /** Key Version */
+            key_version: number;
+            /** Algorithm */
+            algorithm: string;
+            /** Salt Value */
+            salt_value: string;
+            /**
+             * Effective From
+             * Format: date-time
+             */
+            effective_from: string;
+            /** Effective To */
+            effective_to?: string | null;
+        };
+        /** TenantHashKeyVersionRetireSchema */
+        TenantHashKeyVersionRetireSchema: {
+            /** Effective To */
+            effective_to?: string | null;
+        };
+        /** TenantHashKeyVersionSchema */
+        TenantHashKeyVersionSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /** Key Version */
+            key_version: number;
+            /** Algorithm */
+            algorithm: string;
+            /** Salt Value */
+            salt_value: string;
+            /** Is Active */
+            is_active: boolean;
+            /**
+             * Effective From
+             * Format: date-time
+             */
+            effective_from: string;
+            /** Effective To */
+            effective_to?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** TenantOnboardingCreateSchema */
+        TenantOnboardingCreateSchema: {
+            tenant: components["schemas"]["TenantCreateSchema"];
+            /** @default shadow */
+            initial_operating_mode: components["schemas"]["OperatingMode"];
+            /**
+             * Initial Caution Threshold
+             * @default 0.349
+             */
+            initial_caution_threshold: number;
+            /**
+             * Initial Lockout Threshold
+             * @default 0.463
+             */
+            initial_lockout_threshold: number;
+            /** Initial Fusion Alpha */
+            initial_fusion_alpha?: number | null;
+            /**
+             * Hash Algorithm
+             * @default sha256
+             */
+            hash_algorithm: string;
+        };
+        /** TenantOnboardingSchema */
+        TenantOnboardingSchema: {
+            tenant: components["schemas"]["TenantSchema"];
+            operating_mode: components["schemas"]["TenantOperatingModeSchema"];
+            threshold_profile: components["schemas"]["TenantThresholdProfileSchema"];
+            hash_key_version: components["schemas"]["TenantHashKeyVersionSchema"];
+        };
+        /** TenantOperatingModeCreateSchema */
+        TenantOperatingModeCreateSchema: {
+            mode: components["schemas"]["OperatingMode"];
+            /**
+             * Effective From
+             * Format: date-time
+             */
+            effective_from: string;
+            /** Effective To */
+            effective_to?: string | null;
+            /** Changed By */
+            changed_by?: string | null;
+            /** Change Reason */
+            change_reason?: string | null;
+        };
+        /** TenantOperatingModeRetireSchema */
+        TenantOperatingModeRetireSchema: {
+            /** Effective To */
+            effective_to?: string | null;
+            /** Changed By */
+            changed_by?: string | null;
+            /** Change Reason */
+            change_reason?: string | null;
+        };
+        /** TenantOperatingModeSchema */
+        TenantOperatingModeSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            mode: components["schemas"]["OperatingMode"];
+            /** Is Active */
+            is_active: boolean;
+            /**
+             * Effective From
+             * Format: date-time
+             */
+            effective_from: string;
+            /** Effective To */
+            effective_to?: string | null;
+            /** Changed By */
+            changed_by?: string | null;
+            /** Change Reason */
+            change_reason?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** TenantProviderConnectionCreateSchema */
+        TenantProviderConnectionCreateSchema: {
+            /**
+             * Provider Registry Id
+             * Format: uuid
+             */
+            provider_registry_id: string;
+            /** Connection Name */
+            connection_name: string;
+            /** Base Url */
+            base_url: string;
+            /** Auth Realm */
+            auth_realm?: string | null;
+            /** Client Id */
+            client_id?: string | null;
+            /** Client Secret Ref */
+            client_secret_ref?: string | null;
+            /** Api Token Ref */
+            api_token_ref?: string | null;
+            /** External Tenant Reference */
+            external_tenant_reference?: string | null;
+            /** @default disabled */
+            status: components["schemas"]["TenantProviderConnectionStatus"];
+            /** Disabled At */
+            disabled_at?: string | null;
+            /** Last Tested At */
+            last_tested_at?: string | null;
+            /** Last Test Error */
+            last_test_error?: string | null;
+        };
+        /** TenantProviderConnectionSchema */
+        TenantProviderConnectionSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /**
+             * Provider Registry Id
+             * Format: uuid
+             */
+            provider_registry_id: string;
+            /** Connection Name */
+            connection_name: string;
+            /** Base Url */
+            base_url: string;
+            /** Auth Realm */
+            auth_realm?: string | null;
+            /** Client Id */
+            client_id?: string | null;
+            /** Client Secret Ref */
+            client_secret_ref?: string | null;
+            /** Api Token Ref */
+            api_token_ref?: string | null;
+            /** External Tenant Reference */
+            external_tenant_reference?: string | null;
+            status: components["schemas"]["TenantProviderConnectionStatus"];
+            /** Disabled At */
+            disabled_at?: string | null;
+            /** Last Tested At */
+            last_tested_at?: string | null;
+            /** Last Test Error */
+            last_test_error?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /**
+         * TenantProviderConnectionStatus
+         * @enum {string}
+         */
+        TenantProviderConnectionStatus: "active" | "disabled" | "test_failed";
+        /** TenantProviderConnectionUpdateSchema */
+        TenantProviderConnectionUpdateSchema: {
+            /** Connection Name */
+            connection_name?: string | null;
+            /** Base Url */
+            base_url?: string | null;
+            /** Auth Realm */
+            auth_realm?: string | null;
+            /** Client Id */
+            client_id?: string | null;
+            /** Client Secret Ref */
+            client_secret_ref?: string | null;
+            /** Api Token Ref */
+            api_token_ref?: string | null;
+            /** External Tenant Reference */
+            external_tenant_reference?: string | null;
+            status?: components["schemas"]["TenantProviderConnectionStatus"] | null;
+            /** Disabled At */
+            disabled_at?: string | null;
+            /** Last Tested At */
+            last_tested_at?: string | null;
+            /** Last Test Error */
+            last_test_error?: string | null;
+        };
+        /** TenantSchema */
+        TenantSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Slug */
+            slug: string;
+            /** Display Name */
+            display_name: string;
+            status: components["schemas"]["TenantStatus"];
+            /** Default Timezone */
+            default_timezone: string;
+            /** Deleted At */
+            deleted_at?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /**
+         * TenantStatus
+         * @enum {string}
+         */
+        TenantStatus: "active" | "suspended" | "archived";
+        /** TenantThresholdProfileCreateSchema */
+        TenantThresholdProfileCreateSchema: {
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string | null;
+            /** Caution Threshold */
+            caution_threshold: number;
+            /** Lockout Threshold */
+            lockout_threshold: number;
+            /** Fusion Alpha */
+            fusion_alpha?: number | null;
+            /**
+             * Effective From
+             * Format: date-time
+             */
+            effective_from: string;
+            /** Effective To */
+            effective_to?: string | null;
+        };
+        /** TenantThresholdProfileRetireSchema */
+        TenantThresholdProfileRetireSchema: {
+            /** Effective To */
+            effective_to?: string | null;
+        };
+        /** TenantThresholdProfileSchema */
+        TenantThresholdProfileSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Tenant Id
+             * Format: uuid
+             */
+            tenant_id: string;
+            /** Name */
+            name: string;
+            /** Description */
+            description?: string | null;
+            /** Caution Threshold */
+            caution_threshold: number;
+            /** Lockout Threshold */
+            lockout_threshold: number;
+            /** Fusion Alpha */
+            fusion_alpha?: number | null;
+            /** Is Active */
+            is_active: boolean;
+            /**
+             * Effective From
+             * Format: date-time
+             */
+            effective_from: string;
+            /** Effective To */
+            effective_to?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** TenantUpdateSchema */
+        TenantUpdateSchema: {
+            /** Display Name */
+            display_name?: string | null;
+            /** Default Timezone */
+            default_timezone?: string | null;
+            status?: components["schemas"]["TenantStatus"] | null;
+        };
+        /** ValidationError */
+        ValidationError: {
+            /** Location */
+            loc: (string | number)[];
+            /** Message */
+            msg: string;
+            /** Error Type */
+            type: string;
+            /** Input */
+            input?: unknown;
+            /** Context */
+            ctx?: Record<string, never>;
+        };
+    };
+    responses: never;
+    parameters: never;
+    requestBodies: never;
+    headers: never;
+    pathItems: never;
 }
 export type $defs = Record<string, never>;
 export interface operations {
-	list_alerts_tenants__tenant_id__alerts_get: {
-		parameters: {
-			query?: {
-				policy_decision_id?: string | null;
-				severity?: components['schemas']['AlertSeverity'] | null;
-				status?: components['schemas']['AlertStatus'] | null;
-				created_after?: string | null;
-				created_before?: string | null;
-				sort?: string;
-				limit?: number;
-				offset?: number;
-			};
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['AlertListResponseSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_alert_tenants__tenant_id__alerts__alert_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-				alert_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['AlertSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_activity_trends_tenants__tenant_id__activity_trends_get: {
-		parameters: {
-			query?: {
-				occurred_after?: string | null;
-				occurred_before?: string | null;
-				interval?: components['schemas']['ActivityTrendInterval'];
-			};
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['ActivityTrendSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	list_events_tenants__tenant_id__events_get: {
-		parameters: {
-			query?: {
-				occurred_after?: string | null;
-				occurred_before?: string | null;
-				event_source_id?: string | null;
-				event_type?: string | null;
-				outcome?: components['schemas']['AuthEventOutcome'] | null;
-				location_country?: string | null;
-				sort?: string;
-				limit?: number;
-				offset?: number;
-			};
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['AuthEventListResponseSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_event_tenants__tenant_id__events__auth_event_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-				auth_event_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['AuthEventDetailSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	list_enforcement_actions_tenants__tenant_id__enforcement_actions_get: {
-		parameters: {
-			query?: {
-				policy_decision_id?: string | null;
-				event_source_id?: string | null;
-				action_type?: components['schemas']['EnforcementActionType'] | null;
-				integration_name?: string | null;
-				status?: components['schemas']['EnforcementActionStatus'] | null;
-				requested_after?: string | null;
-				requested_before?: string | null;
-				completed_after?: string | null;
-				completed_before?: string | null;
-				sort?: string;
-				limit?: number;
-				offset?: number;
-			};
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['EnforcementActionListResponseSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_enforcement_action_tenants__tenant_id__enforcement_actions__enforcement_action_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-				enforcement_action_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['EnforcementActionSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	health_check_health_get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': {
-						[key: string]: string;
-					};
-				};
-			};
-		};
-	};
-	list_tenants_tenants_get: {
-		parameters: {
-			query?: {
-				slug?: string | null;
-				display_name?: string | null;
-				status?: components['schemas']['TenantStatus'] | null;
-				include_deleted?: boolean;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantSchema'][];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	create_tenant_tenants_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['TenantOnboardingCreateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			201: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantOnboardingSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_tenant_tenants__tenant_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	delete_tenant_tenants__tenant_id__delete: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			204: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	update_tenant_tenants__tenant_id__patch: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['TenantUpdateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	list_operating_modes_tenants__tenant_id__operating_modes_get: {
-		parameters: {
-			query?: {
-				mode?: components['schemas']['OperatingMode'] | null;
-				is_active?: boolean | null;
-			};
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantOperatingModeSchema'][];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	create_operating_mode_tenants__tenant_id__operating_modes_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['TenantOperatingModeCreateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			201: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantOperatingModeSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_operating_mode_tenants__tenant_id__operating_modes__operating_mode_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-				operating_mode_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantOperatingModeSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	retire_operating_mode_tenants__tenant_id__operating_modes__operating_mode_id__retire_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-				operating_mode_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['TenantOperatingModeRetireSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantOperatingModeSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	list_threshold_profiles_tenants__tenant_id__threshold_profiles_get: {
-		parameters: {
-			query?: {
-				name?: string | null;
-				is_active?: boolean | null;
-			};
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantThresholdProfileSchema'][];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	create_threshold_profile_tenants__tenant_id__threshold_profiles_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['TenantThresholdProfileCreateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			201: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantThresholdProfileSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_threshold_profile_tenants__tenant_id__threshold_profiles__threshold_profile_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-				threshold_profile_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantThresholdProfileSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	retire_threshold_profile_tenants__tenant_id__threshold_profiles__threshold_profile_id__retire_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-				threshold_profile_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['TenantThresholdProfileRetireSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantThresholdProfileSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	list_hash_key_versions_tenants__tenant_id__hash_key_versions_get: {
-		parameters: {
-			query?: {
-				key_version?: number | null;
-				is_active?: boolean | null;
-			};
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantHashKeyVersionSchema'][];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	create_hash_key_version_tenants__tenant_id__hash_key_versions_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['TenantHashKeyVersionCreateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			201: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantHashKeyVersionSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_hash_key_version_tenants__tenant_id__hash_key_versions__hash_key_version_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-				hash_key_version_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantHashKeyVersionSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	retire_hash_key_version_tenants__tenant_id__hash_key_versions__hash_key_version_id__retire_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-				hash_key_version_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['TenantHashKeyVersionRetireSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantHashKeyVersionSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	ingest_auth_event_ingestion_events_post: {
-		parameters: {
-			query?: never;
-			header: {
-				'X-Ingestion-Key-Id': string;
-				'X-Ingestion-Key-Secret': string;
-			};
-			path?: never;
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['AuthEventIngestionRequestSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			202: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['AuthEventIngestionAcceptedSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	list_event_sources_ingestion_event_sources_get: {
-		parameters: {
-			query: {
-				tenant_id: string;
-				source_type?: components['schemas']['EventSourceType'] | null;
-				payload_format?: components['schemas']['EventPayloadFormat'] | null;
-				status?: components['schemas']['EventSourceStatus'] | null;
-				vendor?: string | null;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['EventSourceSchema'][];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	create_event_source_ingestion_event_sources_post: {
-		parameters: {
-			query: {
-				tenant_id: string;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['EventSourceCreateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			201: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['EventSourceSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_event_source_ingestion_event_sources__event_source_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				event_source_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['EventSourceSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	delete_event_source_ingestion_event_sources__event_source_id__delete: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				event_source_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			204: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	update_event_source_ingestion_event_sources__event_source_id__patch: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				event_source_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['EventSourceMetadataUpdateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['EventSourceSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	activate_event_source_ingestion_event_sources__event_source_id__activate_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				event_source_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['EventSourceSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	disable_event_source_ingestion_event_sources__event_source_id__disable_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				event_source_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['EventSourceSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	list_ingestion_credentials_ingestion_ingestion_credentials_get: {
-		parameters: {
-			query: {
-				tenant_id: string;
-				event_source_id?: string | null;
-				credential_type?:
-					components['schemas']['IngestionCredentialType'] | null;
-				status?: components['schemas']['IngestionCredentialStatus'] | null;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['IngestionCredentialSchema'][];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	issue_ingestion_credential_ingestion_ingestion_credentials_post: {
-		parameters: {
-			query: {
-				tenant_id: string;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['IngestionCredentialCreateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			201: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['IssuedIngestionCredentialSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_ingestion_credential_ingestion_ingestion_credentials__credential_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				credential_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['IngestionCredentialSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	delete_ingestion_credential_ingestion_ingestion_credentials__credential_id__delete: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				credential_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			204: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content?: never;
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	update_ingestion_credential_ingestion_ingestion_credentials__credential_id__patch: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				credential_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['IngestionCredentialMetadataUpdateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['IngestionCredentialSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	revoke_ingestion_credential_ingestion_ingestion_credentials__credential_id__revoke_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				credential_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['IngestionCredentialSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	rotate_ingestion_credential_ingestion_ingestion_credentials__credential_id__rotate_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				credential_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['IssuedIngestionCredentialSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	list_provider_registry_entries_integrations_provider_registry_get: {
-		parameters: {
-			query?: {
-				provider_type?: components['schemas']['ProviderType'] | null;
-				connection_method?:
-					components['schemas']['ProviderConnectionMethod'] | null;
-				is_active?: boolean | null;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['ProviderRegistrySchema'][];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	create_provider_registry_integrations_provider_registry_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['ProviderRegistryCreateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			201: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['ProviderRegistrySchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_provider_registry_integrations_provider_registry__provider_registry_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				provider_registry_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['ProviderRegistrySchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	update_provider_registry_integrations_provider_registry__provider_registry_id__patch: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				provider_registry_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['ProviderRegistryUpdateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['ProviderRegistrySchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	deprecate_provider_registry_integrations_provider_registry__provider_registry_id__deprecate_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				provider_registry_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['ProviderRegistrySchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	reactivate_provider_registry_integrations_provider_registry__provider_registry_id__reactivate_post: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				provider_registry_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['ProviderRegistrySchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	list_tenant_provider_connections_integrations_tenant_provider_connections_get: {
-		parameters: {
-			query: {
-				tenant_id: string;
-				provider_registry_id?: string | null;
-				status?: components['schemas']['TenantProviderConnectionStatus'] | null;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantProviderConnectionSchema'][];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	create_tenant_provider_connection_integrations_tenant_provider_connections_post: {
-		parameters: {
-			query: {
-				tenant_id: string;
-			};
-			header?: never;
-			path?: never;
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['TenantProviderConnectionCreateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			201: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantProviderConnectionSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__get: {
-		parameters: {
-			query: {
-				tenant_id: string;
-			};
-			header?: never;
-			path: {
-				tenant_provider_connection_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantProviderConnectionSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	update_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__patch: {
-		parameters: {
-			query: {
-				tenant_id: string;
-			};
-			header?: never;
-			path: {
-				tenant_provider_connection_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody: {
-			content: {
-				'application/json': components['schemas']['TenantProviderConnectionUpdateSchema'];
-			};
-		};
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantProviderConnectionSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	activate_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__activate_post: {
-		parameters: {
-			query: {
-				tenant_id: string;
-			};
-			header?: never;
-			path: {
-				tenant_provider_connection_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantProviderConnectionSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	disable_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__disable_post: {
-		parameters: {
-			query: {
-				tenant_id: string;
-			};
-			header?: never;
-			path: {
-				tenant_provider_connection_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['TenantProviderConnectionSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	test_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__test_post: {
-		parameters: {
-			query: {
-				tenant_id: string;
-			};
-			header?: never;
-			path: {
-				tenant_provider_connection_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['ProviderConnectionTestResultSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	list_policy_decisions_tenants__tenant_id__policy_decisions_get: {
-		parameters: {
-			query?: {
-				auth_event_id?: string | null;
-				decision_band?: components['schemas']['ScoreBand'] | null;
-				final_action?: components['schemas']['PolicyAction'] | null;
-				decided_after?: string | null;
-				decided_before?: string | null;
-				sort?: string;
-				limit?: number;
-				offset?: number;
-			};
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['PolicyDecisionListResponseSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_policy_decision_tenants__tenant_id__policy_decisions__policy_decision_id__get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-				policy_decision_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['PolicyDecisionSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_pipeline_health_tenants__tenant_id__pipeline_health_get: {
-		parameters: {
-			query?: never;
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['PipelineHealthSchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
-	get_risk_summary_tenants__tenant_id__risk_summary_get: {
-		parameters: {
-			query?: {
-				occurred_after?: string | null;
-				occurred_before?: string | null;
-			};
-			header?: never;
-			path: {
-				tenant_id: string;
-			};
-			cookie?: never;
-		};
-		requestBody?: never;
-		responses: {
-			/** @description Successful Response */
-			200: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['RiskSummarySchema'];
-				};
-			};
-			/** @description Validation Error */
-			422: {
-				headers: {
-					[name: string]: unknown;
-				};
-				content: {
-					'application/json': components['schemas']['HTTPValidationError'];
-				};
-			};
-		};
-	};
+    list_alerts_tenants__tenant_id__alerts_get: {
+        parameters: {
+            query?: {
+                policy_decision_id?: string | null;
+                severity?: components["schemas"]["AlertSeverity"] | null;
+                status?: components["schemas"]["AlertStatus"] | null;
+                created_after?: string | null;
+                created_before?: string | null;
+                sort?: string;
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertListResponseSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_alert_tenants__tenant_id__alerts__alert_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+                alert_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AlertSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_activity_trends_tenants__tenant_id__activity_trends_get: {
+        parameters: {
+            query?: {
+                occurred_after?: string | null;
+                occurred_before?: string | null;
+                interval?: components["schemas"]["ActivityTrendInterval"];
+            };
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ActivityTrendSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_events_tenants__tenant_id__events_get: {
+        parameters: {
+            query?: {
+                occurred_after?: string | null;
+                occurred_before?: string | null;
+                event_source_id?: string | null;
+                event_type?: string | null;
+                outcome?: components["schemas"]["AuthEventOutcome"] | null;
+                location_country?: string | null;
+                sort?: string;
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthEventListResponseSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_event_tenants__tenant_id__events__auth_event_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+                auth_event_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthEventDetailSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_enforcement_actions_tenants__tenant_id__enforcement_actions_get: {
+        parameters: {
+            query?: {
+                policy_decision_id?: string | null;
+                event_source_id?: string | null;
+                action_type?: components["schemas"]["EnforcementActionType"] | null;
+                integration_name?: string | null;
+                status?: components["schemas"]["EnforcementActionStatus"] | null;
+                requested_after?: string | null;
+                requested_before?: string | null;
+                completed_after?: string | null;
+                completed_before?: string | null;
+                sort?: string;
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EnforcementActionListResponseSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_enforcement_action_tenants__tenant_id__enforcement_actions__enforcement_action_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+                enforcement_action_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EnforcementActionSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    health_check_health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: string;
+                    };
+                };
+            };
+        };
+    };
+    list_tenants_tenants_get: {
+        parameters: {
+            query?: {
+                slug?: string | null;
+                display_name?: string | null;
+                status?: components["schemas"]["TenantStatus"] | null;
+                include_deleted?: boolean;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantSchema"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_tenant_tenants_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TenantOnboardingCreateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantOnboardingSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_tenant_tenants__tenant_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_tenant_tenants__tenant_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_tenant_tenants__tenant_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TenantUpdateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_operating_modes_tenants__tenant_id__operating_modes_get: {
+        parameters: {
+            query?: {
+                mode?: components["schemas"]["OperatingMode"] | null;
+                is_active?: boolean | null;
+            };
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantOperatingModeSchema"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_operating_mode_tenants__tenant_id__operating_modes_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TenantOperatingModeCreateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantOperatingModeSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_operating_mode_tenants__tenant_id__operating_modes__operating_mode_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+                operating_mode_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantOperatingModeSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    retire_operating_mode_tenants__tenant_id__operating_modes__operating_mode_id__retire_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+                operating_mode_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TenantOperatingModeRetireSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantOperatingModeSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_threshold_profiles_tenants__tenant_id__threshold_profiles_get: {
+        parameters: {
+            query?: {
+                name?: string | null;
+                is_active?: boolean | null;
+            };
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantThresholdProfileSchema"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_threshold_profile_tenants__tenant_id__threshold_profiles_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TenantThresholdProfileCreateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantThresholdProfileSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_threshold_profile_tenants__tenant_id__threshold_profiles__threshold_profile_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+                threshold_profile_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantThresholdProfileSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    retire_threshold_profile_tenants__tenant_id__threshold_profiles__threshold_profile_id__retire_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+                threshold_profile_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TenantThresholdProfileRetireSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantThresholdProfileSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_hash_key_versions_tenants__tenant_id__hash_key_versions_get: {
+        parameters: {
+            query?: {
+                key_version?: number | null;
+                is_active?: boolean | null;
+            };
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantHashKeyVersionSchema"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_hash_key_version_tenants__tenant_id__hash_key_versions_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TenantHashKeyVersionCreateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantHashKeyVersionSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_hash_key_version_tenants__tenant_id__hash_key_versions__hash_key_version_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+                hash_key_version_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantHashKeyVersionSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    retire_hash_key_version_tenants__tenant_id__hash_key_versions__hash_key_version_id__retire_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+                hash_key_version_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TenantHashKeyVersionRetireSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantHashKeyVersionSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    ingest_auth_event_ingestion_events_post: {
+        parameters: {
+            query?: never;
+            header: {
+                "X-Ingestion-Key-Id": string;
+                "X-Ingestion-Key-Secret": string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["AuthEventIngestionRequestSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            202: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AuthEventIngestionAcceptedSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_event_sources_ingestion_event_sources_get: {
+        parameters: {
+            query: {
+                tenant_id: string;
+                source_type?: components["schemas"]["EventSourceType"] | null;
+                payload_format?: components["schemas"]["EventPayloadFormat"] | null;
+                status?: components["schemas"]["EventSourceStatus"] | null;
+                vendor?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventSourceSchema"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_event_source_ingestion_event_sources_post: {
+        parameters: {
+            query: {
+                tenant_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EventSourceCreateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventSourceSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_event_source_ingestion_event_sources__event_source_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                event_source_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventSourceSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_event_source_ingestion_event_sources__event_source_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                event_source_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_event_source_ingestion_event_sources__event_source_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                event_source_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["EventSourceMetadataUpdateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventSourceSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    activate_event_source_ingestion_event_sources__event_source_id__activate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                event_source_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventSourceSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    disable_event_source_ingestion_event_sources__event_source_id__disable_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                event_source_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EventSourceSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_ingestion_credentials_ingestion_ingestion_credentials_get: {
+        parameters: {
+            query: {
+                tenant_id: string;
+                event_source_id?: string | null;
+                credential_type?: components["schemas"]["IngestionCredentialType"] | null;
+                status?: components["schemas"]["IngestionCredentialStatus"] | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IngestionCredentialSchema"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    issue_ingestion_credential_ingestion_ingestion_credentials_post: {
+        parameters: {
+            query: {
+                tenant_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IngestionCredentialCreateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IssuedIngestionCredentialSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_ingestion_credential_ingestion_ingestion_credentials__credential_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                credential_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IngestionCredentialSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    delete_ingestion_credential_ingestion_ingestion_credentials__credential_id__delete: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                credential_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_ingestion_credential_ingestion_ingestion_credentials__credential_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                credential_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IngestionCredentialMetadataUpdateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IngestionCredentialSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    revoke_ingestion_credential_ingestion_ingestion_credentials__credential_id__revoke_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                credential_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IngestionCredentialSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    rotate_ingestion_credential_ingestion_ingestion_credentials__credential_id__rotate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                credential_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["IssuedIngestionCredentialSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_provider_registry_entries_integrations_provider_registry_get: {
+        parameters: {
+            query?: {
+                provider_type?: components["schemas"]["ProviderType"] | null;
+                connection_method?: components["schemas"]["ProviderConnectionMethod"] | null;
+                is_active?: boolean | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderRegistrySchema"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_provider_registry_integrations_provider_registry_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProviderRegistryCreateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderRegistrySchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_provider_registry_integrations_provider_registry__provider_registry_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                provider_registry_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderRegistrySchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_provider_registry_integrations_provider_registry__provider_registry_id__patch: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                provider_registry_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["ProviderRegistryUpdateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderRegistrySchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    deprecate_provider_registry_integrations_provider_registry__provider_registry_id__deprecate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                provider_registry_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderRegistrySchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    reactivate_provider_registry_integrations_provider_registry__provider_registry_id__reactivate_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                provider_registry_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderRegistrySchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_tenant_provider_connections_integrations_tenant_provider_connections_get: {
+        parameters: {
+            query: {
+                tenant_id: string;
+                provider_registry_id?: string | null;
+                status?: components["schemas"]["TenantProviderConnectionStatus"] | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantProviderConnectionSchema"][];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    create_tenant_provider_connection_integrations_tenant_provider_connections_post: {
+        parameters: {
+            query: {
+                tenant_id: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TenantProviderConnectionCreateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            201: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantProviderConnectionSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__get: {
+        parameters: {
+            query: {
+                tenant_id: string;
+            };
+            header?: never;
+            path: {
+                tenant_provider_connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantProviderConnectionSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    update_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__patch: {
+        parameters: {
+            query: {
+                tenant_id: string;
+            };
+            header?: never;
+            path: {
+                tenant_provider_connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TenantProviderConnectionUpdateSchema"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantProviderConnectionSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    activate_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__activate_post: {
+        parameters: {
+            query: {
+                tenant_id: string;
+            };
+            header?: never;
+            path: {
+                tenant_provider_connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantProviderConnectionSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    disable_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__disable_post: {
+        parameters: {
+            query: {
+                tenant_id: string;
+            };
+            header?: never;
+            path: {
+                tenant_provider_connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TenantProviderConnectionSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    test_tenant_provider_connection_integrations_tenant_provider_connections__tenant_provider_connection_id__test_post: {
+        parameters: {
+            query: {
+                tenant_id: string;
+            };
+            header?: never;
+            path: {
+                tenant_provider_connection_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ProviderConnectionTestResultSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    list_policy_decisions_tenants__tenant_id__policy_decisions_get: {
+        parameters: {
+            query?: {
+                auth_event_id?: string | null;
+                decision_band?: components["schemas"]["ScoreBand"] | null;
+                final_action?: components["schemas"]["PolicyAction"] | null;
+                decided_after?: string | null;
+                decided_before?: string | null;
+                sort?: string;
+                limit?: number;
+                offset?: number;
+            };
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PolicyDecisionListResponseSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_policy_decision_tenants__tenant_id__policy_decisions__policy_decision_id__get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+                policy_decision_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PolicyDecisionSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_pipeline_health_tenants__tenant_id__pipeline_health_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PipelineHealthSchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_risk_summary_tenants__tenant_id__risk_summary_get: {
+        parameters: {
+            query?: {
+                occurred_after?: string | null;
+                occurred_before?: string | null;
+            };
+            header?: never;
+            path: {
+                tenant_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["RiskSummarySchema"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
 }
