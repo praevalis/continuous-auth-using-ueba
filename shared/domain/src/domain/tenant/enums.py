@@ -25,6 +25,19 @@ class EventSourceStatus(StrEnum):
 	DISABLED = 'disabled'
 
 
+class PipelineComponent(StrEnum):
+	INGESTION = 'ingestion'
+	ANALYSIS = 'analysis'
+	RESPONSES = 'responses'
+
+
+class PipelineHealthStatus(StrEnum):
+	HEALTHY = 'healthy'
+	DEGRADED = 'degraded'
+	IDLE = 'idle'
+	NOT_CONFIGURED = 'not_configured'
+
+
 class EventPayloadFormat(StrEnum):
 	JSON = 'json'
 	SYSLOG = 'syslog'

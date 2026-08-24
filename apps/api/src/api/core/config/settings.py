@@ -23,6 +23,8 @@ class ApiSettings(BaseSettings):
 	API_CORS_ALLOW_METHODS: list[str] = ['*']
 	API_CORS_ALLOW_HEADERS: list[str] = ['*']
 	AUTH_EVENT_INGESTION_STREAM_NAME: str = 'auth_event_ingestion'
+	PIPELINE_HEALTH_STALE_AFTER_MINUTES: int = 15
+	PIPELINE_HEALTH_FAILURE_LOOKBACK_HOURS: int = 24
 
 	@field_validator(
 		'API_CORS_ALLOW_ORIGINS',

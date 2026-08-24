@@ -53,3 +53,14 @@ export type ProviderConnectionMethod =
 export type RiskSummary = components['schemas']['RiskSummarySchema'];
 export type RiskScore = components['schemas']['RiskScoreSchema'];
 export type RiskScoreSummary = components['schemas']['RiskScoreSummarySchema'];
+export type ActivityTrend = components['schemas']['ActivityTrendSchema'];
+export type ActivityTrendBucket =
+	components['schemas']['ActivityTrendBucketSchema'];
+export type ActivityTrendInterval =
+	components['schemas']['ActivityTrendInterval'];
+export type PipelineHealth = components['schemas']['PipelineHealthSchema'];
+export type PipelineHealthComponent =
+	components['schemas']['PipelineHealthComponentSchema'];
+export type PipelineComponent = components['schemas']['PipelineComponent'];
+export type PipelineHealthStatus =
+	components['schemas']['PipelineHealthStatus'];

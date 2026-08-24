@@ -13,6 +13,8 @@ from domain.tenant.enums import (
 	IngestionCredentialStatus,
 	IngestionCredentialType,
 	OperatingMode,
+	PipelineComponent,
+	PipelineHealthStatus,
 	TenantStatus,
 )
 from domain.tenant.rules import (
@@ -29,6 +31,8 @@ __all__ = [
 	'IngestionCredentialStatus',
 	'IngestionCredentialType',
 	'OperatingMode',
+	'PipelineComponent',
+	'PipelineHealthStatus',
 	'Tenant',
 	'TenantHashKeyVersion',
 	'TenantOperatingModeRecord',

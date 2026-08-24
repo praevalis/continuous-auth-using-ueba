@@ -1,6 +1,7 @@
 import type { operations } from './generated/types';
 import type {
 	AlertListResponse,
+	ActivityTrend,
 	AuthEventDetail,
 	AuthEventListResponse,
 	EventSource,
@@ -13,6 +14,7 @@ import type {
 	OperatingMode,
 	OperatingModeCreate,
 	PolicyDecisionListResponse,
+	PipelineHealth,
 	ProviderConnectionTestResult,
 	ProviderRegistry,
 	RiskSummary,
@@ -175,6 +177,17 @@ export const api = {
 	) =>
 		request<RiskSummary>(
 			`/tenants/${tenantId}/risk-summary${query(params ?? {})}`,
+		),
+
+	getPipelineHealth: (tenantId: string) =>
+		request<PipelineHealth>(`/tenants/${tenantId}/pipeline-health`),
+
+	getActivityTrends: (
+		tenantId: string,
+		params: operations['get_activity_trends_tenants__tenant_id__activity_trends_get']['parameters']['query'] = {},
+	) =>
+		request<ActivityTrend>(
+			`/tenants/${tenantId}/activity-trends${query(params ?? {})}`,
 		),
 
 	listAlerts: (tenantId: string, params = {}) =>

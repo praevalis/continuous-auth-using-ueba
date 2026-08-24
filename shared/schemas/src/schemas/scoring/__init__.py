@@ -1,6 +1,10 @@
 """Scoring-related shared schemas."""
 
 from schemas.scoring.models import (
+	ActivityTrendBucketSchema,
+	ActivityTrendFilterParams,
+	ActivityTrendInterval,
+	ActivityTrendSchema,
 	EventProcessingRunCreateSchema,
 	EventProcessingRunFilterParams,
 	EventProcessingRunSchema,
@@ -22,6 +26,10 @@ from schemas.scoring.models import (
 )
 
 __all__ = [
+	'ActivityTrendBucketSchema',
+	'ActivityTrendFilterParams',
+	'ActivityTrendInterval',
+	'ActivityTrendSchema',
 	'EventProcessingRunCreateSchema',
 	'EventProcessingRunFilterParams',
 	'EventProcessingRunSchema',

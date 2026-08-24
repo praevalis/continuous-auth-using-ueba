@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from api.core.config import ApiSettings, get_api_settings
 from api.dependencies.database import get_db_session, get_unit_of_work
 from api.dependencies.event_broker import get_event_broker_manager
+from api.services.activity_trends import ActivityTrendReadService
 from api.services.alerts import AlertReadService
 from api.services.enforcement import EnforcementReadService
 from api.services.events import AuthEventReadService
@@ -20,6 +21,7 @@ from api.services.integrations import (
 	ProviderRegistryService,
 	TenantProviderConnectionService,
 )
+from api.services.pipeline_health import PipelineHealthReadService
 from api.services.policy_decisions import PolicyDecisionReadService
 from api.services.risk_summary import RiskSummaryReadService
 from api.services.tenants import (
@@ -212,3 +214,37 @@ def get_risk_summary_read_service(
 ) -> RiskSummaryReadService:
 	"""Return the tenant risk-summary read service."""
 	return RiskSummaryReadService(session)
+
+
+def get_activity_trend_read_service(
+	session: Annotated[AsyncSession, Depends(get_db_session)],
+) -> ActivityTrendReadService:
+	"""Return the tenant activity-trend read service.
+
+	Args:
+		session: The request-scoped async database session.
+
+	Returns:
+		The activity-trend service bound to the current session.
+	"""
+	return ActivityTrendReadService(session)
+
+
+def get_pipeline_health_read_service(
+	session: Annotated[AsyncSession, Depends(get_db_session)],
+	settings: Annotated[ApiSettings, Depends(get_api_settings)],
+) -> PipelineHealthReadService:
+	"""Return the tenant pipeline-health read service.
+
+	Args:
+		session: The request-scoped async database session.
+		settings: The API runtime settings containing health thresholds.
+
+	Returns:
+		The pipeline-health service bound to the current session.
+	"""
+	return PipelineHealthReadService(
+		session,
+		stale_after_minutes=settings.PIPELINE_HEALTH_STALE_AFTER_MINUTES,
+		failure_lookback_hours=settings.PIPELINE_HEALTH_FAILURE_LOOKBACK_HOURS,
+	)

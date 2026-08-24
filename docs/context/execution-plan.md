@@ -144,6 +144,7 @@ This is the ordered implementation tracker for the project. Unlike the other con
 - [done] Connect threat feed filters, pagination, freshness, and event-detail workflows.
 - [done] Connect activity date-range, lifecycle, pagination, and refresh workflows.
 - [done] Connect policy reads and mutation workflows.
+- [done] Add tenant-scoped pipeline health and activity trend read endpoints for Overview integration.
 - [done] Add loading, empty, error, validation, and mutation states for API-backed flows.
 
 ## Phase 10: Validation and Packaging

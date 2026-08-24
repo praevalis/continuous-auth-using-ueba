@@ -2,8 +2,12 @@ from datetime import datetime
 from uuid import UUID
 
 from domain.policy import ScoreBand
-from domain.scoring import ProcessingJobType, ProcessingRunStatus
-from pydantic import Field
+from domain.scoring import (
+	ActivityTrendInterval,
+	ProcessingJobType,
+	ProcessingRunStatus,
+)
+from pydantic import Field, model_validator
 
 from schemas.base import SchemaModel
 
@@ -209,4 +213,50 @@ class RiskSummarySchema(SchemaModel):
 	unscored_count: int = Field(ge=0)
 	latest_event_at: datetime | None = None
 	latest_scored_at: datetime | None = None
+	generated_at: datetime
+
+
+class ActivityTrendFilterParams(SchemaModel):
+	"""Optional time range and bucket size for tenant activity trends."""
+
+	occurred_after: datetime | None = None
+	occurred_before: datetime | None = None
+	interval: ActivityTrendInterval = ActivityTrendInterval.HOUR
+
+	@model_validator(mode='after')
+	def validate_time_range(self) -> 'ActivityTrendFilterParams':
+		"""Ensure an explicitly supplied trend range is ordered."""
+		if (
+			self.occurred_after is not None
+			and self.occurred_before is not None
+			and self.occurred_after >= self.occurred_before
+		):
+			raise ValueError('occurred_after must be before occurred_before.')
+		return self
+
+
+class ActivityTrendBucketSchema(SchemaModel):
+	"""Aggregated tenant activity for one time bucket."""
+
+	bucket_start: datetime
+	bucket_end: datetime
+	event_count: int = Field(ge=0)
+	scored_count: int = Field(ge=0)
+	safe_count: int = Field(ge=0)
+	caution_count: int = Field(ge=0)
+	lockout_count: int = Field(ge=0)
+	unscored_count: int = Field(ge=0)
+	decision_count: int = Field(ge=0)
+	alert_count: int = Field(ge=0)
+	response_count: int = Field(ge=0)
+
+
+class ActivityTrendSchema(SchemaModel):
+	"""Tenant activity trend buckets for a requested time range."""
+
+	tenant_id: UUID
+	occurred_after: datetime
+	occurred_before: datetime
+	interval: ActivityTrendInterval
+	buckets: list[ActivityTrendBucketSchema]
 	generated_at: datetime

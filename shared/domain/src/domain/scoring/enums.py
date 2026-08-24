@@ -13,3 +13,8 @@ class ProcessingRunStatus(StrEnum):
 	SUCCEEDED = 'succeeded'
 	FAILED = 'failed'
 	DEAD_LETTERED = 'dead_lettered'
+
+
+class ActivityTrendInterval(StrEnum):
+	HOUR = 'hour'
+	DAY = 'day'

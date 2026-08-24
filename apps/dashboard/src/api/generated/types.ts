@@ -44,6 +44,26 @@ export interface paths {
 		patch?: never;
 		trace?: never;
 	};
+	'/tenants/{tenant_id}/activity-trends': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * Get Activity Trends
+		 * @description Return zero-filled activity trends for a tenant.
+		 */
+		get: operations['get_activity_trends_tenants__tenant_id__activity_trends_get'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	'/tenants/{tenant_id}/events': {
 		parameters: {
 			query?: never;
@@ -1079,6 +1099,26 @@ export interface paths {
 		patch?: never;
 		trace?: never;
 	};
+	'/tenants/{tenant_id}/pipeline-health': {
+		parameters: {
+			query?: never;
+			header?: never;
+			path?: never;
+			cookie?: never;
+		};
+		/**
+		 * Get Pipeline Health
+		 * @description Return computed pipeline health for a tenant.
+		 */
+		get: operations['get_pipeline_health_tenants__tenant_id__pipeline_health_get'];
+		put?: never;
+		post?: never;
+		delete?: never;
+		options?: never;
+		head?: never;
+		patch?: never;
+		trace?: never;
+	};
 	'/tenants/{tenant_id}/risk-summary': {
 		parameters: {
 			query?: never;
@@ -1103,6 +1143,74 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
 	schemas: {
+		/**
+		 * ActivityTrendBucketSchema
+		 * @description Aggregated tenant activity for one time bucket.
+		 */
+		ActivityTrendBucketSchema: {
+			/**
+			 * Bucket Start
+			 * Format: date-time
+			 */
+			bucket_start: string;
+			/**
+			 * Bucket End
+			 * Format: date-time
+			 */
+			bucket_end: string;
+			/** Event Count */
+			event_count: number;
+			/** Scored Count */
+			scored_count: number;
+			/** Safe Count */
+			safe_count: number;
+			/** Caution Count */
+			caution_count: number;
+			/** Lockout Count */
+			lockout_count: number;
+			/** Unscored Count */
+			unscored_count: number;
+			/** Decision Count */
+			decision_count: number;
+			/** Alert Count */
+			alert_count: number;
+			/** Response Count */
+			response_count: number;
+		};
+		/**
+		 * ActivityTrendInterval
+		 * @enum {string}
+		 */
+		ActivityTrendInterval: 'hour' | 'day';
+		/**
+		 * ActivityTrendSchema
+		 * @description Tenant activity trend buckets for a requested time range.
+		 */
+		ActivityTrendSchema: {
+			/**
+			 * Tenant Id
+			 * Format: uuid
+			 */
+			tenant_id: string;
+			/**
+			 * Occurred After
+			 * Format: date-time
+			 */
+			occurred_after: string;
+			/**
+			 * Occurred Before
+			 * Format: date-time
+			 */
+			occurred_before: string;
+			interval: components['schemas']['ActivityTrendInterval'];
+			/** Buckets */
+			buckets: components['schemas']['ActivityTrendBucketSchema'][];
+			/**
+			 * Generated At
+			 * Format: date-time
+			 */
+			generated_at: string;
+		};
 		/** AlertListResponseSchema */
 		AlertListResponseSchema: {
 			/** Items */
@@ -1721,6 +1829,52 @@ export interface components {
 		 * @enum {string}
 		 */
 		OperatingMode: 'shadow' | 'alert_only' | 'enforce';
+		/**
+		 * PipelineComponent
+		 * @enum {string}
+		 */
+		PipelineComponent: 'ingestion' | 'analysis' | 'responses';
+		/**
+		 * PipelineHealthComponentSchema
+		 * @description Current operational health for one tenant pipeline component.
+		 */
+		PipelineHealthComponentSchema: {
+			component: components['schemas']['PipelineComponent'];
+			status: components['schemas']['PipelineHealthStatus'];
+			/** Last Activity At */
+			last_activity_at?: string | null;
+			/** Last Success At */
+			last_success_at?: string | null;
+			/** Pending Count */
+			pending_count: number;
+			/** Failed Count */
+			failed_count: number;
+			/** Detail */
+			detail?: string | null;
+		};
+		/**
+		 * PipelineHealthSchema
+		 * @description Computed operational health for a tenant's processing pipeline.
+		 */
+		PipelineHealthSchema: {
+			/**
+			 * Tenant Id
+			 * Format: uuid
+			 */
+			tenant_id: string;
+			/**
+			 * Generated At
+			 * Format: date-time
+			 */
+			generated_at: string;
+			/** Components */
+			components: components['schemas']['PipelineHealthComponentSchema'][];
+		};
+		/**
+		 * PipelineHealthStatus
+		 * @enum {string}
+		 */
+		PipelineHealthStatus: 'healthy' | 'degraded' | 'idle' | 'not_configured';
 		/**
 		 * PolicyAction
 		 * @enum {string}
@@ -2444,6 +2598,41 @@ export interface operations {
 				};
 				content: {
 					'application/json': components['schemas']['AlertSchema'];
+				};
+			};
+			/** @description Validation Error */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['HTTPValidationError'];
+				};
+			};
+		};
+	};
+	get_activity_trends_tenants__tenant_id__activity_trends_get: {
+		parameters: {
+			query?: {
+				occurred_after?: string | null;
+				occurred_before?: string | null;
+				interval?: components['schemas']['ActivityTrendInterval'];
+			};
+			header?: never;
+			path: {
+				tenant_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['ActivityTrendSchema'];
 				};
 			};
 			/** @description Validation Error */
@@ -4182,6 +4371,37 @@ export interface operations {
 				};
 				content: {
 					'application/json': components['schemas']['PolicyDecisionSchema'];
+				};
+			};
+			/** @description Validation Error */
+			422: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['HTTPValidationError'];
+				};
+			};
+		};
+	};
+	get_pipeline_health_tenants__tenant_id__pipeline_health_get: {
+		parameters: {
+			query?: never;
+			header?: never;
+			path: {
+				tenant_id: string;
+			};
+			cookie?: never;
+		};
+		requestBody?: never;
+		responses: {
+			/** @description Successful Response */
+			200: {
+				headers: {
+					[name: string]: unknown;
+				};
+				content: {
+					'application/json': components['schemas']['PipelineHealthSchema'];
 				};
 			};
 			/** @description Validation Error */

@@ -9,6 +9,8 @@ from domain.tenant import (
 	IngestionCredentialStatus,
 	IngestionCredentialType,
 	OperatingMode,
+	PipelineComponent,
+	PipelineHealthStatus,
 	TenantStatus,
 )
 from pydantic import Field, field_validator
@@ -25,6 +27,26 @@ class TenantSchema(SchemaModel):
 	deleted_at: datetime | None = None
 	created_at: datetime
 	updated_at: datetime
+
+
+class PipelineHealthComponentSchema(SchemaModel):
+	"""Current operational health for one tenant pipeline component."""
+
+	component: PipelineComponent
+	status: PipelineHealthStatus
+	last_activity_at: datetime | None = None
+	last_success_at: datetime | None = None
+	pending_count: int = Field(ge=0)
+	failed_count: int = Field(ge=0)
+	detail: str | None = None
+
+
+class PipelineHealthSchema(SchemaModel):
+	"""Computed operational health for a tenant's processing pipeline."""
+
+	tenant_id: UUID
+	generated_at: datetime
+	components: list[PipelineHealthComponentSchema]
 
 
 class TenantCreateSchema(SchemaModel):
