@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
-import { useTenant } from '@/api/tenant';
+import { useTenant } from '@/hooks/useTenant';
 import PageLayout from '@/components/layout/PageLayout';
 import { useThreatFeed, useThreatFeedEvent } from '@/hooks';
+import ResourceError from '@/components/ui/ResourceError';
 import ThreatFeedIntro from './ThreatFeedIntro';
 import ThreatFeedSignals from './ThreatFeedSignals';
 import ThreatLedger from './ThreatLedger';
@@ -116,15 +117,12 @@ export default function ThreatFeed() {
 							Loading event evidence…
 						</aside>
 					) : selectedEventResource.error ? (
-						<aside className="hidden border-l border-stone-300 pl-6 text-sm text-lockout lg:block">
-							{selectedEventResource.error.message}
-							<button
-								className="mt-4 rounded-control border border-primary px-4 py-2 text-sm text-primary"
-								onClick={() => void selectedEventResource.refresh()}
-							>
-								Retry
-							</button>
-						</aside>
+						<ResourceError
+							title="Unable to load event evidence"
+							error={selectedEventResource.error}
+							onRetry={() => void selectedEventResource.refresh()}
+							className="hidden min-h-full rounded-none border-0 border-l border-stone-300 bg-transparent px-0 py-0 pl-6 lg:block"
+						/>
 					) : (
 						<EventDetail event={selectedEventDetail} />
 					)

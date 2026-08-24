@@ -14,7 +14,7 @@ export default function RankedList({ items, onItemClick }: RankedListProps) {
 		<div className="divide-y divide-stone-300/80">
 			{items.map((item) => {
 				const className =
-					'grid min-h-12 w-full grid-cols-[auto_1fr_auto_auto] items-center gap-4 py-3 text-left text-sm transition hover:bg-stone-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
+					'grid min-h-12 w-full grid-cols-[auto_1fr_auto_auto] items-center gap-4 rounded-none px-0 py-3 text-left text-sm transition hover:bg-stone-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary';
 				const content = (
 					<>
 						<span className="font-semibold text-primary">{item.id}</span>
@@ -24,15 +24,16 @@ export default function RankedList({ items, onItemClick }: RankedListProps) {
 					</>
 				);
 				return onItemClick ? (
-					<button
-						type="button"
+					<Button
+						variant="quiet"
+						size="sm"
 						className={className}
 						key={item.id}
 						onClick={() => onItemClick(item)}
 						aria-label={`Open activity for ${item.label}`}
 					>
 						{content}
-					</button>
+					</Button>
 				) : (
 					<div className={className} key={item.id}>
 						{content}
@@ -42,3 +43,4 @@ export default function RankedList({ items, onItemClick }: RankedListProps) {
 		</div>
 	);
 }
+import Button from './Button';

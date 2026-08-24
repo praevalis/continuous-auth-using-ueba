@@ -1,6 +1,7 @@
 import PageLayout from '@/components/layout/PageLayout';
-import { useTenant } from '@/api/tenant';
+import { useTenant } from '@/hooks/useTenant';
 import Callout from '@/components/ui/Callout';
+import ResourceError from '@/components/ui/ResourceError';
 import OverviewIntro from './OverviewIntro';
 import PlatformStatus from './PlatformStatus';
 import RiskLandscape from './RiskLandscape';
@@ -59,18 +60,12 @@ export default function Overview() {
 			/>
 
 			{error && (
-				<div
-					className="mt-8 flex flex-col gap-3 rounded-panel border border-lockout/30 bg-lockout/5 px-5 py-4 text-sm text-lockout sm:flex-row sm:items-center sm:justify-between"
-					role="alert"
-				>
-					<span>{error}</span>
-					<button
-						className="w-fit rounded-control border border-primary px-4 py-2 text-sm text-primary"
-						onClick={() => void (tenantError ? refresh() : overview.refresh())}
-					>
-						Retry
-					</button>
-				</div>
+				<ResourceError
+					className="mt-8"
+					title="Unable to load overview"
+					error={error}
+					onRetry={() => void (tenantError ? refresh() : overview.refresh())}
+				/>
 			)}
 
 			<PlatformStatus

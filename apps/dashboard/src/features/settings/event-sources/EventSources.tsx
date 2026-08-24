@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { LuRefreshCw } from 'react-icons/lu';
 import PageLayout from '@/components/layout/PageLayout';
-import { useTenant } from '@/api/tenant';
+import EmptyState from '@/components/ui/EmptyState';
+import ResourceError from '@/components/ui/ResourceError';
+import { useTenant } from '@/hooks/useTenant';
 import type {
 	EventSourceCreate,
 	EventSourceMetadataUpdate,
@@ -112,34 +113,21 @@ export default function EventSources() {
 		<PageLayout title="Event sources and credentials">
 			<EventSourcesIntro onAdd={() => setIsAddDialogOpen(true)} />
 			{error && (
-				<section
-					className="mt-8 rounded-panel border border-lockout/30 bg-lockout-soft/30 px-5 py-4 sm:px-6"
-					role="alert"
-				>
-					<div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-						<div className="min-w-0">
-							<h2 className="text-base font-semibold text-lockout">
-								Unable to load event sources
-							</h2>
-							<p className="mt-1 text-sm text-carbon-700">{error}</p>
-						</div>
-						<button
-							type="button"
-							className="inline-flex shrink-0 items-center gap-1.5 self-start rounded-control border border-primary px-3 py-1.5 text-sm text-primary transition hover:bg-primary-soft sm:self-auto"
-							onClick={() =>
-								tenantError ? void refreshTenant() : void refreshSources()
-							}
-						>
-							<LuRefreshCw size={14} aria-hidden="true" />
-							Retry
-						</button>
-					</div>
-				</section>
+				<ResourceError
+					className="mt-8"
+					title="Unable to load event sources"
+					error={error}
+					onRetry={() =>
+						tenantError ? void refreshTenant() : void refreshSources()
+					}
+				/>
 			)}
 			{actionError && !error && (
-				<p className="mt-6 text-sm text-lockout" role="alert">
-					{actionError.message}
-				</p>
+				<ResourceError
+					className="mt-6"
+					title="Event source action failed"
+					error={actionError}
+				/>
 			)}
 			<div className="mt-10">
 				{loading ? (
@@ -164,14 +152,9 @@ export default function EventSources() {
 						/>
 					))
 				) : (
-					<section className="py-10">
-						<h2 className="text-lg font-semibold text-primary">
-							No event sources configured
-						</h2>
-						<p className="mt-2 max-w-xl text-sm text-carbon-500">
-							Add an event source to begin receiving authentication events.
-						</p>
-					</section>
+					<EmptyState title="No event sources configured">
+						Add an event source to begin receiving authentication events.
+					</EmptyState>
 				)}
 			</div>
 			{isAddDialogOpen && (

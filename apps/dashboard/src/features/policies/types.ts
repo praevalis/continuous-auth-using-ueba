@@ -1,4 +1,6 @@
-export type PolicyMode = 'shadow' | 'alert_only' | 'enforce';
+import type { OperatingModeValue } from '@/api/contracts';
+
+export type PolicyMode = OperatingModeValue;
 
 export type PolicyRisk = 'safe' | 'caution' | 'lockout';
 

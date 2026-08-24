@@ -1,6 +1,7 @@
 import { LuBan, LuKeyRound, LuRefreshCw } from 'react-icons/lu';
 import ResourceStatusBadge from './ResourceStatusBadge';
 import type { components } from '@/api/generated/types';
+import Button from '@/components/ui/Button';
 
 function formatDate(value: string | null | undefined) {
 	if (!value) return 'Never';
@@ -65,20 +66,24 @@ export default function CredentialEntry({
 				/>
 				{active && (
 					<>
-						<button
-							type="button"
+						<Button
 							onClick={onRotate}
-							className="inline-flex items-center gap-1.5 rounded-control px-2 py-1 text-sm text-primary transition hover:bg-primary-soft hover:text-primary active:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+							variant="quiet"
+							size="sm"
+							leading={<LuRefreshCw size={16} aria-hidden="true" />}
+							className="min-h-0 px-2 py-1 text-sm"
 						>
-							<LuRefreshCw size={16} /> Rotate
-						</button>
-						<button
-							type="button"
+							Rotate
+						</Button>
+						<Button
 							onClick={onRevoke}
-							className="inline-flex items-center gap-1.5 rounded-control px-2 py-1 text-sm text-primary transition hover:bg-primary-soft hover:text-primary active:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+							variant="quiet"
+							size="sm"
+							leading={<LuBan size={16} aria-hidden="true" />}
+							className="min-h-0 px-2 py-1 text-sm"
 						>
-							<LuBan size={16} /> Revoke
-						</button>
+							Revoke
+						</Button>
 					</>
 				)}
 			</div>

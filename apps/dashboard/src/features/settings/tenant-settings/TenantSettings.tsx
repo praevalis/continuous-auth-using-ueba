@@ -2,11 +2,12 @@ import { useCallback, useState } from 'react';
 import PageLayout from '@/components/layout/PageLayout';
 import ConfigurationStatus from './ConfigurationStatus';
 import CurrentConfiguration from './CurrentConfiguration';
-import { useTenant } from '@/api/tenant';
+import { useTenant } from '@/hooks/useTenant';
 import { useTenantSettings } from '@/hooks/useTenantSettings';
 import { useTenantUpdate } from '@/hooks/useTenantUpdate';
 import TenantIdentity from './TenantIdentity';
 import TenantSettingsIntro from './TenantSettingsIntro';
+import ResourceError from '@/components/ui/ResourceError';
 
 export default function TenantSettings() {
 	const {
@@ -76,21 +77,14 @@ export default function TenantSettings() {
 		<PageLayout title="Tenant settings">
 			<TenantSettingsIntro />
 			{error && (
-				<div
-					className="mt-8 flex flex-col gap-3 rounded-panel border border-lockout/30 bg-lockout/5 px-5 py-4 text-sm text-lockout sm:flex-row sm:items-center sm:justify-between"
-					role="alert"
-				>
-					<span>{error}</span>
-					<button
-						type="button"
-						className="w-fit rounded-control border border-primary px-4 py-2 text-sm text-primary"
-						onClick={() =>
-							void (tenantError ? refreshTenant() : settings.refresh())
-						}
-					>
-						Retry
-					</button>
-				</div>
+				<ResourceError
+					className="mt-8"
+					title="Unable to load tenant settings"
+					error={error}
+					onRetry={() =>
+						void (tenantError ? refreshTenant() : settings.refresh())
+					}
+				/>
 			)}
 			{loading && (
 				<div

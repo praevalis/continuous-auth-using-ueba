@@ -1,3 +1,5 @@
+import SectionEyebrow from '@/components/ui/SectionEyebrow';
+
 type OverviewIntroProps = {
 	heading: string;
 	description: string;
@@ -14,11 +16,7 @@ export default function OverviewIntro({
 	return (
 		<section className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
 			<div>
-				<div className="flex items-center gap-3 text-label uppercase tracking-[0.12em] text-carbon-300">
-					<span className="h-1 w-5 rounded-full bg-safe" aria-hidden="true" />
-					<span>Overview</span>
-					<span className="h-1 w-5 rounded-full bg-safe" aria-hidden="true" />
-				</div>
+				<SectionEyebrow tone="safe">Overview</SectionEyebrow>
 				<h1 className="max-w-4xl text-3xl font-semibold leading-tight tracking-[-0.035em] text-primary sm:text-4xl">
 					{heading}
 				</h1>

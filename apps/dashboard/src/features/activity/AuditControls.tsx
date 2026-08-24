@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { LuRefreshCw } from 'react-icons/lu';
 import DateTimePicker from '@/components/ui/DateTimePicker';
+import Button from '@/components/ui/Button';
 
 export default function AuditControls({
 	from,
@@ -55,17 +56,19 @@ export default function AuditControls({
 					onChange={onToChange}
 					align="end"
 				/>
-				<button
-					type="button"
+				<Button
 					onClick={handleRefresh}
-					className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-control px-3 text-sm text-carbon-700 transition hover:bg-primary-soft"
+					variant="quiet"
+					className="h-10 shrink-0 px-3 text-sm text-carbon-700"
+					leading={
+						<LuRefreshCw
+							size={16}
+							className={`transition-transform duration-500 ${isRefreshing ? 'rotate-[360deg]' : ''}`}
+						/>
+					}
 				>
-					<LuRefreshCw
-						size={16}
-						className={`transition-transform duration-500 ${isRefreshing ? 'rotate-[360deg]' : ''}`}
-					/>
 					<span className="hidden sm:inline">Refresh activity</span>
-				</button>
+				</Button>
 			</div>
 		</section>
 	);

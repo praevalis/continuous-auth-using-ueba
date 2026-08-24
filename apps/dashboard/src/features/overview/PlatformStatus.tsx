@@ -1,6 +1,6 @@
 import type { IconType } from 'react-icons';
 import { LuCheck, LuInfo, LuMinus, LuX } from 'react-icons/lu';
-import Badge from '@/components/ui/Badge';
+import { default as UiStatusBadge } from '@/components/ui/StatusBadge';
 import type { OverviewPlatformItem, OverviewTone } from './types';
 
 function statusPresentation(tone: OverviewTone): {
@@ -35,8 +35,10 @@ function statusPresentation(tone: OverviewTone): {
 function StatusBadge({ status, tone }: { status: string; tone: OverviewTone }) {
 	const presentation = statusPresentation(tone);
 	return (
-		<Badge
-			className={`text-sm ${presentation.color}`}
+		<UiStatusBadge
+			tone={tone}
+			showDot={false}
+			className={`border-0 bg-transparent px-0 py-0 text-sm ${presentation.color}`}
 			leading={
 				<span
 					className={`relative block size-4 shrink-0 rounded-full ${presentation.background} text-white`}
@@ -50,7 +52,7 @@ function StatusBadge({ status, tone }: { status: string; tone: OverviewTone }) {
 			}
 		>
 			{status}
-		</Badge>
+		</UiStatusBadge>
 	);
 }
 

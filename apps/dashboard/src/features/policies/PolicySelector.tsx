@@ -1,5 +1,6 @@
 import Badge from '@/components/ui/Badge';
 import Dropdown from '@/components/ui/Dropdown';
+import Button from '@/components/ui/Button';
 import type { Policy } from './types';
 
 type PolicySelectorProps = {
@@ -42,13 +43,9 @@ export function PolicySelectorEmpty({ onRetry }: { onRetry?: () => void }) {
 				/>
 			</div>
 			{onRetry && (
-				<button
-					type="button"
-					className="rounded-control border border-primary px-4 py-2 text-sm text-primary"
-					onClick={onRetry}
-				>
+				<Button size="sm" className="border-primary" onClick={onRetry}>
 					Retry
-				</button>
+				</Button>
 			)}
 		</div>
 	);

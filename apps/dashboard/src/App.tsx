@@ -1,6 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
 import { router } from '@/app/router';
-import { TenantProvider } from '@/api/tenant';
+import { TenantProvider } from '@/providers/TenantProvider';
 
 function App() {
 	return (

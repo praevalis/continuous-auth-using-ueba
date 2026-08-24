@@ -1,4 +1,6 @@
 import { LuBan, LuPencil, LuPower, LuRefreshCw } from 'react-icons/lu';
+import IconButton from '@/components/ui/IconButton';
+import Button from '@/components/ui/Button';
 import type { components } from '@/api/generated/types';
 
 export default function ProviderConnectionActions({
@@ -18,46 +20,74 @@ export default function ProviderConnectionActions({
 }) {
 	const active = status === 'active';
 	const connectionDisabled = status === 'disabled';
-	const buttonClass = `inline-flex items-center justify-center rounded-control border border-stone-300 text-primary transition hover:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 ${compact ? 'size-10' : 'gap-1.5 px-3 py-1.5 text-xs'}`;
+	if (compact) {
+		return (
+			<div className="flex items-center gap-1">
+				<IconButton
+					icon={<LuRefreshCw className="text-safe" size={19} />}
+					label="Test connection"
+					onClick={onTest}
+					disabled={busy || connectionDisabled}
+					className="text-primary transition hover:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+				/>
+				<IconButton
+					icon={<LuPencil className="text-caution" size={19} />}
+					label="Edit provider"
+					onClick={onEdit}
+					disabled={busy || connectionDisabled}
+					className="text-primary transition hover:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+				/>
+				<IconButton
+					icon={
+						active ? (
+							<LuBan className="text-lockout" size={19} />
+						) : (
+							<LuPower className="text-safe" size={19} />
+						)
+					}
+					label={active ? 'Disable provider' : 'Activate provider'}
+					onClick={onToggle}
+					disabled={busy}
+					className="text-primary transition hover:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+				/>
+			</div>
+		);
+	}
 	return (
 		<div className={`flex items-center ${compact ? 'gap-1' : 'gap-3'}`}>
-			<button
-				type="button"
+			<Button
 				onClick={onTest}
 				disabled={busy || connectionDisabled}
-				className={buttonClass}
-				aria-label="Test connection"
-				title="Test connection"
+				size="sm"
+				leading={<LuRefreshCw className="text-safe" size={15} />}
+				className="gap-1.5 border-stone-300 px-3 py-1.5 text-xs"
 			>
-				<LuRefreshCw className="text-safe" size={compact ? 19 : 15} />
-				{!compact && 'Test'}
-			</button>
-			<button
-				type="button"
+				Test
+			</Button>
+			<Button
 				onClick={onEdit}
 				disabled={busy || connectionDisabled}
-				className={buttonClass}
-				aria-label="Edit provider"
-				title="Edit provider"
+				size="sm"
+				leading={<LuPencil className="text-caution" size={15} />}
+				className="gap-1.5 border-stone-300 px-3 py-1.5 text-xs"
 			>
-				<LuPencil className="text-caution" size={compact ? 19 : 15} />
-				{!compact && 'Edit'}
-			</button>
-			<button
-				type="button"
+				Edit
+			</Button>
+			<Button
 				onClick={onToggle}
 				disabled={busy}
-				className={buttonClass}
-				aria-label={active ? 'Disable provider' : 'Activate provider'}
-				title={active ? 'Disable provider' : 'Activate provider'}
+				size="sm"
+				leading={
+					active ? (
+						<LuBan className="text-lockout" size={15} />
+					) : (
+						<LuPower className="text-safe" size={15} />
+					)
+				}
+				className="gap-1.5 border-stone-300 px-3 py-1.5 text-xs"
 			>
-				{active ? (
-					<LuBan className="text-lockout" size={compact ? 19 : 15} />
-				) : (
-					<LuPower className="text-safe" size={compact ? 19 : 15} />
-				)}
-				{!compact && (active ? 'Disable' : 'Activate')}
-			</button>
+				{active ? 'Disable' : 'Activate'}
+			</Button>
 		</div>
 	);
 }

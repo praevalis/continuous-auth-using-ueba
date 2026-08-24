@@ -1,9 +1,18 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { BsBuildingFill } from 'react-icons/bs';
 import { LuMenu, LuX } from 'react-icons/lu';
 import logo from '@/assets/logo.svg';
 import Dropdown from '@/components/ui/Dropdown';
-import { useTenant } from '@/api/tenant';
+import IconButton from '@/components/ui/IconButton';
+import { useTenant } from '@/hooks/useTenant';
+import type { OperatingModeValue } from '@/api/contracts';
+import { useOperatingModes, usePolicyModeMutation } from '@/hooks';
+import { useBodyScrollLock } from '@/hooks/useBodyScrollLock';
+import {
+	operatingModeLabels,
+	operatingModeOptions,
+} from '@/utils/operatingMode';
 
 const navigationItems = [
 	{ label: 'Overview', to: '/' },
@@ -17,18 +26,49 @@ const tenantSettingsLinks = [
 	{ label: 'Event sources & credentials', to: '/settings/event-sources' },
 	{ label: 'Provider connections', to: '/settings/providers' },
 ];
-const responseModeOptions = [
-	{ label: 'Simulation', value: 'simulation' },
-	{ label: 'Notify only', value: 'notify-only' },
-	{ label: 'Active response', value: 'active-response' },
-];
+function TenantDropdown({
+	options,
+	value,
+	onChange,
+	align = 'start',
+}: {
+	options: Array<{ label: string; value: string }>;
+	value?: string;
+	onChange: (_value: string) => void;
+	align?: 'start' | 'end';
+}) {
+	return (
+		<div className="flex min-w-0 items-center gap-2">
+			<BsBuildingFill
+				className="shrink-0 text-primary"
+				size={14}
+				aria-hidden="true"
+			/>
+			<Dropdown
+				label="Tenant"
+				options={options}
+				links={tenantSettingsLinks}
+				value={value}
+				onChange={onChange}
+				align={align}
+			/>
+		</div>
+	);
+}
 
-function MobileNavigation({ onClose }: { onClose: () => void }) {
-	const { tenant, tenants, setTenantId } = useTenant();
-	const tenantOptions = tenants.map((item) => ({
-		label: item.display_name,
-		value: item.id,
-	}));
+function MobileNavigation({
+	onClose,
+	responseMode,
+	responseModeDisabled,
+	onResponseModeChange,
+}: {
+	onClose: () => void;
+	responseMode?: OperatingModeValue;
+	responseModeDisabled: boolean;
+	onResponseModeChange: (..._args: [string]) => void;
+}) {
+	const { tenant } = useTenant();
+	useBodyScrollLock(true);
 	return (
 		<div
 			className="fixed inset-0 z-50 md:hidden"
@@ -37,54 +77,98 @@ function MobileNavigation({ onClose }: { onClose: () => void }) {
 			aria-label="Mobile navigation"
 		>
 			<button
+				type="button"
 				className="absolute inset-0 bg-carbon-700/20"
 				onClick={onClose}
 				aria-label="Close navigation"
 			/>
-			<aside className="absolute right-0 top-0 flex h-full w-[min(86vw,320px)] flex-col bg-paper-50 px-6 py-5 text-carbon-700 shadow-floating">
-				<div className="flex items-center justify-between border-b border-stone-300 pb-5">
+			<aside className="absolute right-0 top-0 flex h-full w-[min(86vw,320px)] flex-col bg-paper-50 px-6 py-4 text-carbon-700 shadow-floating">
+				<div className="flex items-center justify-between border-b border-stone-300 pb-4">
 					<div className="flex items-center gap-3 text-lg font-semibold tracking-[-0.02em] text-primary">
 						<img className="size-9" src={logo} alt="" />
 						Continuous Auth
 					</div>
-					<button
-						className="grid size-10 place-items-center text-primary"
+					<IconButton
+						icon={<LuX size={24} aria-hidden="true" />}
+						label="Close navigation"
 						onClick={onClose}
-						aria-label="Close navigation"
-					>
-						<LuX size={24} />
-					</button>
+						variant="quiet"
+						size="sm"
+						className="size-10 p-2 text-primary"
+					/>
 				</div>
 				<nav className="mt-6" aria-label="Mobile navigation links">
-					{navigationItems.map((item) => (
-						<NavLink
-							key={item.to}
-							to={item.to}
-							end={item.to === '/'}
-							onClick={onClose}
-							className={({ isActive }) =>
-								`block border-l-2 px-4 py-3 text-base ${isActive ? 'border-primary bg-primary-soft font-semibold text-primary' : 'border-transparent'}`
-							}
-						>
-							{item.label}
-						</NavLink>
-					))}
-				</nav>
-				<div className="mt-8 border-t border-stone-300 pt-5 text-sm">
 					<p className="text-xs font-semibold uppercase tracking-[0.12em] text-carbon-300">
-						Context
+						Pages
 					</p>
-					<div className="mt-4 space-y-4">
-						<Dropdown
-							label="Tenant"
-							options={tenantOptions}
-							links={tenantSettingsLinks}
-							value={tenant?.id}
-							onChange={setTenantId}
-						/>
-						<Dropdown label="Response mode" options={responseModeOptions} />
+					<div className="mt-3">
+						{navigationItems.map((item) => (
+							<NavLink
+								key={item.to}
+								to={item.to}
+								end={item.to === '/'}
+								onClick={onClose}
+								className={({ isActive }) =>
+									`block border-l-2 px-4 py-2.5 text-sm ${isActive ? 'border-primary bg-primary-soft font-semibold text-primary' : 'border-transparent'}`
+								}
+							>
+								{item.label}
+							</NavLink>
+						))}
 					</div>
-				</div>
+				</nav>
+				<section
+					className="mt-2 pt-5"
+					aria-labelledby="mobile-simulation-heading"
+				>
+					<h2
+						id="mobile-simulation-heading"
+						className="text-xs font-semibold uppercase tracking-[0.12em] text-carbon-300"
+					>
+						Simulation
+					</h2>
+					<div className="mt-4 h-10 rounded-control border border-stone-300">
+						<Dropdown
+							label="Response mode"
+							options={responseMode ? operatingModeOptions : []}
+							value={responseMode}
+							onChange={onResponseModeChange}
+							fullWidth
+							buttonClassName="text-sm text-primary"
+							disabled={responseModeDisabled}
+						/>
+					</div>
+				</section>
+				<section className="mt-2 pt-5" aria-labelledby="mobile-tenant-heading">
+					<h2
+						id="mobile-tenant-heading"
+						className="text-xs font-semibold uppercase tracking-[0.12em] text-carbon-300"
+					>
+						Tenant
+					</h2>
+					<div className="mt-4">
+						<div className="flex items-center gap-2 px-4 text-sm font-medium text-primary">
+							<BsBuildingFill size={14} aria-hidden="true" />
+							<span className="truncate">
+								{tenant?.display_name ?? 'No tenant selected'}
+							</span>
+						</div>
+						<div className="mt-3">
+							{tenantSettingsLinks.map((item) => (
+								<NavLink
+									key={item.to}
+									to={item.to}
+									onClick={onClose}
+									className={({ isActive }) =>
+										`block border-l-2 px-4 py-2.5 text-sm ${isActive ? 'border-primary bg-primary-soft font-semibold text-primary' : 'border-transparent'}`
+									}
+								>
+									{item.label}
+								</NavLink>
+							))}
+						</div>
+					</div>
+				</section>
 			</aside>
 		</div>
 	);
@@ -93,10 +177,46 @@ function MobileNavigation({ onClose }: { onClose: () => void }) {
 export default function TopNavigation() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const { tenant, tenants, setTenantId } = useTenant();
+	const {
+		data: operatingModeData,
+		loading: operatingModesLoading,
+		error: operatingModesError,
+		refresh: refreshOperatingModes,
+	} = useOperatingModes(tenant?.id);
+	const { mutateAsync: mutateOperatingMode, pending: operatingModePending } =
+		usePolicyModeMutation(tenant?.id);
 	const tenantOptions = tenants.map((item) => ({
 		label: item.display_name,
 		value: item.id,
 	}));
+	const responseMode = operatingModeData?.find((mode) => mode.is_active)?.mode;
+	const responseModeDisabled =
+		operatingModesLoading ||
+		!!operatingModesError ||
+		!responseMode ||
+		operatingModePending;
+	const handleResponseModeChange = useCallback(
+		async (value: string) => {
+			if (
+				!tenant?.id ||
+				!responseMode ||
+				value === responseMode ||
+				!(value in operatingModeLabels)
+			)
+				return;
+
+			try {
+				await mutateOperatingMode({
+					mode: value as OperatingModeValue,
+					effective_from: new Date().toISOString(),
+				});
+				await refreshOperatingModes();
+			} catch {
+				// The current mode remains selected when the update fails.
+			}
+		},
+		[mutateOperatingMode, refreshOperatingModes, responseMode, tenant?.id],
+	);
 
 	return (
 		<header className="border-b border-stone-300/80 bg-paper-50">
@@ -111,26 +231,35 @@ export default function TopNavigation() {
 				</NavLink>
 				<div className="hidden h-7 w-px bg-stone-300 md:block" />
 				<div className="hidden items-center gap-6 text-sm md:flex">
-					<Dropdown label="Response mode" options={responseModeOptions} />
+					<div className="h-10 w-40">
+						<Dropdown
+							label="Response mode"
+							options={responseMode ? operatingModeOptions : []}
+							value={responseMode}
+							onChange={(value) => void handleResponseModeChange(value)}
+							fullWidth
+							buttonClassName="text-sm text-primary"
+							disabled={responseModeDisabled}
+						/>
+					</div>
 					<span className="h-6 w-px bg-stone-300" />
 				</div>
 				<div className="ml-auto hidden items-center text-sm md:flex">
-					<Dropdown
-						label="Tenant"
+					<TenantDropdown
 						options={tenantOptions}
-						links={tenantSettingsLinks}
 						value={tenant?.id}
 						onChange={setTenantId}
 						align="end"
 					/>
 				</div>
-				<button
-					className="ml-auto grid size-10 place-items-center text-primary md:hidden"
+				<IconButton
+					icon={<LuMenu size={28} aria-hidden="true" />}
+					label="Open navigation"
 					onClick={() => setIsMenuOpen(true)}
-					aria-label="Open navigation"
-				>
-					<LuMenu size={28} />
-				</button>
+					variant="quiet"
+					size="sm"
+					className="ml-auto size-10 p-1 text-primary md:hidden"
+				/>
 			</div>
 			<nav
 				className="mx-auto hidden max-w-375 gap-10 px-4 sm:px-8 lg:px-12 md:flex"
@@ -149,7 +278,14 @@ export default function TopNavigation() {
 					</NavLink>
 				))}
 			</nav>
-			{isMenuOpen && <MobileNavigation onClose={() => setIsMenuOpen(false)} />}
+			{isMenuOpen && (
+				<MobileNavigation
+					onClose={() => setIsMenuOpen(false)}
+					responseMode={responseMode}
+					responseModeDisabled={responseModeDisabled}
+					onResponseModeChange={(value) => void handleResponseModeChange(value)}
+				/>
+			)}
 		</header>
 	);
 }

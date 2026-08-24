@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import Badge from '@/components/ui/Badge';
+import { default as UiStatusBadge } from '@/components/ui/StatusBadge';
 import ActiveRiskProfile from './ActiveRiskProfile';
 import type { ThresholdProfile } from '@/api/contracts';
 import type { ConfigurationState, TenantConfigurationStatus } from './types';
@@ -36,17 +36,13 @@ const resources = [
 
 function StatusBadge({ state }: { state: ConfigurationState }) {
 	const content = statusContent[state];
-	const leading = (
-		<span
-			className={`size-2 rounded-full ${state === 'configured' ? 'bg-safe' : 'bg-lockout'}`}
-			aria-hidden="true"
-		/>
-	);
-
 	return (
-		<Badge className={`text-xs ${content.className}`} leading={leading}>
+		<UiStatusBadge
+			tone={state === 'configured' ? 'safe' : 'lockout'}
+			className={`border-0 bg-transparent px-0 py-0 text-xs ${content.className}`}
+		>
 			{content.label}
-		</Badge>
+		</UiStatusBadge>
 	);
 }
 

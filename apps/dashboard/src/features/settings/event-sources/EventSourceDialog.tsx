@@ -4,6 +4,9 @@ import type { EventSource } from '@/api/contracts';
 import Dropdown from '@/components/ui/Dropdown';
 import Input from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
+import Button from '@/components/ui/Button';
+import InlineError from '@/components/ui/InlineError';
+import Field from '@/components/ui/Field';
 
 const sourceTypeOptions = [
 	{ label: 'Identity provider', value: 'idp' },
@@ -88,17 +91,15 @@ export default function EventSourceDialog({
 			closeDisabled={pending}
 		>
 			<form className="grid gap-3" onSubmit={handleSubmit}>
-				<label className="grid gap-1.5 text-sm text-primary">
-					<span>Source name</span>
+				<Field label="Source name" required>
 					<Input
 						required
 						value={values.source_name}
 						onChange={(event) => updateValue('source_name', event.target.value)}
 					/>
-				</label>
+				</Field>
 				<div className="grid gap-3 sm:grid-cols-2">
-					<label className="grid gap-1.5 text-sm text-primary">
-						<span>Source type</span>
+					<Field label="Source type">
 						<div className="h-9 rounded-control border border-stone-300">
 							<Dropdown
 								label="Source type"
@@ -114,9 +115,8 @@ export default function EventSourceDialog({
 								buttonClassName="text-sm text-primary"
 							/>
 						</div>
-					</label>
-					<label className="grid gap-1.5 text-sm text-primary">
-						<span>Payload format</span>
+					</Field>
+					<Field label="Payload format">
 						<div className="h-9 rounded-control border border-stone-300">
 							<Dropdown
 								label="Payload format"
@@ -132,50 +132,44 @@ export default function EventSourceDialog({
 								buttonClassName="text-sm text-primary"
 							/>
 						</div>
-					</label>
+					</Field>
 				</div>
 				<div className="grid gap-3 sm:grid-cols-2">
-					<label className="grid gap-1.5 text-sm text-primary">
-						<span>
-							Vendor <span className="text-carbon-500">(optional)</span>
-						</span>
+					<Field
+						label={
+							<>
+								Vendor <span className="text-carbon-500">(optional)</span>
+							</>
+						}
+					>
 						<Input
 							value={values.vendor}
 							onChange={(event) => updateValue('vendor', event.target.value)}
 						/>
-					</label>
-					<label className="grid gap-1.5 text-sm text-primary">
-						<span>
-							External reference{' '}
-							<span className="text-carbon-500">(optional)</span>
-						</span>
+					</Field>
+					<Field
+						label={
+							<>
+								External reference{' '}
+								<span className="text-carbon-500">(optional)</span>
+							</>
+						}
+					>
 						<Input
 							value={values.external_reference}
 							onChange={(event) =>
 								updateValue('external_reference', event.target.value)
 							}
 						/>
-					</label>
+					</Field>
 				</div>
 				{(validationError || error) && (
-					<p className="text-sm text-lockout" role="alert">
-						{validationError ?? error?.message}
-					</p>
+					<InlineError>{validationError ?? error?.message}</InlineError>
 				)}
 				<div className="mt-1 flex justify-end">
-					<button
-						type="submit"
-						disabled={pending}
-						className="rounded-control border border-primary px-3 py-1.5 text-sm text-primary transition hover:bg-primary-soft disabled:cursor-not-allowed disabled:opacity-50"
-					>
-						{pending
-							? editing
-								? 'Saving…'
-								: 'Adding…'
-							: editing
-								? 'Save'
-								: 'Add'}
-					</button>
+					<Button type="submit" loading={pending} className="border-primary">
+						{editing ? 'Save' : 'Add'}
+					</Button>
 				</div>
 			</form>
 		</Modal>

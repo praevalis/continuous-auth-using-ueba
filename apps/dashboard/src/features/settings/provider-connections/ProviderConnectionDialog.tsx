@@ -4,6 +4,9 @@ import type { ProviderRegistry } from '@/api/contracts';
 import Dropdown from '@/components/ui/Dropdown';
 import Input from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
+import Button from '@/components/ui/Button';
+import InlineError from '@/components/ui/InlineError';
+import Field from '@/components/ui/Field';
 import type { ProviderConnectionView } from './types';
 
 const methodLabels = {
@@ -40,10 +43,6 @@ function getInitialValues(
 	};
 }
 
-function nullable(value: string) {
-	return value.trim() || null;
-}
-
 export default function ProviderConnectionDialog({
 	connection,
 	providers,
@@ -55,7 +54,7 @@ export default function ProviderConnectionDialog({
 	connection?: ProviderConnectionView;
 	providers: ProviderRegistry[];
 	onClose: () => void;
-	onSubmit: (values: ProviderConnectionFormValues) => Promise<void>;
+	onSubmit: (_values: ProviderConnectionFormValues) => Promise<void>;
 	pending: boolean;
 	error: Error | null;
 }) {
@@ -140,10 +139,7 @@ export default function ProviderConnectionDialog({
 		>
 			<form className="grid gap-3" onSubmit={handleSubmit}>
 				<div className="grid grid-cols-2 gap-3">
-					<label className="grid min-w-0 gap-1.5 text-sm text-primary">
-						<span>
-							Provider <span className="text-lockout">*</span>
-						</span>
+					<Field label="Provider" required className="min-w-0">
 						<div className="h-9 rounded-control border border-stone-300">
 							<Dropdown
 								label="Provider"
@@ -158,11 +154,8 @@ export default function ProviderConnectionDialog({
 								buttonClassName="text-sm text-primary"
 							/>
 						</div>
-					</label>
-					<label className="grid min-w-0 gap-1.5 text-sm text-primary">
-						<span>
-							Connection name <span className="text-lockout">*</span>
-						</span>
+					</Field>
+					<Field label="Connection name" required className="min-w-0">
 						<Input
 							required
 							value={values.connection_name}
@@ -170,41 +163,32 @@ export default function ProviderConnectionDialog({
 								updateValue('connection_name', event.target.value)
 							}
 						/>
-					</label>
+					</Field>
 				</div>
 				<div className="grid grid-cols-2 gap-3">
-					<label className="grid min-w-0 gap-1.5 text-sm text-primary">
-						<span>
-							Base URL <span className="text-lockout">*</span>
-						</span>
+					<Field label="Base URL" required className="min-w-0">
 						<Input
 							required
 							type="url"
 							value={values.base_url}
 							onChange={(event) => updateValue('base_url', event.target.value)}
 						/>
-					</label>
-					<div className="grid min-w-0 gap-1.5 text-sm text-primary">
-						<span>
-							Connection method <span className="text-lockout">*</span>
-						</span>
+					</Field>
+					<Field label="Connection method" required className="min-w-0">
 						<div className="flex h-9 min-w-0 items-center rounded-control border border-stone-300 bg-stone-100 px-3 text-sm text-carbon-700">
 							<span className="truncate">
 								{method ? methodLabels[method] : 'Select a provider'}
 							</span>
 						</div>
-					</div>
+					</Field>
 				</div>
 				{(method === 'oauth_client_credentials' ||
 					method === 'service_account') && (
 					<>
-						<label className="grid gap-1.5 text-sm text-primary">
-							<span>
-								Auth realm{' '}
-								{method === 'oauth_client_credentials' && (
-									<span className="text-lockout">*</span>
-								)}
-							</span>
+						<Field
+							label="Auth realm"
+							required={method === 'oauth_client_credentials'}
+						>
 							<Input
 								required={method === 'oauth_client_credentials'}
 								value={values.auth_realm}
@@ -212,15 +196,12 @@ export default function ProviderConnectionDialog({
 									updateValue('auth_realm', event.target.value)
 								}
 							/>
-						</label>
+						</Field>
 						<div className="grid gap-3 sm:grid-cols-2">
-							<label className="grid gap-1.5 text-sm text-primary">
-								<span>
-									Client ID{' '}
-									{method === 'oauth_client_credentials' && (
-										<span className="text-lockout">*</span>
-									)}
-								</span>
+							<Field
+								label="Client ID"
+								required={method === 'oauth_client_credentials'}
+							>
 								<Input
 									required={method === 'oauth_client_credentials'}
 									value={values.client_id}
@@ -228,14 +209,11 @@ export default function ProviderConnectionDialog({
 										updateValue('client_id', event.target.value)
 									}
 								/>
-							</label>
-							<label className="grid gap-1.5 text-sm text-primary">
-								<span>
-									Client secret reference{' '}
-									{method === 'oauth_client_credentials' && (
-										<span className="text-lockout">*</span>
-									)}
-								</span>
+							</Field>
+							<Field
+								label="Client secret reference"
+								required={method === 'oauth_client_credentials'}
+							>
 								<Input
 									required={method === 'oauth_client_credentials'}
 									value={values.client_secret_ref}
@@ -243,15 +221,12 @@ export default function ProviderConnectionDialog({
 										updateValue('client_secret_ref', event.target.value)
 									}
 								/>
-							</label>
+							</Field>
 						</div>
 					</>
 				)}
 				{method === 'api_token' && (
-					<label className="grid gap-1.5 text-sm text-primary">
-						<span>
-							API token reference <span className="text-lockout">*</span>
-						</span>
+					<Field label="API token reference" required>
 						<Input
 							required
 							value={values.api_token_ref}
@@ -259,39 +234,35 @@ export default function ProviderConnectionDialog({
 								updateValue('api_token_ref', event.target.value)
 							}
 						/>
-					</label>
+					</Field>
 				)}
-				<label className="grid gap-1.5 text-sm text-primary">
-					<span>
-						External tenant reference{' '}
-						<span className="text-carbon-500">(optional)</span>
-					</span>
+				<Field
+					label={
+						<>
+							External tenant reference{' '}
+							<span className="text-carbon-500">(optional)</span>
+						</>
+					}
+				>
 					<Input
 						value={values.external_tenant_reference}
 						onChange={(event) =>
 							updateValue('external_tenant_reference', event.target.value)
 						}
 					/>
-				</label>
+				</Field>
 				{(validationError || error) && (
-					<p className="text-sm text-lockout" role="alert">
-						{validationError ?? error?.message}
-					</p>
+					<InlineError>{validationError ?? error?.message}</InlineError>
 				)}
 				<div className="mt-1 flex justify-end">
-					<button
+					<Button
 						type="submit"
-						disabled={pending || providers.length === 0}
-						className="rounded-control border border-primary px-3 py-1.5 text-sm text-primary transition hover:bg-primary-soft disabled:cursor-not-allowed disabled:opacity-50"
+						loading={pending}
+						disabled={providers.length === 0}
+						className="border-primary"
 					>
-						{pending
-							? editing
-								? 'Saving…'
-								: 'Adding…'
-							: editing
-								? 'Save'
-								: 'Add'}
-					</button>
+						{editing ? 'Save' : 'Add'}
+					</Button>
 				</div>
 			</form>
 		</Modal>

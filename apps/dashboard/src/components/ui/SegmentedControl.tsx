@@ -1,5 +1,19 @@
 import type { ReactNode } from 'react';
+import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/cn';
+
+const segmentVariants = cva(
+	'min-h-10 whitespace-nowrap border-r border-stone-300 px-2 text-xs last:border-r-0 sm:text-sm',
+	{
+		variants: {
+			selected: {
+				true: 'border-b-2 border-b-primary bg-primary-soft font-semibold text-primary',
+				false:
+					'text-carbon-700 hover:bg-stone-100 disabled:cursor-not-allowed disabled:opacity-50',
+			},
+		},
+	},
+);
 
 export type SegmentedControlOption<T extends string> = {
 	value: T;
@@ -39,12 +53,7 @@ export default function SegmentedControl<T extends string>({
 						key={option.value}
 						type="button"
 						disabled={disabled}
-						className={cn(
-							'min-h-10 whitespace-nowrap border-r border-stone-300 px-2 text-xs last:border-r-0 sm:text-sm',
-							isSelected
-								? 'border-b-2 border-b-primary bg-primary-soft font-semibold text-primary'
-								: 'text-carbon-700 hover:bg-stone-100 disabled:cursor-not-allowed disabled:opacity-50',
-						)}
+						className={segmentVariants({ selected: isSelected })}
 						onClick={() => onChange(option.value)}
 						aria-pressed={isSelected}
 					>

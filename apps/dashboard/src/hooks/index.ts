@@ -1,8 +1,10 @@
 export { useAsyncResource } from './useAsyncResource';
+export { useBodyScrollLock } from './useBodyScrollLock';
 export { useMutation } from './useMutation';
 export { useActivity } from './useActivity';
 export { useEventSources } from './useEventSources';
 export { useEventSourceMutation } from './useEventSourceMutation';
+export { useOperatingModes } from './useOperatingModes';
 export { usePolicies } from './usePolicies';
 export { usePolicyModeMutation } from './usePolicyModeMutation';
 export { useProviderConnections } from './useProviderConnections';

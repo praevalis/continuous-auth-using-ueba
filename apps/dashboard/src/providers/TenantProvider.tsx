@@ -1,27 +1,12 @@
-import {
-	createContext,
-	useCallback,
-	useContext,
-	useEffect,
-	useMemo,
-	useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
-import { api } from './client';
-import type { Tenant } from './contracts';
-
-type TenantContextValue = {
-	tenant: Tenant | null;
-	tenants: Tenant[];
-	loading: boolean;
-	error: string | null;
-	refresh: () => Promise<void>;
-	setTenantId: (_id: string) => void;
-};
-const TenantContext = createContext<TenantContextValue | null>(null);
+import { api } from '@/api/client';
+import { TenantContext } from '@/context/tenantContext';
 
 export function TenantProvider({ children }: { children: ReactNode }) {
-	const [tenants, setTenants] = useState<Tenant[]>([]);
+	const [tenants, setTenants] = useState<
+		Awaited<ReturnType<typeof api.listTenants>>
+	>([]);
 	const [tenantId, setTenantId] = useState(
 		() => localStorage.getItem('tenant-id') ?? '',
 	);
@@ -71,10 +56,4 @@ export function TenantProvider({ children }: { children: ReactNode }) {
 	return (
 		<TenantContext.Provider value={value}>{children}</TenantContext.Provider>
 	);
-}
-
-export function useTenant() {
-	const value = useContext(TenantContext);
-	if (!value) throw new Error('useTenant must be used inside TenantProvider');
-	return value;
 }

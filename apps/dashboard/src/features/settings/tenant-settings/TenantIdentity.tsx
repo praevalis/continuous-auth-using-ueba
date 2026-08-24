@@ -1,5 +1,8 @@
-import Badge from '@/components/ui/Badge';
 import Dropdown from '@/components/ui/Dropdown';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
+import InlineError from '@/components/ui/InlineError';
+import StatusBadge from '@/components/ui/StatusBadge';
 import { listTimeZones } from 'timezone-support';
 import type { components } from '@/api/generated/types';
 
@@ -58,11 +61,11 @@ export default function TenantIdentity({
 					<label htmlFor="tenant-display-name" className="text-sm text-primary">
 						Display name
 					</label>
-					<input
+					<Input
 						id="tenant-display-name"
 						value={displayName}
 						onChange={(event) => onDisplayNameChange(event.target.value)}
-						className="h-10 w-full rounded-control border border-stone-300 bg-transparent px-3 text-sm text-primary outline-none focus-visible:border-primary"
+						className="h-10 text-primary focus-visible:border-primary"
 					/>
 					<label htmlFor="tenant-timezone" className="text-sm text-primary">
 						Default timezone
@@ -81,17 +84,12 @@ export default function TenantIdentity({
 					</div>
 					<div className="grid grid-cols-2 gap-4 lg:col-span-2 lg:contents">
 						<span className="text-sm text-primary">Status</span>
-						<Badge
-							className="text-sm text-safe"
-							leading={
-								<span
-									className="size-2 rounded-full bg-safe"
-									aria-hidden="true"
-								/>
-							}
+						<StatusBadge
+							tone={tenant.status === 'active' ? 'safe' : 'neutral'}
+							className="text-sm"
 						>
 							{tenant.status === 'active' ? 'Active' : tenant.status}
-						</Badge>
+						</StatusBadge>
 					</div>
 					<div className="grid grid-cols-2 gap-4 lg:col-span-2 lg:contents">
 						<span className="text-sm text-primary">Created</span>
@@ -108,18 +106,18 @@ export default function TenantIdentity({
 				</div>
 				<div className="mt-6 flex justify-end">
 					{saveError && (
-						<p className="mr-4 self-center text-sm text-lockout" role="alert">
+						<InlineError className="mr-4 self-center">
 							{saveError.message}
-						</p>
+						</InlineError>
 					)}
-					<button
-						type="button"
+					<Button
 						onClick={onSave}
 						disabled={isSaveDisabled}
-						className="inline-flex min-h-10 items-center rounded-control border border-primary px-4 py-2 text-sm text-primary transition hover:bg-primary-soft disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
+						loading={isSaving}
+						className="border-primary"
 					>
-						{isSaving ? 'Saving…' : 'Save changes'}
-					</button>
+						Save changes
+					</Button>
 				</div>
 			</div>
 		</section>

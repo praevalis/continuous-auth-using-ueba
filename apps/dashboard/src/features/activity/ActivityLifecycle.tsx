@@ -1,6 +1,7 @@
 import type { ActivitySection } from './types';
 import type { ActivityKind } from './types';
 import { LuChevronDown } from 'react-icons/lu';
+import Button from '@/components/ui/Button';
 
 const toneClasses = {
 	safe: 'bg-safe',
@@ -105,13 +106,15 @@ export default function ActivityLifecycle({
 							: `Showing 1–${visibleEntries.length} of ${section.entries.length} activities`}
 					</span>
 					{hasMore && (
-						<button
-							type="button"
+						<Button
 							onClick={onLoadMore}
-							className="inline-flex items-center gap-2 text-xs font-medium text-carbon-700 hover:text-primary"
+							variant="quiet"
+							size="sm"
+							trailing={<LuChevronDown size={15} aria-hidden="true" />}
+							className="min-h-0 px-0 py-0 text-xs font-medium text-carbon-700 hover:bg-transparent hover:text-primary"
 						>
-							Load more <LuChevronDown size={15} />
-						</button>
+							Load more
+						</Button>
 					)}
 				</div>
 			</div>

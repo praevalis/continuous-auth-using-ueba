@@ -1,6 +1,9 @@
 import { LuChevronDown, LuChevronRight } from 'react-icons/lu';
 import type { ReactNode } from 'react';
 import Badge from '@/components/ui/Badge';
+import ScrollableArea from '@/components/ui/ScrollableArea';
+import ResourceError from '@/components/ui/ResourceError';
+import Button from '@/components/ui/Button';
 import type { ThreatEvent } from './types';
 import EventDetail from './EventDetail';
 import { formatTimestamp } from '@/utils';
@@ -168,15 +171,12 @@ function FeedError({
 	className: string;
 }) {
 	return (
-		<div className={className} role="alert">
-			<p>{error.message}</p>
-			<button
-				className="mt-4 rounded-control border border-primary px-4 py-2 text-sm text-primary"
-				onClick={onRetry}
-			>
-				Retry
-			</button>
-		</div>
+		<ResourceError
+			title="Unable to load threat feed"
+			error={error}
+			onRetry={onRetry}
+			className={className}
+		/>
 	);
 }
 
@@ -190,10 +190,10 @@ function DesktopEventRow({
 	onSelect: () => void;
 }) {
 	return (
-		<button
-			type="button"
+		<Button
+			variant="quiet"
 			onClick={onSelect}
-			className={`group relative grid w-full grid-cols-[72px_minmax(150px,1.4fr)_minmax(90px,0.9fr)_100px_110px_minmax(130px,1fr)] items-center gap-4 py-3 pl-4 pr-2 text-left text-xs transition-colors hover:bg-primary-soft/50 ${selected ? 'bg-primary-soft/70' : 'bg-transparent'}`}
+			className={`group relative grid w-full min-h-0 grid-cols-[72px_minmax(150px,1.4fr)_minmax(90px,0.9fr)_100px_110px_minmax(130px,1fr)] gap-4 rounded-none px-0 py-3 pl-4 pr-2 text-left text-xs transition-colors hover:bg-primary-soft/50 ${selected ? 'bg-primary-soft/70' : 'bg-transparent'}`}
 		>
 			<span
 				className={`absolute inset-y-3 left-0 w-1 rounded-full ${toneBackground(event.tone)}`}
@@ -212,7 +212,7 @@ function DesktopEventRow({
 				<span>{event.response}</span>
 				<LuChevronRight className="shrink-0 text-carbon-300" size={16} />
 			</span>
-		</button>
+		</Button>
 	);
 }
 
@@ -226,10 +226,10 @@ function MobileEventRow({
 	onSelect: () => void;
 }) {
 	return (
-		<button
-			type="button"
+		<Button
+			variant="quiet"
 			onClick={onSelect}
-			className={`relative grid w-full grid-cols-[58px_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_16px] grid-rows-[minmax(0,1fr)_auto] gap-x-2 gap-y-2 px-3 py-3 text-left text-xs ${selected ? 'bg-primary-soft/70' : 'bg-transparent'}`}
+			className={`relative grid w-full min-h-0 grid-cols-[58px_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_16px] grid-rows-[minmax(0,1fr)_auto] gap-x-2 gap-y-2 rounded-none px-3 py-3 text-left text-xs ${selected ? 'bg-primary-soft/70' : 'bg-transparent'}`}
 		>
 			<span
 				className={`absolute inset-y-3 left-0 w-1 rounded-full ${toneBackground(event.tone)}`}
@@ -255,7 +255,7 @@ function MobileEventRow({
 				</span>
 				<RiskBadge event={event} />
 			</span>
-		</button>
+		</Button>
 	);
 }
 
@@ -312,7 +312,7 @@ export default function ThreatLedger({
 				<span>Score</span>
 				<span>Response decision</span>
 			</div>
-			<div className="threat-feed-scrollbar hidden h-[41rem] divide-y divide-stone-300/80 overflow-y-auto lg:block [scrollbar-color:theme(colors.primary.soft)_transparent] [scrollbar-width:thin] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primary-soft [&::-webkit-scrollbar-track]:bg-transparent">
+			<ScrollableArea className="hidden h-[41rem] divide-y divide-stone-300/80 lg:block">
 				{loading ? (
 					Array.from({ length: 6 }, (_, index) => (
 						<DesktopEventRowSkeleton key={index} />
@@ -333,7 +333,7 @@ export default function ThreatLedger({
 						/>
 					))
 				)}
-			</div>
+			</ScrollableArea>
 			<div className="mt-6 space-y-3 lg:hidden">
 				{loading ? (
 					Array.from({ length: 4 }, (_, index) => (
@@ -374,13 +374,15 @@ export default function ThreatLedger({
 					{totalCount.toLocaleString()} events
 				</span>
 				{hasMore && (
-					<button
-						type="button"
+					<Button
 						onClick={onLoadMore}
-						className="inline-flex items-center gap-2 text-xs font-medium text-carbon-700 hover:text-primary"
+						variant="quiet"
+						size="sm"
+						trailing={<LuChevronDown size={15} aria-hidden="true" />}
+						className="min-h-0 px-0 py-0 text-xs font-medium text-carbon-700 hover:bg-transparent hover:text-primary"
 					>
-						Load more <LuChevronDown size={15} />
-					</button>
+						Load more
+					</Button>
 				)}
 			</div>
 		</section>

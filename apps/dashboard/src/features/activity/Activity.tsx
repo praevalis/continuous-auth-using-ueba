@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useTenant } from '@/api/tenant';
+import { useTenant } from '@/hooks/useTenant';
 import PageLayout from '@/components/layout/PageLayout';
+import ResourceError from '@/components/ui/ResourceError';
 import { useActivity } from '@/hooks';
 import ActivityIntro from './ActivityIntro';
 import AuditControls from './AuditControls';
@@ -100,18 +101,12 @@ export default function Activity() {
 				{loading ? (
 					<ActivityLifecycleSkeleton sectionId={selectedActivity} />
 				) : error ? (
-					<div className="border-b border-stone-300 py-8">
-						<p className="text-sm text-lockout" role="alert">
-							{error}
-						</p>
-						<button
-							type="button"
-							className="mt-4 rounded-control border border-primary px-4 py-2 text-sm text-primary transition hover:bg-primary-soft"
-							onClick={resetActivity}
-						>
-							Retry
-						</button>
-					</div>
+					<ResourceError
+						title="Unable to load activity"
+						error={error}
+						onRetry={resetActivity}
+						className="rounded-none border-x-0 border-t-0 border-b border-stone-300 bg-transparent px-0 py-8"
+					/>
 				) : (
 					sections.map((section) =>
 						section.id === selectedActivity ? (

@@ -11,7 +11,7 @@ function reducer(_state: MutationState, action: Action): MutationState {
 }
 
 export function useMutation<TInput, TResult>(
-	mutate: (input: TInput) => Promise<TResult>,
+	mutate: (_input: TInput) => Promise<TResult>,
 ) {
 	const [state, dispatch] = useReducer(reducer, {
 		pending: false,

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { LuRefreshCw, LuSearch } from 'react-icons/lu';
 import Dropdown from '@/components/ui/Dropdown';
+import Button from '@/components/ui/Button';
+import Input from '@/components/ui/Input';
 import type { ThreatFeedTimeRange } from '@/hooks/useThreatFeed';
 
 const resultOptions = [
@@ -92,8 +94,8 @@ export default function ThreatFeedToolbar({
 			<label className="col-span-4 flex h-10 min-w-0 items-center gap-2 rounded-control border border-stone-300 bg-transparent px-3 text-xs lg:order-1 lg:col-span-1">
 				<LuSearch size={15} className="shrink-0 text-carbon-300" />
 				<span className="sr-only">Search users or event IDs</span>
-				<input
-					className="min-w-0 flex-1 bg-transparent outline-none placeholder:text-carbon-300"
+				<Input
+					className="h-auto min-w-0 flex-1 rounded-none border-0 bg-transparent px-0 text-xs focus:border-0 focus-visible:border-0"
 					placeholder="Search users or event IDs"
 					value={search}
 					onChange={(event) => onSearchChange(event.target.value)}
@@ -122,17 +124,20 @@ export default function ThreatFeedToolbar({
 					onChange={onRiskChange}
 				/>
 			</div>
-			<button
-				type="button"
+			<Button
 				onClick={handleRefresh}
-				className="order-2 col-span-1 inline-flex h-10 items-center justify-center gap-2 rounded-control px-3 text-xs text-carbon-700 hover:bg-primary-soft lg:order-5 lg:col-span-1 lg:justify-start"
+				variant="quiet"
+				size="sm"
+				leading={
+					<LuRefreshCw
+						size={15}
+						className={`transition-transform duration-500 ${isRefreshing ? 'rotate-[360deg]' : ''}`}
+					/>
+				}
+				className="order-2 col-span-1 h-10 px-3 text-xs text-carbon-700 lg:order-5 lg:col-span-1 lg:justify-start"
 			>
-				<LuRefreshCw
-					size={15}
-					className={`transition-transform duration-500 ${isRefreshing ? 'rotate-[360deg]' : ''}`}
-				/>
 				<span className="hidden lg:inline">Refresh feed</span>
-			</button>
+			</Button>
 		</div>
 	);
 }

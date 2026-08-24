@@ -2,6 +2,8 @@ import { LuBan, LuPencil, LuPlus } from 'react-icons/lu';
 import CredentialEntry from './CredentialEntry';
 import ResourceStatusBadge from './ResourceStatusBadge';
 import type { EventSourceWithCredentials } from './types';
+import Button from '@/components/ui/Button';
+import IconButton from '@/components/ui/IconButton';
 
 const sourceTypeLabels = {
 	idp: 'Identity provider',
@@ -56,44 +58,44 @@ export default function EventSourceSection({
 						</div>
 					</div>
 					<div className="flex items-center gap-1 lg:hidden">
-						<button
-							type="button"
+						<IconButton
+							icon={<LuPencil size={16} aria-hidden="true" />}
+							label="Edit event source"
 							onClick={onEdit}
-							aria-label="Edit event source"
-							title="Edit event source"
-							className="inline-flex items-center gap-1.5 rounded-control px-2 py-1 text-sm text-primary transition hover:bg-primary-soft hover:text-primary active:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-						>
-							<LuPencil size={16} />
-						</button>
-						<button
-							type="button"
+							variant="quiet"
+							size="sm"
+							className="size-8 p-1 text-primary"
+						/>
+						<IconButton
+							icon={<LuBan size={16} aria-hidden="true" />}
+							label={active ? 'Disable event source' : 'Activate event source'}
 							onClick={onToggle}
-							aria-label={
-								active ? 'Disable event source' : 'Activate event source'
-							}
-							title={active ? 'Disable event source' : 'Activate event source'}
-							className="inline-flex items-center gap-1.5 rounded-control px-2 py-1 text-sm text-primary transition hover:bg-primary-soft hover:text-primary active:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-						>
-							<LuBan size={16} />
-						</button>
+							variant="quiet"
+							size="sm"
+							className="size-8 p-1 text-primary"
+						/>
 					</div>
 				</div>
 				<p className="mt-4 text-sm text-carbon-500">{formatMetadata(source)}</p>
 				<div className="mt-6 hidden items-center gap-5 lg:flex">
-					<button
-						type="button"
+					<Button
 						onClick={onEdit}
-						className="inline-flex items-center gap-1.5 rounded-control px-2 py-1 text-sm text-primary transition hover:bg-primary-soft hover:text-primary active:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+						variant="quiet"
+						size="sm"
+						leading={<LuPencil size={16} aria-hidden="true" />}
+						className="min-h-0 px-2 py-1 text-sm"
 					>
-						<LuPencil size={16} /> Edit
-					</button>
-					<button
-						type="button"
+						Edit
+					</Button>
+					<Button
 						onClick={onToggle}
-						className="inline-flex items-center gap-1.5 rounded-control px-2 py-1 text-sm text-primary transition hover:bg-primary-soft hover:text-primary active:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+						variant="quiet"
+						size="sm"
+						leading={<LuBan size={16} aria-hidden="true" />}
+						className="min-h-0 px-2 py-1 text-sm"
 					>
-						<LuBan size={16} /> {active ? 'Disable' : 'Activate'}
-					</button>
+						{active ? 'Disable' : 'Activate'}
+					</Button>
 				</div>
 			</div>
 			<div className="mt-8 rounded-panel bg-stone-100 p-5 sm:p-6 lg:mt-0 lg:rounded-none lg:border-l lg:border-stone-300 lg:bg-transparent lg:pl-10 lg:pt-0">
@@ -104,8 +106,7 @@ export default function EventSourceSection({
 							({source.credentials.length})
 						</span>
 					</h3>
-					<button
-						type="button"
+					<Button
 						onClick={onIssueCredential}
 						disabled={!active}
 						title={
@@ -113,10 +114,12 @@ export default function EventSourceSection({
 								? 'Issue credential'
 								: 'Activate the event source to issue a credential'
 						}
-						className="inline-flex min-h-8 shrink-0 items-center gap-1.5 rounded-control border border-stone-300 px-2 text-[0.6875rem] text-primary transition hover:bg-primary-soft disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-9 sm:px-3 sm:text-xs"
+						leading={<LuPlus size={14} aria-hidden="true" />}
+						size="sm"
+						className="min-h-8 shrink-0 border-stone-300 px-2 text-[0.6875rem] sm:min-h-9 sm:px-3 sm:text-xs"
 					>
-						<LuPlus size={14} /> Issue credential
-					</button>
+						Issue credential
+					</Button>
 				</div>
 				<div className="mt-3 divide-y divide-stone-300/80">
 					{source.credentials.map((credential) => (

@@ -1,13 +1,5 @@
-import type { components } from '@/api/generated/types';
-
-const modeLabels: Record<
-	components['schemas']['TenantOperatingModeSchema']['mode'],
-	string
-> = {
-	shadow: 'Simulation',
-	alert_only: 'Notify only',
-	enforce: 'Active response',
-};
+import type { OperatingMode, ThresholdProfile } from '@/api/contracts';
+import { operatingModeLabels } from '@/utils/operatingMode';
 
 function formatDate(value: string) {
 	return new Intl.DateTimeFormat('en-US', {
@@ -22,11 +14,11 @@ export default function CurrentConfiguration({
 	operatingMode,
 	thresholdProfile,
 }: {
-	operatingMode: components['schemas']['TenantOperatingModeSchema'];
-	thresholdProfile: components['schemas']['TenantThresholdProfileSchema'];
+	operatingMode: OperatingMode;
+	thresholdProfile: ThresholdProfile;
 }) {
 	const rows = [
-		['Operating mode', modeLabels[operatingMode.mode]],
+		['Operating mode', operatingModeLabels[operatingMode.mode]],
 		['Effective from', formatDate(operatingMode.effective_from)],
 		['Risk settings profile', thresholdProfile.name],
 		['Caution threshold', thresholdProfile.caution_threshold.toFixed(3)],

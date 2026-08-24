@@ -1,12 +1,8 @@
 import { LuShieldCheck } from 'react-icons/lu';
 import SegmentedControl from '@/components/ui/SegmentedControl';
+import InlineError from '@/components/ui/InlineError';
+import { operatingModeOptions } from '@/utils/operatingMode';
 import type { PolicyMode } from './types';
-
-const modeOptions: Array<{ value: PolicyMode; label: string }> = [
-	{ value: 'shadow', label: 'Simulation' },
-	{ value: 'alert_only', label: 'Notify only' },
-	{ value: 'enforce', label: 'Active response' },
-];
 
 type PolicyModeSelectorProps = {
 	value: PolicyMode;
@@ -50,18 +46,14 @@ export default function PolicyModeSelector({
 					Mode
 				</h2>
 				<SegmentedControl
-					options={modeOptions}
+					options={operatingModeOptions}
 					selectedValue={value}
 					onChange={onChange}
 					disabled={pending}
 					className="min-w-0 flex-1 sm:max-w-md"
 				/>
 			</div>
-			{error && (
-				<p className="mt-3 text-sm text-lockout" role="alert">
-					{error.message}
-				</p>
-			)}
+			{error && <InlineError className="mt-3">{error.message}</InlineError>}
 		</section>
 	);
 }

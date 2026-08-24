@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
-import { useTenant } from '@/api/tenant';
+import { useTenant } from '@/hooks/useTenant';
 import PageLayout from '@/components/layout/PageLayout';
+import Button from '@/components/ui/Button';
+import InlineError from '@/components/ui/InlineError';
 import Slider from '@/components/ui/Slider';
 import {
 	usePolicies,
@@ -121,13 +123,13 @@ export default function Policies() {
 									>
 										{selectedPolicy.name}
 									</h2>
-									<button
-										type="button"
-										className="inline-flex min-h-10 shrink-0 items-center rounded-control border border-primary px-3 py-2 text-sm text-primary transition hover:bg-primary-soft lg:hidden"
+									<Button
+										size="md"
+										className="shrink-0 border-primary px-3 lg:hidden"
 										onClick={handleCreatePolicy}
 									>
 										Create policy
-									</button>
+									</Button>
 								</div>
 								<p className="mt-2 text-sm text-carbon-300 sm:text-base">
 									{selectedPolicy.description}
@@ -161,9 +163,7 @@ export default function Policies() {
 								</div>
 							</>
 						) : (
-							<p className="text-sm text-lockout" role="alert">
-								{unavailableMessage}
-							</p>
+							<InlineError>{unavailableMessage}</InlineError>
 						)}
 					</div>
 				</div>

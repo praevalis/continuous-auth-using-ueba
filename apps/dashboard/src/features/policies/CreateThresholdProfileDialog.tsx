@@ -4,12 +4,15 @@ import type { ThresholdProfileCreate } from '@/api/contracts';
 import DateTimePicker from '@/components/ui/DateTimePicker';
 import Input from '@/components/ui/Input';
 import Modal from '@/components/ui/Modal';
+import Button from '@/components/ui/Button';
+import InlineError from '@/components/ui/InlineError';
 import Slider from '@/components/ui/Slider';
 import Textarea from '@/components/ui/Textarea';
+import Field from '@/components/ui/Field';
 
 type CreateThresholdProfileDialogProps = {
 	onClose: () => void;
-	onCreate: (profile: ThresholdProfileCreate) => Promise<void>;
+	onCreate: (_profile: ThresholdProfileCreate) => Promise<void>;
 	pending: boolean;
 	error: Error | null;
 };
@@ -109,14 +112,13 @@ export default function CreateThresholdProfileDialog({
 		>
 			<form className="grid gap-3" onSubmit={handleSubmit}>
 				<div className="grid grid-cols-2 gap-3">
-					<label className="grid gap-1.5 text-sm text-primary">
-						<span>Profile name</span>
+					<Field label="Profile name" required>
 						<Input
 							required
 							value={values.name}
 							onChange={(event) => updateValue('name', event.target.value)}
 						/>
-					</label>
+					</Field>
 					<DateTimePicker
 						label="Effective from"
 						value={values.effectiveFrom}
@@ -124,16 +126,19 @@ export default function CreateThresholdProfileDialog({
 						align="start"
 					/>
 				</div>
-				<label className="grid gap-1.5 text-sm text-primary">
-					<span>
-						Description <span className="text-carbon-500">(optional)</span>
-					</span>
+				<Field
+					label={
+						<>
+							Description <span className="text-carbon-500">(optional)</span>
+						</>
+					}
+				>
 					<Textarea
 						value={values.description}
 						onChange={(event) => updateValue('description', event.target.value)}
 						rows={2}
 					/>
-				</label>
+				</Field>
 
 				<div className="grid gap-1.5 text-sm text-primary">
 					<div className="flex items-center justify-between gap-3">
@@ -158,8 +163,7 @@ export default function CreateThresholdProfileDialog({
 				</div>
 
 				<div className="grid gap-3 sm:grid-cols-2">
-					<label className="grid gap-1.5 text-sm text-primary">
-						<span>Caution threshold</span>
+					<Field label="Caution threshold" required>
 						<Input
 							required
 							type="number"
@@ -170,9 +174,8 @@ export default function CreateThresholdProfileDialog({
 								updateValue('cautionThreshold', event.target.value)
 							}
 						/>
-					</label>
-					<label className="grid gap-1.5 text-sm text-primary">
-						<span>Lockout threshold</span>
+					</Field>
+					<Field label="Lockout threshold" required>
 						<Input
 							required
 							type="number"
@@ -183,22 +186,16 @@ export default function CreateThresholdProfileDialog({
 								updateValue('lockoutThreshold', event.target.value)
 							}
 						/>
-					</label>
+					</Field>
 				</div>
 
 				{(validationError || error) && (
-					<p className="text-sm text-lockout" role="alert">
-						{validationError ?? error?.message}
-					</p>
+					<InlineError>{validationError ?? error?.message}</InlineError>
 				)}
 				<div className="mt-1 flex justify-end">
-					<button
-						type="submit"
-						disabled={pending}
-						className="rounded-control border border-primary px-3 py-1.5 text-sm text-primary transition hover:bg-primary-soft disabled:cursor-not-allowed disabled:opacity-50"
-					>
-						{pending ? 'Creating…' : 'Create'}
-					</button>
+					<Button type="submit" loading={pending} className="border-primary">
+						Create
+					</Button>
 				</div>
 			</form>
 		</Modal>

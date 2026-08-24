@@ -1,5 +1,6 @@
 import type { ProviderConnectionView } from './types';
 import { formatTimestamp } from '@/utils';
+import InlineError from '@/components/ui/InlineError';
 
 const connectionMethodLabels = {
 	api_token: 'API token',
@@ -37,7 +38,9 @@ export default function ProviderConnectionDetails({
 					{formatTestedAt(connection.last_tested_at)}
 				</p>
 				{connection.last_test_error && (
-					<p className="mt-1 text-lockout">{connection.last_test_error}</p>
+					<InlineError className="mt-1">
+						{connection.last_test_error}
+					</InlineError>
 				)}
 			</div>
 			<span className="font-medium text-carbon-500">
