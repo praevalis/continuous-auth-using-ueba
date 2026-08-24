@@ -1,111 +1,153 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useState } from 'react';
 import PageLayout from '@/components/layout/PageLayout';
 import ConfigurationStatus from './ConfigurationStatus';
 import CurrentConfiguration from './CurrentConfiguration';
-import { api } from '@/api/client';
 import { useTenant } from '@/api/tenant';
-import type { TenantSettingsData } from './types';
+import { useTenantSettings } from '@/hooks/useTenantSettings';
+import { useTenantUpdate } from '@/hooks/useTenantUpdate';
 import TenantIdentity from './TenantIdentity';
 import TenantSettingsIntro from './TenantSettingsIntro';
 
 export default function TenantSettings() {
-	const { tenant: selectedTenant } = useTenant();
-	const [data, setData] = useState<TenantSettingsData | null>(null);
-	const [error, setError] = useState<string | null>(null);
-	const [saving, setSaving] = useState(false);
-	const [displayName, setDisplayName] = useState('');
-	const [timezone, setTimezone] = useState('UTC');
-	const load = useCallback(async () => {
-		if (!selectedTenant) return;
-		setData(null);
-		setError(null);
-		try {
-			const [modes, profiles] = await Promise.all([
-				api.listModes(selectedTenant.id),
-				api.listProfiles(selectedTenant.id),
-			]);
-			const operatingMode = modes.find((item) => item.is_active) ?? modes[0];
-			const thresholdProfile =
-				profiles.find((item) => item.is_active) ?? profiles[0];
-			if (!operatingMode || !thresholdProfile) return;
-			setDisplayName(selectedTenant.display_name);
-			setTimezone(selectedTenant.default_timezone);
-			setData({
-				tenant: selectedTenant,
-				operatingMode,
-				thresholdProfile,
-				configurationStatus: {
-					provider: 'not_connected',
-					ingestion: 'not_configured',
-					riskSettings: 'configured',
-				},
+	const {
+		tenant: selectedTenant,
+		loading: tenantLoading,
+		error: tenantError,
+		refresh: refreshTenant,
+	} = useTenant();
+	const settings = useTenantSettings(selectedTenant);
+	const updateTenant = useTenantUpdate(selectedTenant?.id);
+	const tenant = settings.data?.tenant ?? selectedTenant;
+	const [draft, setDraft] = useState<{
+		tenantId: string;
+		displayName: string;
+		timezone: string;
+	} | null>(null);
+	const tenantId = tenant?.id ?? '';
+	const displayName =
+		draft?.tenantId === tenantId
+			? draft.displayName
+			: (tenant?.display_name ?? '');
+	const timezone =
+		draft?.tenantId === tenantId
+			? draft.timezone
+			: (tenant?.default_timezone ?? 'UTC');
+	const updateDraft = useCallback(
+		(field: 'displayName' | 'timezone', value: string) => {
+			setDraft((current) => {
+				const base =
+					current?.tenantId === tenantId
+						? current
+						: {
+								tenantId,
+								displayName: tenant?.display_name ?? '',
+								timezone: tenant?.default_timezone ?? 'UTC',
+							};
+				return { ...base, [field]: value };
 			});
-		} catch (reason) {
-			setError(
-				reason instanceof Error
-					? reason.message
-					: 'Unable to load tenant settings',
-			);
+		},
+		[tenant, tenantId],
+	);
+
+	const handleSave = useCallback(async () => {
+		try {
+			await updateTenant.mutateAsync({
+				display_name: displayName,
+				default_timezone: timezone,
+			});
+			await Promise.all([settings.refresh(), refreshTenant()]);
+		} catch {
+			// The mutation hook exposes the error for inline presentation.
 		}
-	}, [selectedTenant]);
-	useEffect(() => {
-		queueMicrotask(() => void load());
-	}, [load]);
-	if (error)
-		return (
-			<PageLayout title="Tenant settings">
-				<p className="mt-10 text-sm text-lockout">{error}</p>
-			</PageLayout>
-		);
-	if (!data)
-		return (
-			<PageLayout title="Tenant settings">
-				<p className="mt-10 text-sm text-carbon-500">
-					Loading tenant settings…
-				</p>
-			</PageLayout>
-		);
-	const { tenant, operatingMode, thresholdProfile, configurationStatus } = data;
+	}, [displayName, refreshTenant, settings, timezone, updateTenant]);
+
+	const error = tenantError ?? settings.error?.message;
+	const loading =
+		!error &&
+		(tenantLoading || settings.loading || (!!selectedTenant && !settings.data));
+	const isSaveDisabled =
+		!tenant ||
+		loading ||
+		updateTenant.pending ||
+		(displayName === tenant.display_name &&
+			timezone === tenant.default_timezone);
 
 	return (
 		<PageLayout title="Tenant settings">
 			<TenantSettingsIntro />
-			<div className="mt-8">
-				<TenantIdentity
-					tenant={tenant}
-					displayName={displayName}
-					timezone={timezone}
-					onDisplayNameChange={setDisplayName}
-					onTimezoneChange={setTimezone}
-					onSave={() => {
-						setSaving(true);
-						void api
-							.updateTenant(tenant.id, {
-								display_name: displayName,
-								default_timezone: timezone,
-							})
-							.then((updated) =>
-								setData((current) =>
-									current ? { ...current, tenant: updated } : current,
-								),
-							)
-							.finally(() => setSaving(false));
-					}}
-					isSaveDisabled={
-						(displayName === tenant.display_name &&
-							timezone === tenant.default_timezone) ||
-						saving
-					}
-				/>
-				<CurrentConfiguration
-					operatingMode={operatingMode}
-					thresholdProfile={thresholdProfile}
-				/>
-				<ConfigurationStatus
-					status={configurationStatus}
-					profile={thresholdProfile}
-				/>
-			</div>
+			{error && (
+				<div
+					className="mt-8 flex flex-col gap-3 rounded-panel border border-lockout/30 bg-lockout/5 px-5 py-4 text-sm text-lockout sm:flex-row sm:items-center sm:justify-between"
+					role="alert"
+				>
+					<span>{error}</span>
+					<button
+						type="button"
+						className="w-fit rounded-control border border-primary px-4 py-2 text-sm text-primary"
+						onClick={() =>
+							void (tenantError ? refreshTenant() : settings.refresh())
+						}
+					>
+						Retry
+					</button>
+				</div>
+			)}
+			{loading && (
+				<div
+					className="mt-8 space-y-8"
+					aria-label="Loading tenant settings"
+					aria-busy="true"
+				>
+					{Array.from({ length: 3 }, (_, index) => (
+						<div
+							className="grid gap-6 border-t border-stone-300 py-8 lg:grid-cols-[15rem_minmax(0,1fr)]"
+							key={index}
+						>
+							<div className="space-y-3">
+								<span className="block h-5 w-32 animate-pulse rounded bg-stone-200" />
+								<span className="block h-3 w-48 animate-pulse rounded bg-stone-200" />
+							</div>
+							<div className="space-y-3">
+								<span className="block h-4 w-64 animate-pulse rounded bg-stone-200" />
+								<span className="block h-4 w-48 animate-pulse rounded bg-stone-200" />
+								<span className="block h-4 w-56 animate-pulse rounded bg-stone-200" />
+							</div>
+						</div>
+					))}
+				</div>
+			)}
+			{!loading && !error && !settings.data && (
+				<p className="mt-10 text-sm text-carbon-500">
+					No tenant configuration is available yet.
+				</p>
+			)}
+			{tenant && !loading && (
+				<div className="mt-8">
+					<TenantIdentity
+						tenant={tenant}
+						displayName={displayName}
+						timezone={timezone}
+						onDisplayNameChange={(value) => updateDraft('displayName', value)}
+						onTimezoneChange={(value) => updateDraft('timezone', value)}
+						onSave={() => void handleSave()}
+						isSaveDisabled={isSaveDisabled}
+						saveError={updateTenant.error}
+						isSaving={updateTenant.pending}
+					/>
+					{settings.data && (
+						<>
+							<CurrentConfiguration
+								operatingMode={settings.data.operatingMode}
+								thresholdProfile={settings.data.thresholdProfile}
+							/>
+							<ConfigurationStatus
+								status={settings.data.configurationStatus}
+								profile={settings.data.thresholdProfile}
+							/>
+						</>
+					)}
+				</div>
+			)}
 		</PageLayout>
 	);
 }

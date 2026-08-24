@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { LuClock3, LuMenu, LuX } from 'react-icons/lu';
+import { LuMenu, LuX } from 'react-icons/lu';
 import logo from '@/assets/logo.svg';
 import Dropdown from '@/components/ui/Dropdown';
 import { useTenant } from '@/api/tenant';
@@ -83,9 +83,6 @@ function MobileNavigation({ onClose }: { onClose: () => void }) {
 							onChange={setTenantId}
 						/>
 						<Dropdown label="Response mode" options={responseModeOptions} />
-						<div className="flex items-center gap-2 text-carbon-300">
-							<LuClock3 size={15} /> Updated 12s ago
-						</div>
 					</div>
 				</div>
 			</aside>
@@ -116,9 +113,6 @@ export default function TopNavigation() {
 				<div className="hidden items-center gap-6 text-sm md:flex">
 					<Dropdown label="Response mode" options={responseModeOptions} />
 					<span className="h-6 w-px bg-stone-300" />
-					<span className="flex items-center gap-2 text-carbon-300">
-						<LuClock3 size={15} /> Updated 12s ago
-					</span>
 				</div>
 				<div className="ml-auto hidden items-center text-sm md:flex">
 					<Dropdown

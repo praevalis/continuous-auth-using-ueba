@@ -24,6 +24,8 @@ export default function TenantIdentity({
 	onTimezoneChange,
 	onSave,
 	isSaveDisabled,
+	saveError,
+	isSaving = false,
 }: {
 	tenant: components['schemas']['TenantSchema'];
 	displayName: string;
@@ -32,6 +34,8 @@ export default function TenantIdentity({
 	onTimezoneChange: (_value: string) => void;
 	onSave: () => void;
 	isSaveDisabled: boolean;
+	saveError?: Error | null;
+	isSaving?: boolean;
 }) {
 	return (
 		<section
@@ -103,13 +107,18 @@ export default function TenantIdentity({
 					</div>
 				</div>
 				<div className="mt-6 flex justify-end">
+					{saveError && (
+						<p className="mr-4 self-center text-sm text-lockout" role="alert">
+							{saveError.message}
+						</p>
+					)}
 					<button
 						type="button"
 						onClick={onSave}
 						disabled={isSaveDisabled}
 						className="inline-flex min-h-10 items-center rounded-control border border-primary px-4 py-2 text-sm text-primary transition hover:bg-primary-soft disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-transparent"
 					>
-						Save changes
+						{isSaving ? 'Saving…' : 'Save changes'}
 					</button>
 				</div>
 			</div>
