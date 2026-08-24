@@ -6,6 +6,7 @@ export { useEventSourceMutation } from './useEventSourceMutation';
 export { usePolicies } from './usePolicies';
 export { usePolicyModeMutation } from './usePolicyModeMutation';
 export { useProviderConnections } from './useProviderConnections';
+export { useProviderConnectionMutation } from './useProviderConnectionMutation';
 export { useTenantSettings } from './useTenantSettings';
 export { useTenantUpdate } from './useTenantUpdate';
 export { useThresholdProfileMutation } from './useThresholdProfileMutation';

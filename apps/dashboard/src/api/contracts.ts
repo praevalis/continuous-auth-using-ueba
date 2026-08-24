@@ -19,6 +19,8 @@ export type TenantProviderConnection =
 	components['schemas']['TenantProviderConnectionSchema'];
 export type TenantProviderConnectionCreate =
 	components['schemas']['TenantProviderConnectionCreateSchema'];
+export type TenantProviderConnectionUpdate =
+	components['schemas']['TenantProviderConnectionUpdateSchema'];
 export type ProviderConnectionTestResult =
 	components['schemas']['ProviderConnectionTestResultSchema'];
 export type AuthEvent = components['schemas']['AuthEventSchema'];

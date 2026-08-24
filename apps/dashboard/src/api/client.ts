@@ -21,6 +21,7 @@ import type {
 	Tenant,
 	TenantProviderConnection,
 	TenantProviderConnectionCreate,
+	TenantProviderConnectionUpdate,
 	TenantUpdate,
 	ThresholdProfile,
 	ThresholdProfileCreate,
@@ -140,6 +141,16 @@ export const api = {
 		request<TenantProviderConnection>(
 			`/integrations/tenant-provider-connections${query({ tenant_id: tenantId })}`,
 			{ method: 'POST', body: JSON.stringify(body) },
+		),
+
+	updateConnection: (
+		tenantId: string,
+		id: string,
+		body: TenantProviderConnectionUpdate,
+	) =>
+		request<TenantProviderConnection>(
+			`/integrations/tenant-provider-connections/${id}${query({ tenant_id: tenantId })}`,
+			{ method: 'PATCH', body: JSON.stringify(body) },
 		),
 
 	activateConnection: (tenantId: string, id: string) =>

@@ -7,20 +7,24 @@ export default function ProviderConnectionActions({
 	onEdit,
 	onToggle,
 	compact = false,
+	busy = false,
 }: {
 	status: components['schemas']['TenantProviderConnectionSchema']['status'];
 	onTest: () => void;
 	onEdit: () => void;
 	onToggle: () => void;
 	compact?: boolean;
+	busy?: boolean;
 }) {
 	const active = status === 'active';
-	const buttonClass = `inline-flex items-center justify-center rounded-control border border-stone-300 text-primary transition hover:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary ${compact ? 'size-10' : 'gap-1.5 px-3 py-1.5 text-xs'}`;
+	const connectionDisabled = status === 'disabled';
+	const buttonClass = `inline-flex items-center justify-center rounded-control border border-stone-300 text-primary transition hover:bg-primary-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary disabled:cursor-not-allowed disabled:opacity-50 ${compact ? 'size-10' : 'gap-1.5 px-3 py-1.5 text-xs'}`;
 	return (
 		<div className={`flex items-center ${compact ? 'gap-1' : 'gap-3'}`}>
 			<button
 				type="button"
 				onClick={onTest}
+				disabled={busy || connectionDisabled}
 				className={buttonClass}
 				aria-label="Test connection"
 				title="Test connection"
@@ -31,6 +35,7 @@ export default function ProviderConnectionActions({
 			<button
 				type="button"
 				onClick={onEdit}
+				disabled={busy || connectionDisabled}
 				className={buttonClass}
 				aria-label="Edit provider"
 				title="Edit provider"
@@ -41,6 +46,7 @@ export default function ProviderConnectionActions({
 			<button
 				type="button"
 				onClick={onToggle}
+				disabled={busy}
 				className={buttonClass}
 				aria-label={active ? 'Disable provider' : 'Activate provider'}
 				title={active ? 'Disable provider' : 'Activate provider'}
