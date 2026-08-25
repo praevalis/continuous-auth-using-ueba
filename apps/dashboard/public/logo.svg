@@ -1,7 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-labelledby="continuous-auth-logo-title">
-	<title id="continuous-auth-logo-title">Continuous Auth</title>
-	<path d="M24 3.5 40 12.75v18.5L24 40.5 8 31.25v-18.5L24 3.5Z" fill="none" stroke="#3B4140" stroke-width="2.25" stroke-linejoin="round"/>
-	<path d="m24 3.5 16 9.25-16 9.25-16-9.25L24 3.5Z" fill="none" stroke="#3B4140" stroke-width="2.25" stroke-linejoin="round"/>
-	<path d="M24 22v18.5M16 17.4v9.25l8 4.62 8-4.62V17.4" fill="none" stroke="#3B4140" stroke-width="2.25" stroke-linejoin="round"/>
-	<path d="m16 17.4 8 4.6 8-4.6" fill="none" stroke="#3B4140" stroke-width="2.25" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 716 716" role="img" aria-labelledby="continuous-auth-ueba-title continuous-auth-ueba-description">
+	<title id="continuous-auth-ueba-title">Continuous Authentication with UEBA</title>
+	<desc id="continuous-auth-ueba-description">An abstract identity core surrounded by continuous assessment orbits and an amber behavioral anomaly pulse.</desc>
+
+	<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+		<!-- Continuous reassessment orbit -->
+		<path d="M 103 426 A 264 264 0 0 1 613 289" stroke="#667A68" stroke-width="31" />
+		<path d="M 141 509 A 264 264 0 0 0 613 426" stroke="#3B4140" stroke-width="31" />
+
+		<!-- Secondary behavioral context orbit -->
+		<path d="M 274 179 A 198 198 0 1 0 471 520" stroke="#3B4140" stroke-width="30" />
+
+		<!-- Identity core boundary -->
+		<path d="M 317 244 A 121 121 0 1 0 399 244" stroke="#667A68" stroke-width="27" />
+
+		<!-- Behavioral deviation / anomaly signal -->
+		<path d="M 468 358 H 506 L 529 260 L 557 431 L 585 334 L 607 358 H 649" stroke="#A87528" stroke-width="27" />
+	</g>
+
+	<!-- Stable identity anchor -->
+	<circle cx="358" cy="358" r="46" fill="#3B4140" />
 </svg>
