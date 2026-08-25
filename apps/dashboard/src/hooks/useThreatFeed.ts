@@ -3,7 +3,7 @@ import { api } from '@/api/client';
 import type { RiskSummary } from '@/api/contracts';
 import { useAsyncResource } from './useAsyncResource';
 
-export type ThreatFeedTimeRange = '24h' | '7d';
+export type ThreatFeedTimeRange = '24h' | '7d' | '30d';
 
 type ThreatFeedData = {
 	events: Awaited<ReturnType<typeof api.listEvents>>;
@@ -12,7 +12,8 @@ type ThreatFeedData = {
 };
 
 function getOccurredAfter(timeRange: ThreatFeedTimeRange) {
-	const duration = timeRange === '24h' ? 24 : 24 * 7;
+	const duration =
+		timeRange === '24h' ? 24 : timeRange === '7d' ? 24 * 7 : 24 * 30;
 	return new Date(Date.now() - duration * 60 * 60 * 1000).toISOString();
 }
 

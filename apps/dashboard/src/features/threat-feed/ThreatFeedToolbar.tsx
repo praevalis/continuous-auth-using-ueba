@@ -107,6 +107,7 @@ export default function ThreatFeedToolbar({
 					options={[
 						{ label: 'Last 24 hours', value: '24h' },
 						{ label: 'Last 7 days', value: '7d' },
+						{ label: 'Last 30 days', value: '30d' },
 					]}
 					value={timeRange}
 					onChange={onTimeRangeChange}
