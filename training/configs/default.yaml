@@ -1,5 +1,7 @@
 data:
-  dataset_path: training/artifacts/input/lanl-auth-dataset-1-00.csv
+  dataset_path: training/artifacts/input/lanl-auth-dataset-1-00.txt
+  delimiter: ","
+  has_header: false
   row_limit: 100000
   timestamp_column: timestamp
   timestamp_unit: s

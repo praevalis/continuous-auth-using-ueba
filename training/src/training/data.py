@@ -9,8 +9,25 @@ def load_dataset(config: DataConfig) -> pd.DataFrame:
 		msg = f'Dataset not found: {dataset_path}'
 		raise FileNotFoundError(msg)
 
-	dataframe = pd.read_csv(dataset_path)
-	if config.row_limit is not None:
-		dataframe = dataframe.iloc[: config.row_limit].copy()
+	required_columns = [
+		config.timestamp_column,
+		config.user_column,
+		config.host_column,
+	]
+	dataframe = pd.read_csv(
+		dataset_path,
+		sep=config.delimiter,
+		header=0 if config.has_header else None,
+		names=None if config.has_header else required_columns,
+		nrows=config.row_limit,
+	)
+
+	missing_columns = [
+		column for column in required_columns if column not in dataframe.columns
+	]
+	if missing_columns:
+		missing = ', '.join(missing_columns)
+		msg = f'Dataset is missing required columns: {missing}'
+		raise ValueError(msg)
 
 	return dataframe

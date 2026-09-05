@@ -21,7 +21,7 @@ def train_isolation_forest(
 	model = IsolationForest(
 		n_estimators=config.n_estimators,
 		contamination=config.contamination,
-		max_samples=float(config.max_samples),
+		max_samples=config.max_samples,
 		random_state=config.random_state,
 	)
 	model.fit(train_values)

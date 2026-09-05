@@ -6,11 +6,14 @@ import yaml
 
 TimestampUnit = Literal['D', 's', 'ms', 'us', 'ns']
 TimestampOrigin = Literal['unix'] | str
+MaxSamples = Literal['auto'] | int | float
 
 
 @dataclass(slots=True)
 class DataConfig:
 	dataset_path: Path
+	delimiter: str
+	has_header: bool
 	row_limit: int | None
 	timestamp_column: str
 	timestamp_unit: TimestampUnit
@@ -36,7 +39,7 @@ class AutoencoderConfig:
 class IsolationForestConfig:
 	n_estimators: int
 	contamination: float
-	max_samples: str | int | float
+	max_samples: MaxSamples
 	random_state: int
 
 
@@ -68,6 +71,8 @@ def load_config(config_path: Path) -> TrainingConfig:
 	return TrainingConfig(
 		data=DataConfig(
 			dataset_path=Path(raw_config['data']['dataset_path']),
+			delimiter=raw_config['data'].get('delimiter', ','),
+			has_header=raw_config['data'].get('has_header', True),
 			row_limit=raw_config['data'].get('row_limit'),
 			timestamp_column=raw_config['data']['timestamp_column'],
 			timestamp_unit=raw_config['data']['timestamp_unit'],
@@ -105,6 +110,8 @@ def config_to_dict(config: TrainingConfig) -> dict[str, Any]:
 	return {
 		'data': {
 			'dataset_path': str(config.data.dataset_path),
+			'delimiter': config.data.delimiter,
+			'has_header': config.data.has_header,
 			'row_limit': config.data.row_limit,
 			'timestamp_column': config.data.timestamp_column,
 			'timestamp_unit': config.data.timestamp_unit,
