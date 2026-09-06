@@ -18,8 +18,8 @@
                 "default_timezone": "Asia/Kolkata"
             },
             "initial_operating_mode": "shadow",
-            "initial_caution_threshold": 0.4209913948058925,
-            "initial_lockout_threshold": 0.5315366108386527,
+            "initial_caution_threshold": 0.539,
+            "initial_lockout_threshold": 0.663,
             "initial_fusion_alpha": 0.5,
             "hash_algorithm": "sha256"
         },

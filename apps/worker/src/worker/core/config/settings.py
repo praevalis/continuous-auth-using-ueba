@@ -25,7 +25,7 @@ class WorkerSettings(BaseSettings):
 	AUTH_EVENT_SCORING_BATCH_SIZE: int = 10
 	AUTH_EVENT_SCORING_BLOCK_MS: int = 5000
 	SCORING_HISTORY_WINDOW_DAYS: int = 30
-	SCORING_MODEL_RUN_DIRECTORY: str = 'training/artifacts/runs/baseline'
+	SCORING_MODEL_RUN_DIRECTORY: str = 'training/artifacts/runs/baseline-v4'
 
 	@property
 	def database_settings(self) -> DatabaseSettings:

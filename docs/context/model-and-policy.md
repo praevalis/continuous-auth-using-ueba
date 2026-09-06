@@ -62,15 +62,21 @@ The implementation combines:
 2. a user-level Isolation Forest signal
 3. normalized score fusion
 
+The promoted `baseline-v4` AutoEncoder uses an `8 -> 6 -> 3 -> 6 -> 8`
+architecture. The runtime reconstructs this shape from artifact metadata rather
+than assuming fixed hidden dimensions.
+
 The fused score is controlled by a tenant-level fusion balance and stored with
 its component values, model version, and applied thresholds. The current
-configuration uses a balanced starting value of alpha = 0.5.
+configuration uses a balanced starting value of alpha = 0.5. Component scores
+use validation p1 and p99 as normalization bounds and are clipped to `[0, 1]`.
+This prevents isolated extreme reconstruction errors from compressing most of
+the fused-score distribution.
 
-Thresholds are represented as configurable tenant settings. The baseline-v2
-validation profile supplies the demonstration defaults: caution =
-0.4209913948058925 (validation p95) and lockout = 0.5315366108386527
-(validation p99). These values are not presented as production-calibrated
-constants.
+Thresholds are represented as configurable tenant settings. The baseline-v4
+validation profile supplies the rounded demonstration defaults: caution =
+0.539 (validation p95) and lockout = 0.663 (validation p99). These values are
+not presented as production-calibrated constants.
 
 ## Risk policy
 

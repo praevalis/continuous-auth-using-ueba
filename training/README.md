@@ -16,6 +16,18 @@ For CPU-only local runs:
 uv run --package continuous-auth-training train-model --config training/configs/default.yaml --no-gpu
 ```
 
+Run the wider AutoEncoder experiment with:
+
+```powershell
+uv run --package continuous-auth-training train-model --config training/configs/baseline-v3.yaml --no-gpu
+```
+
+Run the robust-normalization experiment with:
+
+```powershell
+uv run --package continuous-auth-training train-model --config training/configs/baseline-v4.yaml --no-gpu
+```
+
 ## Configuration
 
 The pipeline is configured with YAML files under `training/configs`.
@@ -41,6 +53,16 @@ next 15% for validation, and reserves the final 15% as an out-of-time test set.
 Uniform sampling scans the source file in chunks without loading the complete
 source into memory.
 
+`baseline-v3.yaml` keeps the data, split, seed, Isolation Forest, and fusion
+settings fixed. It changes the AutoEncoder from `8 -> 4 -> 2 -> 4 -> 8` to
+`8 -> 6 -> 3 -> 6 -> 8` and saves the epoch with the lowest validation loss.
+
+`baseline-v4.yaml` keeps the v3 training setup fixed and changes only score
+normalization. It derives component bounds from validation p1 and p99, then
+clips normalized validation and test values to the `[0, 1]` range.
+This is the artifact version currently selected by the worker's default
+configuration.
+
 Feature preparation is chronological and uses only the configured bounded
 history preceding each event. The validation and test partitions therefore do
 not contribute future information to earlier feature rows. Validation-derived
@@ -58,6 +80,7 @@ Each run writes to `training/artifacts/runs/<run_name>/`:
 - `user_scaler.pkl`
 - `isolation_forest.pkl`
 - `metrics.json`
+- `artifact_metadata.json`
 - `config.snapshot.yaml`
 
 ## Pipeline coverage

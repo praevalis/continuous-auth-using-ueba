@@ -19,7 +19,9 @@ class ModelArtifactMetadata:
 	created_at: datetime
 	autoencoder_features: list[str]
 	isolation_forest_features: list[str]
+	autoencoder_architecture: dict[str, int] | None
 	fusion_alpha: float
+	score_normalization: dict[str, Any] | None
 	thresholds: dict[str, float]
 	feature_engineering_version: int
 	reconstruction_error_min: float
@@ -62,7 +64,17 @@ class ModelArtifactLoader:
 			return self._loaded_artifacts
 
 		metadata = self._load_metadata(self._run_directory / 'artifact_metadata.json')
-		autoencoder = AutoEncoder(input_dim=len(metadata.autoencoder_features))
+		architecture = metadata.autoencoder_architecture or {}
+		input_dim = architecture.get('input_dim', len(metadata.autoencoder_features))
+		if input_dim != len(metadata.autoencoder_features):
+			raise ValueError(
+				'AutoEncoder input dimension does not match its metadata feature list.'
+			)
+		autoencoder = AutoEncoder(
+			input_dim=input_dim,
+			hidden_dim=architecture.get('hidden_dim'),
+			bottleneck_dim=architecture.get('bottleneck_dim'),
+		)
 		state_path = self._run_directory / metadata.artifact_files['autoencoder']
 		state_dict = torch.load(state_path, map_location='cpu')
 		autoencoder.load_state_dict(state_dict)
@@ -118,7 +130,20 @@ class ModelArtifactLoader:
 			created_at=datetime.fromisoformat(raw_metadata['created_at']),
 			autoencoder_features=list(raw_metadata['autoencoder_features']),
 			isolation_forest_features=list(raw_metadata['isolation_forest_features']),
+			autoencoder_architecture=(
+				None
+				if raw_metadata.get('autoencoder_architecture') is None
+				else {
+					str(key): int(value)
+					for key, value in raw_metadata['autoencoder_architecture'].items()
+				}
+			),
 			fusion_alpha=float(raw_metadata['fusion_alpha']),
+			score_normalization=(
+				None
+				if raw_metadata.get('score_normalization') is None
+				else dict(raw_metadata['score_normalization'])
+			),
 			thresholds=dict(raw_metadata['thresholds']),
 			feature_engineering_version=int(
 				raw_metadata['feature_engineering_version']

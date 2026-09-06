@@ -8,6 +8,8 @@ TimestampUnit = Literal['D', 's', 'ms', 'us', 'ns']
 TimestampOrigin = Literal['unix'] | str
 MaxSamples = Literal['auto'] | int | float
 SamplingStrategy = Literal['head', 'uniform']
+CheckpointStrategy = Literal['last_epoch', 'best_validation']
+NormalizationStrategy = Literal['minmax', 'robust_percentile']
 
 
 @dataclass(slots=True)
@@ -40,6 +42,9 @@ class AutoencoderConfig:
 	epochs: int
 	learning_rate: float
 	batch_size: int
+	hidden_dim: int | None
+	bottleneck_dim: int | None
+	checkpoint_strategy: CheckpointStrategy
 
 
 @dataclass(slots=True)
@@ -54,6 +59,9 @@ class IsolationForestConfig:
 class FusionConfig:
 	alpha: float
 	threshold_percentiles: list[int]
+	normalization_strategy: NormalizationStrategy
+	normalization_lower_percentile: float
+	normalization_upper_percentile: float
 
 
 @dataclass(slots=True)
@@ -108,6 +116,11 @@ def load_config(config_path: Path) -> TrainingConfig:
 			epochs=raw_config['autoencoder']['epochs'],
 			learning_rate=raw_config['autoencoder']['learning_rate'],
 			batch_size=raw_config['autoencoder']['batch_size'],
+			hidden_dim=raw_config['autoencoder'].get('hidden_dim'),
+			bottleneck_dim=raw_config['autoencoder'].get('bottleneck_dim'),
+			checkpoint_strategy=raw_config['autoencoder'].get(
+				'checkpoint_strategy', 'last_epoch'
+			),
 		),
 		isolation_forest=IsolationForestConfig(
 			n_estimators=raw_config['isolation_forest']['n_estimators'],
@@ -118,6 +131,15 @@ def load_config(config_path: Path) -> TrainingConfig:
 		fusion=FusionConfig(
 			alpha=raw_config['fusion']['alpha'],
 			threshold_percentiles=list(raw_config['fusion']['threshold_percentiles']),
+			normalization_strategy=raw_config['fusion'].get(
+				'normalization_strategy', 'minmax'
+			),
+			normalization_lower_percentile=float(
+				raw_config['fusion'].get('normalization_lower_percentile', 0)
+			),
+			normalization_upper_percentile=float(
+				raw_config['fusion'].get('normalization_upper_percentile', 100)
+			),
 		),
 		artifacts=ArtifactConfig(
 			output_dir=Path(raw_config['artifacts']['output_dir']),
@@ -157,6 +179,9 @@ def config_to_dict(config: TrainingConfig) -> dict[str, Any]:
 			'epochs': config.autoencoder.epochs,
 			'learning_rate': config.autoencoder.learning_rate,
 			'batch_size': config.autoencoder.batch_size,
+			'hidden_dim': config.autoencoder.hidden_dim,
+			'bottleneck_dim': config.autoencoder.bottleneck_dim,
+			'checkpoint_strategy': config.autoencoder.checkpoint_strategy,
 		},
 		'isolation_forest': {
 			'n_estimators': config.isolation_forest.n_estimators,
@@ -167,6 +192,13 @@ def config_to_dict(config: TrainingConfig) -> dict[str, Any]:
 		'fusion': {
 			'alpha': config.fusion.alpha,
 			'threshold_percentiles': config.fusion.threshold_percentiles,
+			'normalization_strategy': config.fusion.normalization_strategy,
+			'normalization_lower_percentile': (
+				config.fusion.normalization_lower_percentile
+			),
+			'normalization_upper_percentile': (
+				config.fusion.normalization_upper_percentile
+			),
 		},
 		'artifacts': {
 			'output_dir': str(config.artifacts.output_dir),

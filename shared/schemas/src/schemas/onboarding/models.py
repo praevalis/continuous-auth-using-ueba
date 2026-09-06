@@ -14,8 +14,8 @@ from schemas.tenant import (
 class TenantOnboardingCreateSchema(SchemaModel):
 	tenant: TenantCreateSchema
 	initial_operating_mode: OperatingMode = OperatingMode.SHADOW
-	initial_caution_threshold: float = Field(default=0.4209913948058925, ge=0.0)
-	initial_lockout_threshold: float = Field(default=0.5315366108386527, ge=0.0)
+	initial_caution_threshold: float = Field(default=0.539, ge=0.0)
+	initial_lockout_threshold: float = Field(default=0.663, ge=0.0)
 	initial_fusion_alpha: float | None = Field(default=None, ge=0.0, le=1.0)
 	hash_algorithm: str = Field(default='sha256', min_length=1)
 

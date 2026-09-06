@@ -203,6 +203,9 @@ def train_pipeline(config: TrainingConfig, use_gpu: bool = True) -> Path:
 		user_scores=isolation_forest_result.validation_scores,
 		alpha=config.fusion.alpha,
 		threshold_percentiles=config.fusion.threshold_percentiles,
+		normalization_strategy=config.fusion.normalization_strategy,
+		normalization_lower_percentile=(config.fusion.normalization_lower_percentile),
+		normalization_upper_percentile=(config.fusion.normalization_upper_percentile),
 	)
 	test_metrics: dict[str, object] | None = None
 	if X_global_test_scaled is not None and X_user_test_scaled is not None:
@@ -219,6 +222,13 @@ def train_pipeline(config: TrainingConfig, use_gpu: bool = True) -> Path:
 			user_scores=test_user_scores,
 			alpha=config.fusion.alpha,
 			threshold_percentiles=[],
+			normalization_strategy=config.fusion.normalization_strategy,
+			normalization_lower_percentile=(
+				config.fusion.normalization_lower_percentile
+			),
+			normalization_upper_percentile=(
+				config.fusion.normalization_upper_percentile
+			),
 			reconstruction_error_range=(
 				fusion_result.reconstruction_error_min,
 				fusion_result.reconstruction_error_max,
@@ -282,6 +292,14 @@ def train_pipeline(config: TrainingConfig, use_gpu: bool = True) -> Path:
 		'isolation_forest_features': ISOLATION_FOREST_FEATURES,
 		'autoencoder': {
 			'device': 'cuda' if use_gpu and torch.cuda.is_available() else 'cpu',
+			'architecture': {
+				'input_dim': autoencoder_result.model.input_dim,
+				'hidden_dim': autoencoder_result.model.hidden_dim,
+				'bottleneck_dim': autoencoder_result.model.bottleneck_dim,
+			},
+			'checkpoint_strategy': config.autoencoder.checkpoint_strategy,
+			'selected_epoch': autoencoder_result.selected_epoch,
+			'selected_val_loss': autoencoder_result.selected_val_loss,
 			'train_loss_history': autoencoder_result.train_loss_history,
 			'val_loss_history': autoencoder_result.val_loss_history,
 			'final_train_loss': autoencoder_result.train_loss_history[-1],
@@ -297,6 +315,12 @@ def train_pipeline(config: TrainingConfig, use_gpu: bool = True) -> Path:
 		},
 		'fusion': {
 			'alpha': config.fusion.alpha,
+			'normalization': {
+				'strategy': config.fusion.normalization_strategy,
+				'lower_percentile': (config.fusion.normalization_lower_percentile),
+				'upper_percentile': (config.fusion.normalization_upper_percentile),
+				'clip': config.fusion.normalization_strategy == 'robust_percentile',
+			},
 			'thresholds': fusion_result.thresholds,
 			'anomaly_score_min': float(np.min(fusion_result.anomaly_scores)),
 			'anomaly_score_max': float(np.max(fusion_result.anomaly_scores)),
@@ -309,7 +333,18 @@ def train_pipeline(config: TrainingConfig, use_gpu: bool = True) -> Path:
 		'created_at': datetime.now(UTC).isoformat(),
 		'autoencoder_features': AUTOENCODER_FEATURES,
 		'isolation_forest_features': ISOLATION_FOREST_FEATURES,
+		'autoencoder_architecture': {
+			'input_dim': autoencoder_result.model.input_dim,
+			'hidden_dim': autoencoder_result.model.hidden_dim,
+			'bottleneck_dim': autoencoder_result.model.bottleneck_dim,
+		},
 		'fusion_alpha': config.fusion.alpha,
+		'score_normalization': {
+			'strategy': config.fusion.normalization_strategy,
+			'lower_percentile': config.fusion.normalization_lower_percentile,
+			'upper_percentile': config.fusion.normalization_upper_percentile,
+			'clip': config.fusion.normalization_strategy == 'robust_percentile',
+		},
 		'thresholds': fusion_result.thresholds,
 		'feature_engineering_version': FEATURE_ENGINEERING_VERSION,
 		'reconstruction_error_min': fusion_result.reconstruction_error_min,
@@ -328,6 +363,8 @@ def train_pipeline(config: TrainingConfig, use_gpu: bool = True) -> Path:
 		'metadata': {
 			'threshold_percentiles': config.fusion.threshold_percentiles,
 			'random_state': config.split.random_state,
+			'autoencoder_checkpoint_strategy': (config.autoencoder.checkpoint_strategy),
+			'autoencoder_selected_epoch': autoencoder_result.selected_epoch,
 			'history_window_days': config.data.history_window_days,
 			'sampling_strategy': config.data.sampling_strategy,
 			'validation_strategy': 'chronological',

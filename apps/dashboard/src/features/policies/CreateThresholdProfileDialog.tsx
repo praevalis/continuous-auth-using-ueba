@@ -37,8 +37,8 @@ function getInitialValues(): FormValues {
 	return {
 		name: '',
 		description: '',
-		cautionThreshold: '0.4209913948058925',
-		lockoutThreshold: '0.5315366108386527',
+		cautionThreshold: '0.539',
+		lockoutThreshold: '0.663',
 		fusionAlpha: 0.5,
 		effectiveFrom: toLocalDateTimeValue(effectiveFrom),
 	};
@@ -168,7 +168,7 @@ export default function CreateThresholdProfileDialog({
 							required
 							type="number"
 							min="0"
-							step="any"
+							step="0.001"
 							value={values.cautionThreshold}
 							onChange={(event) =>
 								updateValue('cautionThreshold', event.target.value)
@@ -180,7 +180,7 @@ export default function CreateThresholdProfileDialog({
 							required
 							type="number"
 							min="0"
-							step="any"
+							step="0.001"
 							value={values.lockoutThreshold}
 							onChange={(event) =>
 								updateValue('lockoutThreshold', event.target.value)

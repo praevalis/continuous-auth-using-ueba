@@ -8,10 +8,12 @@ def _safe_minmax_scale(
 	*,
 	minimum: float,
 	maximum: float,
+	clip: bool = False,
 ) -> np.ndarray:
 	if np.isclose(maximum, minimum):
 		return np.zeros_like(values, dtype=float)
-	return (values - minimum) / (maximum - minimum)
+	scaled_values = (values - minimum) / (maximum - minimum)
+	return np.clip(scaled_values, 0.0, 1.0) if clip else scaled_values
 
 
 def _safe_inverse_minmax_scale(
@@ -19,10 +21,33 @@ def _safe_inverse_minmax_scale(
 	*,
 	minimum: float,
 	maximum: float,
+	clip: bool = False,
 ) -> np.ndarray:
 	if np.isclose(maximum, minimum):
 		return np.zeros_like(values, dtype=float)
-	return (maximum - values) / (maximum - minimum)
+	scaled_values = (maximum - values) / (maximum - minimum)
+	return np.clip(scaled_values, 0.0, 1.0) if clip else scaled_values
+
+
+def _normalization_range(
+	values: np.ndarray,
+	*,
+	strategy: str,
+	lower_percentile: float,
+	upper_percentile: float,
+) -> tuple[float, float]:
+	if strategy == 'minmax':
+		return float(np.min(values)), float(np.max(values))
+	if strategy == 'robust_percentile':
+		if not 0 <= lower_percentile < upper_percentile <= 100:
+			raise ValueError(
+				'Normalization percentiles must satisfy 0 <= lower < upper <= 100.'
+			)
+		return (
+			float(np.percentile(values, lower_percentile)),
+			float(np.percentile(values, upper_percentile)),
+		)
+	raise ValueError(f'Unsupported normalization strategy: {strategy}')
 
 
 @dataclass(slots=True)
@@ -42,31 +67,44 @@ def fuse_scores(
 	user_scores: np.ndarray,
 	alpha: float,
 	threshold_percentiles: list[int],
+	normalization_strategy: str = 'minmax',
+	normalization_lower_percentile: float = 0,
+	normalization_upper_percentile: float = 100,
 	reconstruction_error_range: tuple[float, float] | None = None,
 	user_score_range: tuple[float, float] | None = None,
 ) -> FusionResult:
 	reconstruction_error_min, reconstruction_error_max = (
 		reconstruction_error_range
 		if reconstruction_error_range is not None
-		else (
-			float(np.min(reconstruction_errors)),
-			float(np.max(reconstruction_errors)),
+		else _normalization_range(
+			reconstruction_errors,
+			strategy=normalization_strategy,
+			lower_percentile=normalization_lower_percentile,
+			upper_percentile=normalization_upper_percentile,
 		)
 	)
 	user_score_min, user_score_max = (
 		user_score_range
 		if user_score_range is not None
-		else (float(np.min(user_scores)), float(np.max(user_scores)))
+		else _normalization_range(
+			user_scores,
+			strategy=normalization_strategy,
+			lower_percentile=normalization_lower_percentile,
+			upper_percentile=normalization_upper_percentile,
+		)
 	)
+	clip = normalization_strategy == 'robust_percentile'
 	scaled_reconstruction_errors = _safe_minmax_scale(
 		reconstruction_errors,
 		minimum=reconstruction_error_min,
 		maximum=reconstruction_error_max,
+		clip=clip,
 	)
 	scaled_user_scores = _safe_inverse_minmax_scale(
 		user_scores,
 		minimum=user_score_min,
 		maximum=user_score_max,
+		clip=clip,
 	)
 	anomaly_scores = (
 		alpha * scaled_user_scores + (1 - alpha) * scaled_reconstruction_errors

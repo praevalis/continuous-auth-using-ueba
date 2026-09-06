@@ -1,3 +1,4 @@
+from copy import deepcopy
 from dataclasses import dataclass
 
 import numpy as np
@@ -20,21 +21,37 @@ class FeatureDataset(Dataset):
 
 
 class AutoEncoder(nn.Module):
-	def __init__(self, input_dim: int) -> None:
+	def __init__(
+		self,
+		input_dim: int,
+		hidden_dim: int | None = None,
+		bottleneck_dim: int | None = None,
+	) -> None:
 		super().__init__()
 
-		hidden_dim = max(input_dim // 2, 1)
-		bottleneck_dim = max(input_dim // 4, 1)
+		self.input_dim = input_dim
+		self.hidden_dim = max(input_dim // 2, 1) if hidden_dim is None else hidden_dim
+		self.bottleneck_dim = (
+			max(input_dim // 4, 1) if bottleneck_dim is None else bottleneck_dim
+		)
+		if self.hidden_dim <= 0 or self.bottleneck_dim <= 0:
+			raise ValueError('AutoEncoder dimensions must be positive.')
+		if self.hidden_dim >= input_dim:
+			raise ValueError('AutoEncoder hidden dimension must be less than input.')
+		if self.bottleneck_dim >= self.hidden_dim:
+			raise ValueError(
+				'AutoEncoder bottleneck dimension must be less than hidden dimension.'
+			)
 
 		self.encoder = nn.Sequential(
-			nn.Linear(input_dim, hidden_dim),
+			nn.Linear(input_dim, self.hidden_dim),
 			nn.ReLU(),
-			nn.Linear(hidden_dim, bottleneck_dim),
+			nn.Linear(self.hidden_dim, self.bottleneck_dim),
 		)
 		self.decoder = nn.Sequential(
-			nn.Linear(bottleneck_dim, hidden_dim),
+			nn.Linear(self.bottleneck_dim, self.hidden_dim),
 			nn.ReLU(),
-			nn.Linear(hidden_dim, input_dim),
+			nn.Linear(self.hidden_dim, input_dim),
 		)
 
 	def forward(self, values: torch.Tensor) -> torch.Tensor:
@@ -48,6 +65,8 @@ class AutoencoderTrainingResult:
 	val_reconstruction_errors: np.ndarray
 	train_loss_history: list[float]
 	val_loss_history: list[float]
+	selected_epoch: int
+	selected_val_loss: float
 
 
 def compute_reconstruction_errors(
@@ -81,7 +100,11 @@ def train_autoencoder(
 	use_gpu: bool = True,
 ) -> AutoencoderTrainingResult:
 	device = 'cuda' if use_gpu and torch.cuda.is_available() else 'cpu'
-	model = AutoEncoder(input_dim=train_values.shape[1]).to(device)
+	model = AutoEncoder(
+		input_dim=train_values.shape[1],
+		hidden_dim=config.hidden_dim,
+		bottleneck_dim=config.bottleneck_dim,
+	).to(device)
 	criterion = nn.MSELoss(reduction='none')
 	optimizer = optim.Adam(model.parameters(), lr=config.learning_rate)
 
@@ -98,13 +121,13 @@ def train_autoencoder(
 
 	train_loss_history: list[float] = []
 	val_loss_history: list[float] = []
-	latest_train_errors = np.array([], dtype=float)
-	latest_val_errors = np.array([], dtype=float)
+	best_epoch = 0
+	best_val_loss = float('inf')
+	best_state: dict[str, torch.Tensor] | None = None
 
 	for epoch in range(config.epochs):
 		model.train()
 		epoch_train_loss = 0.0
-		epoch_train_errors: list[np.ndarray] = []
 
 		for batch in train_loader:
 			batch = batch.to(device)
@@ -117,11 +140,9 @@ def train_autoencoder(
 			optimizer.step()
 
 			epoch_train_loss += loss.item() * batch.size(0)
-			epoch_train_errors.append(loss_per_sample.detach().cpu().numpy())
 
 		model.eval()
 		epoch_val_loss = 0.0
-		epoch_val_errors: list[np.ndarray] = []
 
 		with torch.no_grad():
 			for batch in val_loader:
@@ -131,14 +152,15 @@ def train_autoencoder(
 				loss = loss_per_sample.mean()
 
 				epoch_val_loss += loss.item() * batch.size(0)
-				epoch_val_errors.append(loss_per_sample.cpu().numpy())
 
 		epoch_train_loss /= len(train_values)
 		epoch_val_loss /= len(val_values)
 		train_loss_history.append(epoch_train_loss)
 		val_loss_history.append(epoch_val_loss)
-		latest_train_errors = np.concatenate(epoch_train_errors)
-		latest_val_errors = np.concatenate(epoch_val_errors)
+		if epoch_val_loss < best_val_loss:
+			best_epoch = epoch + 1
+			best_val_loss = epoch_val_loss
+			best_state = deepcopy(model.state_dict())
 
 		print(
 			f'Epoch {epoch + 1}/{config.epochs} | '
@@ -146,10 +168,37 @@ def train_autoencoder(
 			f'Val Loss: {epoch_val_loss:.6f}'
 		)
 
+	if config.checkpoint_strategy == 'best_validation':
+		if best_state is None:
+			raise RuntimeError('Training did not produce a validation checkpoint.')
+		model.load_state_dict(best_state)
+		selected_epoch = best_epoch
+		selected_val_loss = best_val_loss
+	elif config.checkpoint_strategy == 'last_epoch':
+		selected_epoch = len(val_loss_history)
+		selected_val_loss = val_loss_history[-1]
+	else:
+		raise ValueError(
+			f'Unsupported checkpoint strategy: {config.checkpoint_strategy}'
+		)
+
+	train_reconstruction_errors = compute_reconstruction_errors(
+		model,
+		train_values,
+		config.batch_size,
+	)
+	val_reconstruction_errors = compute_reconstruction_errors(
+		model,
+		val_values,
+		config.batch_size,
+	)
+
 	return AutoencoderTrainingResult(
 		model=model,
-		train_reconstruction_errors=latest_train_errors,
-		val_reconstruction_errors=latest_val_errors,
+		train_reconstruction_errors=train_reconstruction_errors,
+		val_reconstruction_errors=val_reconstruction_errors,
 		train_loss_history=train_loss_history,
 		val_loss_history=val_loss_history,
+		selected_epoch=selected_epoch,
+		selected_val_loss=selected_val_loss,
 	)

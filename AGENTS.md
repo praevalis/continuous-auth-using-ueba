@@ -10,6 +10,7 @@ Use this document together with the maintained project context:
 - `docs/context/system-overview.md`
 - `docs/context/architecture.md`
 - `docs/context/model-and-policy.md`
+- `docs/context/training.md`
 - `docs/context/dashboard.md`
 - `docs/context/reproducibility.md`
 
