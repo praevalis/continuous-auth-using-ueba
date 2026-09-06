@@ -1,7 +1,7 @@
 """add risk score event list index
 
 Revision ID: 7b4a3d9c2e11
-Revises: 1e93dba3a20f
+Revises: 1f0c4204efd9
 Create Date: 2026-08-23 00:00:00.000000
 
 """
@@ -13,7 +13,7 @@ from alembic import op
 
 # revision identifiers, used by Alembic.
 revision: str = '7b4a3d9c2e11'
-down_revision: Union[str, Sequence[str], None] = '1e93dba3a20f'
+down_revision: Union[str, Sequence[str], None] = '1f0c4204efd9'
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 

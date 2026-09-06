@@ -1,9 +1,11 @@
 import argparse
 import json
 import time
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError
+from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 SEED_DIR = Path(__file__).resolve().parent
@@ -85,6 +87,16 @@ def main() -> None:
 			tenant = None
 
 	if tenant is None:
+		tenant_payload = api_seed['tenant_onboarding']['tenant']
+		tenant_query = urlencode({'display_name': tenant_payload['display_name']})
+		tenants = api_call(base_url, 'GET', f'/tenants?{tenant_query}')
+		tenant = first_by(
+			tenants,
+			'display_name',
+			tenant_payload['display_name'],
+		)
+
+	if tenant is None:
 		onboarding = api_call(
 			base_url, 'POST', '/tenants', api_seed['tenant_onboarding']
 		)
@@ -157,11 +169,15 @@ def main() -> None:
 			connection_request,
 		)
 
+	event_payload = {
+		**api_seed['event'],
+		'occurred_at': datetime.now(UTC).isoformat(),
+	}
 	accepted = api_call(
 		base_url,
 		'POST',
 		'/ingestion/events',
-		api_seed['event'],
+		event_payload,
 		{
 			'X-Ingestion-Key-Id': credential['key_id'],
 			'X-Ingestion-Key-Secret': plaintext_secret,

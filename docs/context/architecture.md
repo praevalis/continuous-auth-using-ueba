@@ -96,7 +96,9 @@ This keeps detection observable even when enforcement is disabled.
 ## Deployment model
 
 Docker Compose is the reference packaging for the API, worker, dashboard,
-PostgreSQL, and Redis services. Each application is containerized and
+PostgreSQL, and Redis services. A one-shot migration container gates API and
+worker startup, and a one-shot seed container loads the demonstration fixture
+after the API health check succeeds. Each application is containerized and
 configured through environment variables, so the same service boundaries can
-be deployed locally or to cloud container infrastructure. PostgreSQL and
-Redis may be self-managed or provided by compatible managed services.
+be deployed locally or to cloud container infrastructure. PostgreSQL and Redis
+may be self-managed or provided by compatible managed services.

@@ -1,6 +1,7 @@
 import argparse
 import asyncio
 import json
+from collections import Counter
 from datetime import datetime, timedelta
 from pathlib import Path
 from uuid import NAMESPACE_URL, UUID, uuid5
@@ -34,6 +35,9 @@ from domain.scoring import ProcessingJobType, ProcessingRunStatus
 from sqlalchemy import select
 
 SEED_DIR = Path(__file__).resolve().parent
+EXPECTED_BAND_COUNTS = {'safe': 15, 'caution': 4, 'lockout': 1}
+EXPECTED_SCORED_EVENT_COUNT = sum(EXPECTED_BAND_COUNTS.values())
+FEATURE_HISTORY_WINDOW_DAYS = 30
 
 
 def load_json(path: Path) -> dict:
@@ -46,6 +50,62 @@ def parse_datetime(value: str) -> datetime:
 
 def stable_id(tenant_id: UUID, kind: str, key: str) -> UUID:
 	return uuid5(NAMESPACE_URL, f'continuous-auth-seed:{tenant_id}:{kind}:{key}')
+
+
+def validate_seed(seed: dict) -> None:
+	"""Validate the curated model fixture before writing database records."""
+	onboarding = seed['api']['tenant_onboarding']
+	caution_threshold = float(onboarding['initial_caution_threshold'])
+	lockout_threshold = float(onboarding['initial_lockout_threshold'])
+	scores = seed['database']['risk_scores']
+	if len(scores) != EXPECTED_SCORED_EVENT_COUNT:
+		raise ValueError(
+			f'Seed must contain {EXPECTED_SCORED_EVENT_COUNT} scored events; '
+			f'got {len(scores)}.'
+		)
+	band_counts = Counter(item['score_band'] for item in scores)
+	if band_counts != EXPECTED_BAND_COUNTS:
+		raise ValueError(
+			f'Seed risk-band distribution must be {EXPECTED_BAND_COUNTS}; '
+			f'got {dict(band_counts)}.'
+		)
+	for item in scores:
+		score = float(item['fused_anomaly_score'])
+		expected_band = (
+			'lockout'
+			if score >= lockout_threshold
+			else 'caution'
+			if score >= caution_threshold
+			else 'safe'
+		)
+		if item['score_band'] != expected_band:
+			raise ValueError(
+				f'Seed score {item["key"]} is labeled {item["score_band"]} '
+				f'but thresholds classify it as {expected_band}.'
+			)
+	score_bands = {item['key']: item['score_band'] for item in scores}
+	if len(score_bands) != len(scores):
+		raise ValueError('Seed risk-score keys must be unique.')
+	decisions = seed['database']['policy_decisions']
+	if len(decisions) != EXPECTED_SCORED_EVENT_COUNT:
+		raise ValueError('Every scored seed event must have a policy decision.')
+	for item in decisions:
+		score_band = score_bands.get(item['score_key'])
+		if score_band is None:
+			raise ValueError(
+				f'Seed decision {item["key"]} references an unknown risk score.'
+			)
+		if item['decision_band'] != score_band:
+			raise ValueError(
+				f'Seed decision {item["key"]} does not match its risk-score band.'
+			)
+	feature_versions = {
+		item['feature_version'] for item in seed['database']['feature_snapshots']
+	}
+	if feature_versions != {2}:
+		raise ValueError('Curated seed feature snapshots must use version 2.')
+	if {item['model_version'] for item in scores} != {'baseline-v4'}:
+		raise ValueError('Curated seed risk scores must use baseline-v4.')
 
 
 async def get_or_create_event(
@@ -103,6 +163,7 @@ async def get_or_create_event(
 
 
 async def seed_database(seed: dict, state: dict) -> None:
+	validate_seed(seed)
 	if not state.get('tenant_id'):
 		raise RuntimeError(
 			'Run seed_api.py first so seed-state.json contains a tenant_id.'
@@ -185,7 +246,8 @@ async def seed_database(seed: dict, state: dict) -> None:
 						tenant_id=tenant_id,
 						auth_event_id=event.id,
 						processing_run_id=runs[item['run_key']].id,
-						window_start=event.occurred_at - timedelta(days=7),
+						window_start=event.occurred_at
+						- timedelta(days=FEATURE_HISTORY_WINDOW_DAYS),
 						window_end=event.occurred_at,
 						computed_at=event.occurred_at + timedelta(seconds=3),
 						**{
@@ -217,13 +279,14 @@ async def seed_database(seed: dict, state: dict) -> None:
 						tenant_id=tenant_id,
 						auth_event_id=event.id,
 						processing_run_id=runs[item['run_key']].id,
-						window_start=event.occurred_at - timedelta(days=7),
+						window_start=event.occurred_at
+						- timedelta(days=FEATURE_HISTORY_WINDOW_DAYS),
 						window_end=event.occurred_at,
 						user_hash=item['user_hash'],
 						host_hash=item['host_hash'],
 						interaction_count=item['interaction_count'],
 						last_interaction_at=event.occurred_at,
-						snapshot_version=1,
+						snapshot_version=item['snapshot_version'],
 						computed_at=event.occurred_at + timedelta(seconds=3),
 					)
 					session.add(host)
@@ -298,6 +361,9 @@ async def seed_database(seed: dict, state: dict) -> None:
 							alert_metadata={'seeded': True},
 							acknowledged_at=parse_datetime(item['acknowledged_at'])
 							if item.get('acknowledged_at')
+							else None,
+							resolved_at=parse_datetime(item['resolved_at'])
+							if item.get('resolved_at')
 							else None,
 						)
 					)

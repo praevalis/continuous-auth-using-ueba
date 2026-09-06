@@ -31,30 +31,40 @@ uv sync
 Start the services:
 
 ~~~bash
-docker compose up -d
+docker compose up -d --build
 ~~~
 
-Apply the database migrations with the repository Alembic configuration:
-
-~~~bash
-uv run alembic -c infra/migrations/alembic.ini upgrade head
-~~~
+Compose waits for PostgreSQL, applies every Alembic migration through the
+one-shot `migrate` service, starts the API and worker only after migration
+success, and runs the one-shot `platform-seed` service after the API becomes
+healthy. A migration failure prevents dependent application services from
+starting, and a seed failure remains visible as a failed one-shot container.
 
 ## Deterministic seed
 
-The seed workflow has two stages:
+The seed workflow has two stages orchestrated by
+`infra/seed/seed_platform.py` inside Docker Compose:
 
 1. infra/seed/seed_api.py exercises the API path by creating or reusing tenant
    resources and submitting a replay event.
 2. infra/seed/seed_database.py loads the related dashboard records through the
    shared persistence models.
 
-Run the API seed first and the database seed second. The complete procedure,
-options, and environment notes are documented in infra/seed/README.md.
+For manual execution, run the API seed first and the database seed second. The
+complete automatic and manual procedures, options, and environment notes are
+documented in infra/seed/README.md.
 
-The seed data intentionally covers safe, caution, lockout, unscored, simulated,
-pending, failed, acknowledged, and resolved states so the dashboard can be
-reviewed without waiting for naturally occurring events.
+The database seed contains 20 scored examples selected from the `baseline-v4`
+held-out evaluation window, preserving their version-2 feature values and model
+scores. Their timestamps are shifted by whole weeks to remain inside the
+reference environment's 30-day dashboard filters without changing weekday
+features. The fixture is intentionally stratified as 75% safe, 20% caution, and
+5% lockout for dashboard coverage rather than as a claim about the natural
+production distribution. Together with the API replay event, it covers safe,
+caution, lockout, simulated, pending, failed, acknowledged, and resolved states
+without waiting for naturally occurring events. The replay event uses its
+submission time and passes through the live worker pipeline, so its eventual
+score is outside the fixed fixture distribution.
 
 ## Quality checks
 

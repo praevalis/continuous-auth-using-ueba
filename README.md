@@ -53,18 +53,17 @@ Install the Python workspace:
 uv sync
 ```
 
-Start the complete local stack:
+Build and start the complete local stack:
 
 ```bash
-docker compose up -d
+docker compose up -d --build
 ```
 
 The dashboard is available at http://localhost:5173 and the API at
-http://localhost:8000.
-
-To load the deterministic seed dataset, follow the
-[seed loader instructions](infra/seed/README.md) after the services are
-healthy.
+http://localhost:8000. Compose applies all Alembic migrations before starting
+the API and worker, then loads the deterministic seed dataset after the API is
+healthy. See the [seed loader instructions](infra/seed/README.md) for lifecycle
+details and manual commands.
 
 ## Quality checks
 

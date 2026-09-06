@@ -1,4 +1,37 @@
 services:
+  migrate:
+    image: continuous-auth-bootstrap:local
+    build:
+      context: .
+      dockerfile: infra/docker/bootstrap.Dockerfile
+    command: ["alembic", "-c", "infra/migrations/alembic.ini", "upgrade", "head"]
+    restart: "no"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: continuous_auth
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  platform-seed:
+    image: continuous-auth-bootstrap:local
+    pull_policy: never
+    command: ["python", "infra/seed/seed_platform.py"]
+    restart: "no"
+    environment:
+      CONTINUOUS_AUTH_API_URL: http://api:8000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: continuous_auth
+    depends_on:
+      api:
+        condition: service_healthy
+
   api:
     build:
       context: .
@@ -21,8 +54,8 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      postgres:
-        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
       redis:
         condition: service_healthy
     healthcheck:
@@ -48,8 +81,8 @@ services:
       EVENT_BROKER_HOST: redis
       EVENT_BROKER_PORT: 6379
     depends_on:
-      postgres:
-        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
       redis:
         condition: service_healthy
 

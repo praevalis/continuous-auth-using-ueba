@@ -17,8 +17,7 @@ training/notebooks
 training/src
 training/configs
 docs
-infra/migrations
-infra/seed
+infra/seed/seed-state.json
 **/tests
 **/.eslintcache
 **/.prettier_cache
