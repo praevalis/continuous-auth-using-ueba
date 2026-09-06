@@ -40,15 +40,19 @@ These features compare the event with the user's recent history.
 - Host entropy
 - Top-host ratio
 - Degree centrality approximation
-- Hour of day
-- Day of week
+- Cyclical hour-of-day encoding
+- Cyclical day-of-week encoding
 
 These features describe the event relative to the wider user-host activity
 graph and its observed time pattern.
 
-Online scoring uses a bounded historical window. The resulting feature snapshot
-and host-interaction snapshot are persisted so an analyst can inspect the
-evidence used by the decision.
+Training and online scoring use causal bounded historical windows. Training
+events are processed chronologically, so a feature row can use prior activity
+but not later validation or test activity. Raw hour and day values remain in
+the evidence snapshot while sine and cosine encodings preserve their cyclical
+relationship for model input. The resulting feature snapshot and
+host-interaction snapshot are persisted so an analyst can inspect the evidence
+used by the decision.
 
 ## Hybrid scoring
 
@@ -62,9 +66,11 @@ The fused score is controlled by a tenant-level fusion balance and stored with
 its component values, model version, and applied thresholds. The current
 configuration uses a balanced starting value of alpha = 0.5.
 
-Thresholds are represented as configurable tenant settings. The seed profile
-uses caution = 0.349 and lockout = 0.463 as demonstration defaults. These
-values are not presented as production-calibrated constants.
+Thresholds are represented as configurable tenant settings. The baseline-v2
+validation profile supplies the demonstration defaults: caution =
+0.4209913948058925 (validation p95) and lockout = 0.5315366108386527
+(validation p99). These values are not presented as production-calibrated
+constants.
 
 ## Risk policy
 

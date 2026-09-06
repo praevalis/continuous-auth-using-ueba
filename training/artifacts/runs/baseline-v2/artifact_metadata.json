@@ -1,0 +1,50 @@
+{
+  "model_version": "baseline-v2",
+  "training_run_name": "baseline-v2",
+  "created_at": "2026-09-06T07:51:09.436442+00:00",
+  "autoencoder_features": [
+    "unique_hosts",
+    "host_entropy",
+    "top_host_ratio",
+    "degree_centrality",
+    "hour_sin",
+    "hour_cos",
+    "day_of_week_sin",
+    "day_of_week_cos"
+  ],
+  "isolation_forest_features": [
+    "login_frequency",
+    "avg_inter_event_time",
+    "time_since_last_login"
+  ],
+  "fusion_alpha": 0.5,
+  "thresholds": {
+    "p95": 0.4209913948058925,
+    "p99": 0.5315366108386527
+  },
+  "feature_engineering_version": 2,
+  "reconstruction_error_min": 0.11717304587364197,
+  "reconstruction_error_max": 0.8575494289398193,
+  "user_score_min": -0.1441718424201115,
+  "user_score_max": 0.30178967271133167,
+  "artifact_files": {
+    "autoencoder": "autoencoder.pth",
+    "global_scaler": "global_scaler.pkl",
+    "user_scaler": "user_scaler.pkl",
+    "isolation_forest": "isolation_forest.pkl",
+    "metrics": "metrics.json",
+    "metadata": "artifact_metadata.json",
+    "config_snapshot": "config.snapshot.yaml"
+  },
+  "metadata": {
+    "threshold_percentiles": [
+      95,
+      99
+    ],
+    "random_state": 32,
+    "history_window_days": 30,
+    "sampling_strategy": "uniform",
+    "validation_strategy": "chronological",
+    "test_strategy": "out_of_time_internal"
+  }
+}

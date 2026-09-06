@@ -73,6 +73,8 @@ npm --prefix apps/dashboard run build
 - API contracts are generated from the FastAPI OpenAPI surface.
 - Seed identifiers are deterministic for repeatable database loading.
 - Model artifacts and their metadata are kept under training/artifacts.
+- The baseline-v2 training configuration uniformly samples the LANL `00` file
+  and reserves its final chronological window for out-of-time testing.
 - The reference stack is the baseline for demonstration and review.
 
 This document describes repeatable operation of the current repository and the

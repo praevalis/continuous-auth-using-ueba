@@ -50,6 +50,30 @@ class AutoencoderTrainingResult:
 	val_loss_history: list[float]
 
 
+def compute_reconstruction_errors(
+	model: AutoEncoder,
+	values: np.ndarray,
+	batch_size: int,
+) -> np.ndarray:
+	device = next(model.parameters()).device
+	loader = DataLoader(
+		FeatureDataset(values),
+		batch_size=batch_size,
+		shuffle=False,
+	)
+	errors: list[np.ndarray] = []
+	model.eval()
+
+	with torch.no_grad():
+		for batch in loader:
+			batch = batch.to(device)
+			reconstruction = model(batch)
+			batch_errors = ((reconstruction - batch) ** 2).mean(dim=1)
+			errors.append(batch_errors.cpu().numpy())
+
+	return np.concatenate(errors) if errors else np.array([], dtype=float)
+
+
 def train_autoencoder(
 	train_values: np.ndarray,
 	val_values: np.ndarray,

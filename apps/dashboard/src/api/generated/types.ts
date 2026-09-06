@@ -2210,12 +2210,12 @@ export interface components {
             initial_operating_mode: components["schemas"]["OperatingMode"];
             /**
              * Initial Caution Threshold
-             * @default 0.349
+             * @default 0.4209913948058925
              */
             initial_caution_threshold: number;
             /**
              * Initial Lockout Threshold
-             * @default 0.463
+             * @default 0.5315366108386527
              */
             initial_lockout_threshold: number;
             /** Initial Fusion Alpha */

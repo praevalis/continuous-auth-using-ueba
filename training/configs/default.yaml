@@ -2,7 +2,10 @@ data:
   dataset_path: training/artifacts/input/lanl-auth-dataset-1-00.txt
   delimiter: ","
   has_header: false
-  row_limit: 100000
+  row_limit: 2000000
+  sampling_strategy: uniform
+  read_chunk_size: 500000
+  history_window_days: 30
   timestamp_column: timestamp
   timestamp_unit: s
   timestamp_origin: 2014-01-01
@@ -10,7 +13,8 @@ data:
   host_column: computer
 
 split:
-  test_size: 0.2
+  validation_fraction: 0.15
+  test_fraction: 0.15
   random_state: 32
 
 autoencoder:
@@ -32,4 +36,4 @@ fusion:
 
 artifacts:
   output_dir: training/artifacts/runs
-  run_name: baseline
+  run_name: baseline-v2

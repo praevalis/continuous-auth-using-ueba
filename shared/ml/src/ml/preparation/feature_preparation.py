@@ -1,7 +1,7 @@
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import datetime
-from math import log2
+from math import cos, log2, pi, sin
 
 import networkx as nx
 import numpy as np
@@ -32,6 +32,7 @@ class PreparedFeatureSet:
 	degree_centrality: float
 	hour_of_day: int
 	day_of_week: int
+	feature_values: dict[str, float]
 	global_feature_vector: np.ndarray
 	user_feature_vector: np.ndarray
 	host_interactions: list[PreparedHostInteraction]
@@ -62,7 +63,7 @@ class FeaturePreparationService:
 		time_deltas = self._compute_time_deltas(user_events)
 		time_since_last_login = time_deltas[-1] if time_deltas else 0.0
 		login_frequency = (
-			max(3600.0 - time_since_last_login, 0.0) if time_deltas else 0.0
+			max(3600.0 - time_since_last_login, 0.0) if len(time_deltas) > 1 else 0.0
 		)
 		avg_inter_event_time = (
 			float(sum(time_deltas) / len(time_deltas)) if time_deltas else 0.0
@@ -80,22 +81,47 @@ class FeaturePreparationService:
 			target_event=target_event,
 		)
 
+		hour_angle = 2 * pi * target_event.occurred_hour / 24
+		day_of_week_angle = 2 * pi * target_event.occurred_day_of_week / 7
+		feature_values = {
+			'login_frequency': login_frequency,
+			'avg_inter_event_time': avg_inter_event_time,
+			'time_since_last_login': time_since_last_login,
+			'unique_hosts': unique_hosts,
+			'host_entropy': host_entropy,
+			'top_host_ratio': top_host_ratio,
+			'degree_centrality': degree_centrality,
+			'hour_of_day': float(target_event.occurred_hour),
+			'day_of_week': float(target_event.occurred_day_of_week),
+			'hour_sin': sin(hour_angle),
+			'hour_cos': cos(hour_angle),
+			'day_of_week_sin': sin(day_of_week_angle),
+			'day_of_week_cos': cos(day_of_week_angle),
+		}
 		global_feature_vector = np.asarray(
 			[
-				unique_hosts,
-				host_entropy,
-				top_host_ratio,
-				degree_centrality,
-				float(target_event.occurred_hour),
-				float(target_event.occurred_day_of_week),
+				feature_values[feature_name]
+				for feature_name in (
+					'unique_hosts',
+					'host_entropy',
+					'top_host_ratio',
+					'degree_centrality',
+					'hour_sin',
+					'hour_cos',
+					'day_of_week_sin',
+					'day_of_week_cos',
+				)
 			],
 			dtype=float,
 		)
 		user_feature_vector = np.asarray(
 			[
-				login_frequency,
-				avg_inter_event_time,
-				time_since_last_login,
+				feature_values[feature_name]
+				for feature_name in (
+					'login_frequency',
+					'avg_inter_event_time',
+					'time_since_last_login',
+				)
 			],
 			dtype=float,
 		)
@@ -112,6 +138,7 @@ class FeaturePreparationService:
 			degree_centrality=degree_centrality,
 			hour_of_day=target_event.occurred_hour,
 			day_of_week=target_event.occurred_day_of_week,
+			feature_values=feature_values,
 			global_feature_vector=global_feature_vector,
 			user_feature_vector=user_feature_vector,
 			host_interactions=host_interactions,

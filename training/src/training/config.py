@@ -7,14 +7,20 @@ import yaml
 TimestampUnit = Literal['D', 's', 'ms', 'us', 'ns']
 TimestampOrigin = Literal['unix'] | str
 MaxSamples = Literal['auto'] | int | float
+SamplingStrategy = Literal['head', 'uniform']
 
 
 @dataclass(slots=True)
 class DataConfig:
 	dataset_path: Path
+	test_dataset_path: Path | None
 	delimiter: str
 	has_header: bool
 	row_limit: int | None
+	test_row_limit: int | None
+	sampling_strategy: SamplingStrategy
+	read_chunk_size: int
+	history_window_days: int
 	timestamp_column: str
 	timestamp_unit: TimestampUnit
 	timestamp_origin: TimestampOrigin
@@ -24,7 +30,8 @@ class DataConfig:
 
 @dataclass(slots=True)
 class SplitConfig:
-	test_size: float
+	validation_fraction: float
+	test_fraction: float
 	random_state: int
 
 
@@ -71,9 +78,18 @@ def load_config(config_path: Path) -> TrainingConfig:
 	return TrainingConfig(
 		data=DataConfig(
 			dataset_path=Path(raw_config['data']['dataset_path']),
+			test_dataset_path=(
+				None
+				if raw_config['data'].get('test_dataset_path') is None
+				else Path(raw_config['data']['test_dataset_path'])
+			),
 			delimiter=raw_config['data'].get('delimiter', ','),
 			has_header=raw_config['data'].get('has_header', True),
 			row_limit=raw_config['data'].get('row_limit'),
+			test_row_limit=raw_config['data'].get('test_row_limit'),
+			sampling_strategy=raw_config['data'].get('sampling_strategy', 'head'),
+			read_chunk_size=raw_config['data'].get('read_chunk_size', 500_000),
+			history_window_days=raw_config['data'].get('history_window_days', 30),
 			timestamp_column=raw_config['data']['timestamp_column'],
 			timestamp_unit=raw_config['data']['timestamp_unit'],
 			timestamp_origin=raw_config['data']['timestamp_origin'],
@@ -81,7 +97,11 @@ def load_config(config_path: Path) -> TrainingConfig:
 			host_column=raw_config['data']['host_column'],
 		),
 		split=SplitConfig(
-			test_size=raw_config['split']['test_size'],
+			validation_fraction=raw_config['split'].get(
+				'validation_fraction',
+				raw_config['split'].get('test_size', 0.2),
+			),
+			test_fraction=raw_config['split'].get('test_fraction', 0.0),
 			random_state=raw_config['split']['random_state'],
 		),
 		autoencoder=AutoencoderConfig(
@@ -110,9 +130,18 @@ def config_to_dict(config: TrainingConfig) -> dict[str, Any]:
 	return {
 		'data': {
 			'dataset_path': str(config.data.dataset_path),
+			'test_dataset_path': (
+				None
+				if config.data.test_dataset_path is None
+				else str(config.data.test_dataset_path)
+			),
 			'delimiter': config.data.delimiter,
 			'has_header': config.data.has_header,
 			'row_limit': config.data.row_limit,
+			'test_row_limit': config.data.test_row_limit,
+			'sampling_strategy': config.data.sampling_strategy,
+			'read_chunk_size': config.data.read_chunk_size,
+			'history_window_days': config.data.history_window_days,
 			'timestamp_column': config.data.timestamp_column,
 			'timestamp_unit': config.data.timestamp_unit,
 			'timestamp_origin': config.data.timestamp_origin,
@@ -120,7 +149,8 @@ def config_to_dict(config: TrainingConfig) -> dict[str, Any]:
 			'host_column': config.data.host_column,
 		},
 		'split': {
-			'test_size': config.split.test_size,
+			'validation_fraction': config.split.validation_fraction,
+			'test_fraction': config.split.test_fraction,
 			'random_state': config.split.random_state,
 		},
 		'autoencoder': {
