@@ -13,6 +13,10 @@ endpoint and persistence orchestration.
   models using logical JSON keys and deterministic IDs.
 - `seed_platform.py` — runs both existing seed stages as one ephemeral Docker
   Compose operation.
+- `keycloak-seed-data.json` contains deterministic realm, service-client, and
+  demo-user configuration for the local Keycloak instance.
+- `seed_keycloak.py` configures Keycloak through its Admin API, tests the seeded
+  tenant connection, and activates it.
 - `seed-state.json` — generated locally with API-created IDs and the issued
   ingestion secret. It is ignored by Git.
 
@@ -35,6 +39,19 @@ endpoint and persistence orchestration.
 6. Alerts across lifecycle states.
 7. Enforcement actions across skipped and succeeded states.
 
+After the platform seed completes, `seed_keycloak.py` configures the local IdP:
+
+1. Create or update the `demo` realm.
+2. Create or update the outbound-enforcement service client.
+3. Grant its service account the required realm-management roles.
+4. Create or update the demonstration user and password.
+5. Update, test, and activate the seeded tenant provider connection.
+
+The Keycloak administrator, database, service-client, and demo-user credentials
+are intentionally static and development-only. The service-client secret is
+referenced by name in platform data and is available to the API and worker only
+through the local Compose environment.
+
 The API loader and database loader are intentionally separate. The first
 validates the production-shaped workflow; the second provides deterministic
 coverage for frontend demonstrations without waiting for enough natural events.
@@ -55,17 +72,24 @@ fixed 75% / 20% / 5% database-fixture distribution.
 
 ## Running
 
-Docker Compose runs migrations and both seed stages automatically:
+Docker Compose runs migrations and all seed stages automatically:
 
 ```bash
 docker compose up -d --build
 ```
 
+The local Keycloak administration console is available at
+`http://localhost:8081` with `admin` / `admin`. The seeded `demo` realm includes
+`demo.alice@example.test` with password `demo`. These credentials are
+development-only.
+
 The startup dependency order is:
 
 ```text
 PostgreSQL -> migrate -> API -> platform-seed
-                    \-> worker
+                    \-> worker       \
+                                      -> keycloak-seed
+Keycloak PostgreSQL -> Keycloak -----/
 ```
 
 `platform-seed` uses a temporary state file inside its container, runs
@@ -73,7 +97,7 @@ PostgreSQL -> migrate -> API -> platform-seed
 runs `seed_database.py`. Inspect one-shot service output with:
 
 ```bash
-docker compose logs migrate platform-seed
+docker compose logs migrate platform-seed keycloak-seed
 ```
 
 For a manual host-side seed, start the API, worker, PostgreSQL, and Redis first.
@@ -109,9 +133,10 @@ python .\infra\seed\seed_api.py `
   --worker-wait-seconds 30
 ```
 
-The seed uses `shadow` mode and a disabled provider connection, so it records
-decisions without attempting real provider enforcement. Do not commit or share
-the generated `seed-state.json`, because it contains the ingestion secret.
+The tenant remains in `shadow` mode even though `seed_keycloak.py` activates the
+provider connection. It therefore records decisions without dispatching live
+provider actions during normal startup. Do not commit or share the generated
+`seed-state.json`, because it contains the ingestion secret.
 
 The loaders are idempotent and do not overwrite existing records. After a
 fixture definition or threshold changes, recreate the local database (or remove

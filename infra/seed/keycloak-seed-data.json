@@ -1,0 +1,31 @@
+{
+  "realm": {
+    "name": "demo",
+    "display_name": "Continuous Auth Demo"
+  },
+  "client": {
+    "client_id": "continuous-auth-demo",
+    "secret_environment_variable": "KEYCLOAK_DEMO_CLIENT_SECRET",
+    "service_account_roles": [
+      "manage-users",
+      "query-users",
+      "view-realm",
+      "view-users"
+    ]
+  },
+  "users": [
+    {
+      "username": "demo.alice@example.test",
+      "email": "demo.alice@example.test",
+      "first_name": "Demo",
+      "last_name": "Alice",
+      "password": "demo"
+    }
+  ],
+  "platform": {
+    "tenant_display_name": "Acme",
+    "provider_key": "keycloak",
+    "connection_name": "Demo Keycloak",
+    "base_url": "http://keycloak:8080"
+  }
+}

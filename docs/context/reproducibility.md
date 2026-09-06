@@ -6,8 +6,13 @@ Docker Compose provides the reproducible reference environment. It runs:
 
 - API at http://localhost:8000
 - Dashboard at http://localhost:5173
+- Keycloak administration console at http://localhost:8081
 - PostgreSQL on host port 5434
 - Redis on host port 6380
+
+The local Keycloak administration console uses `admin` / `admin`. The seeded
+`demo` realm user is `demo.alice@example.test` / `demo`. These credentials are
+intentionally limited to the reproducible local environment.
 
 The application containers communicate over the Compose network. Environment
 variables provide database, Redis, and API configuration.
@@ -37,18 +42,29 @@ docker compose up -d --build
 Compose waits for PostgreSQL, applies every Alembic migration through the
 one-shot `migrate` service, starts the API and worker only after migration
 success, and runs the one-shot `platform-seed` service after the API becomes
-healthy. A migration failure prevents dependent application services from
-starting, and a seed failure remains visible as a failed one-shot container.
+healthy. In parallel, it starts the local Keycloak instance with its dedicated
+PostgreSQL database. The one-shot `keycloak-seed` service runs after both
+Keycloak and the platform seed are ready. A migration failure prevents
+dependent application services from starting, and a seed failure remains
+visible as a failed one-shot container.
 
 ## Deterministic seed
 
-The seed workflow has two stages orchestrated by
+The platform seed workflow has two stages orchestrated by
 `infra/seed/seed_platform.py` inside Docker Compose:
 
 1. infra/seed/seed_api.py exercises the API path by creating or reusing tenant
    resources and submitting a replay event.
 2. infra/seed/seed_database.py loads the related dashboard records through the
    shared persistence models.
+
+The local IdP demonstration adds a third, dependent stage:
+
+3. infra/seed/seed_keycloak.py configures the `demo` realm, its service client,
+   and a representative user, then tests and activates the seeded provider
+   connection. Its static credentials are for local development only. The
+   tenant remains in Simulation mode, so automatic startup does not dispatch
+   provider enforcement actions.
 
 For manual execution, run the API seed first and the database seed second. The
 complete automatic and manual procedures, options, and environment notes are

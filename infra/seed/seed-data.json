@@ -40,7 +40,7 @@
             "base_url": "http://keycloak:8080",
             "auth_realm": "demo",
             "client_id": "continuous-auth-demo",
-            "client_secret_ref": "<KEYCLOAK_DEMO_CLIENT_SECRET>",
+            "client_secret_ref": "KEYCLOAK_DEMO_CLIENT_SECRET",
             "status": "disabled"
         },
         "event": {
